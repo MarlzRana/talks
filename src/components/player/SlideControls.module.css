@@ -1,0 +1,41 @@
+.container {
+  display: none;
+}
+
+@media (pointer: coarse) {
+  .container {
+    display: contents;
+  }
+}
+
+.button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 48px;
+  height: 48px;
+  border: none;
+  border-radius: 50%;
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  font-size: 1.25rem;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button:hover {
+  opacity: 1;
+}
+
+.prev {
+  left: var(--spacing-md);
+}
+
+.next {
+  right: var(--spacing-md);
+}

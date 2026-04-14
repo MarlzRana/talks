@@ -1,0 +1,53 @@
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.steps {
+  overflow-y: auto;
+  padding: var(--spacing-xl);
+  scroll-snap-type: y proximity;
+}
+
+.step {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--spacing-lg) 0;
+  scroll-snap-align: start;
+  opacity: 0.3;
+  transition: opacity 0.3s ease;
+}
+
+.step.active {
+  opacity: 1;
+}
+
+.stepLabel {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--spacing-sm);
+}
+
+.stepBody {
+  font-size: 1.2rem;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+}
+
+.visual {
+  position: sticky;
+  top: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-lg);
+}

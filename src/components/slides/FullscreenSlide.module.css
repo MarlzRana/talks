@@ -1,0 +1,26 @@
+.container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.content {
+  width: 100%;
+  height: 100%;
+}
+
+.caption {
+  position: absolute;
+  bottom: var(--spacing-lg);
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  background: rgba(0, 0, 0, 0.5);
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: var(--radius-sm);
+  backdrop-filter: blur(8px);
+  white-space: nowrap;
+  z-index: 5;
+}

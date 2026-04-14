@@ -1,0 +1,38 @@
+{
+  "name": "talks",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@react-three/drei": "^10",
+    "@react-three/fiber": "^9",
+    "@use-gesture/react": "^10",
+    "d3": "^7",
+    "katex": "^0.16",
+    "motion": "^12",
+    "react": "^19",
+    "react-dom": "^19",
+    "react-router-dom": "^7",
+    "shiki": "^4",
+    "three": "^0.183"
+  },
+  "devDependencies": {
+    "@types/d3": "^7",
+    "@types/katex": "^0.16",
+    "@types/node": "^22",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/three": "^0.183",
+    "@vitejs/plugin-react": "^4",
+    "typescript": "^5",
+    "vite": "^6"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild"]
+  }
+}
