@@ -1,7 +1,7 @@
 [project]
 name = "pytalks"
 version = "0.1.0"
-description = "Add your description here"
+description = "Manim-based mathematical presentations"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
@@ -9,3 +9,12 @@ dependencies = [
     "rich>=13.0",
     "setuptools<81",
 ]
+
+[build-system]
+requires = ["uv_build>=0.11.7,<0.12"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-root = ""
+module-name = ["talks", "registry", "talk_types"]
+namespace = true
