@@ -1,6 +1,8 @@
-def main():
-    print("Hello from pytalks!")
+"""
+Usage:
+    PYTHONPATH=. uv run manimgl talks/perceptron/scenes/__init__.py PerceptronTalk -p -f
 
-
-if __name__ == "__main__":
-    main()
+Flags:
+    -p  Presenter mode (Space/Right to advance)
+    -f  Fullscreen
+"""
