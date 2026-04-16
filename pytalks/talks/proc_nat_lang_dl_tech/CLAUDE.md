@@ -7,12 +7,15 @@ Presentation 1:
 	- FFN
     - RNN
     - Transformer Architecture
-- How an FFN architecture can be used for language
+- Word2Vec FNN Architectures:
+    - Bag of words approach
+    - Skip gram approach
 - RNN architecture:
     - Vanilla RNN
     - Exploding Gradient and Vanishing Gradient Problem
     - LSTM RNN
     - GRU RNN
+    - Encoder Decoder RNNs
     - Attention RNN (this history nicely segways into why transformers are the way they are) architecture
 Presentation 2:
 - Transformer Architecture:
