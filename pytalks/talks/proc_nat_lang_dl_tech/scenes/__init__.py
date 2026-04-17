@@ -7,6 +7,9 @@ from talks.proc_nat_lang_dl_tech.scenes.s03_nlp_task_formulations import (
 from talks.proc_nat_lang_dl_tech.scenes.s04_neural_lang_models import (
     slide_neural_lang_models,
 )
+from talks.proc_nat_lang_dl_tech.scenes.s05_transformer_overview import (
+    slide_transformer_overview,
+)
 
 
 class ProcNatLangDLTechTalk(SlideTalk):
@@ -14,5 +17,6 @@ class ProcNatLangDLTechTalk(SlideTalk):
         # slide_title,
         # slide_contents,
         # slide_nlp_task_formulations,
-        slide_neural_lang_models,
+        # slide_neural_lang_models,
+        slide_transformer_overview,
     ]
