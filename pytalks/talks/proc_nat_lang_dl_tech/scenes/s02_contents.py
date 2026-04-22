@@ -197,8 +197,8 @@ def slide_contents(scene: Scene):
     bullets_text = [
         "Look at Natural Language Processing (NLP) Task Formulations",
         "Highlight Types of Neural Language Models",
+        "Tokenization",
         "Predictive Embedding Feed Forward Neural Networks (FNNs)",
-        "Deep Dive on Recurrent Neural Networks (RNNs)",
     ]
 
     bullet_group = VGroup()

@@ -7,8 +7,8 @@ DETAIL_HEIGHT = 8.0
 
 MODEL_POSITIONS = [
     np.array([-12, 0, 0]),  # FNN
-    np.array([0, 0, 0]),    # RNN
-    np.array([12, 0, 0]),   # Transformer
+    np.array([0, 0, 0]),  # RNN
+    np.array([12, 0, 0]),  # Transformer
 ]
 
 MODEL_COLORS = [BLUE, GREEN, RED]
@@ -16,24 +16,42 @@ MODEL_COLORS = [BLUE, GREEN, RED]
 
 # --- Helpers ---
 
+
 def _vector_block(width, height, n_dots, color, dot_radius=0.06):
     rect = RoundedRectangle(
-        width=width, height=height, corner_radius=0.1,
-        color=color, fill_opacity=0.08, stroke_width=1.5, stroke_opacity=0.6,
+        width=width,
+        height=height,
+        corner_radius=0.1,
+        color=color,
+        fill_opacity=0.08,
+        stroke_width=1.5,
+        stroke_opacity=0.6,
     )
     dots = VGroup()
     if height > width:
         usable = height * 0.65
         for i in range(n_dots):
             y = (usable / 2) - i * (usable / max(n_dots - 1, 1))
-            dot = Circle(radius=dot_radius, color=color, fill_opacity=0.4, stroke_width=1, stroke_opacity=0.6)
+            dot = Circle(
+                radius=dot_radius,
+                color=color,
+                fill_opacity=0.4,
+                stroke_width=1,
+                stroke_opacity=0.6,
+            )
             dot.move_to(rect.get_center() + np.array([0, y, 0]))
             dots.add(dot)
     else:
         usable = width * 0.65
         for i in range(n_dots):
             x = -(usable / 2) + i * (usable / max(n_dots - 1, 1))
-            dot = Circle(radius=dot_radius, color=color, fill_opacity=0.4, stroke_width=1, stroke_opacity=0.6)
+            dot = Circle(
+                radius=dot_radius,
+                color=color,
+                fill_opacity=0.4,
+                stroke_width=1,
+                stroke_opacity=0.6,
+            )
             dot.move_to(rect.get_center() + np.array([x, 0, 0]))
             dots.add(dot)
     return VGroup(rect, dots)
@@ -41,13 +59,19 @@ def _vector_block(width, height, n_dots, color, dot_radius=0.06):
 
 def _thin_arrow(start, end, color=WHITE, opacity=0.6):
     return Arrow(
-        start, end,
-        thickness=1.0, fill_color=color, fill_opacity=opacity,
-        stroke_width=0, buff=0.08, max_tip_length_to_length_ratio=0.15,
+        start,
+        end,
+        thickness=1.0,
+        fill_color=color,
+        fill_opacity=opacity,
+        stroke_width=0,
+        buff=0.08,
+        max_tip_length_to_length_ratio=0.15,
     )
 
 
 # --- FNN (Word2Vec) ---
+
 
 def _build_fnn(center):
     c = center
@@ -86,8 +110,11 @@ def _build_fnn(center):
     # Input-to-hidden lines
     for block in input_blocks:
         line = Line(
-            block[0].get_right(), hidden[0].get_left(),
-            stroke_width=1.0, stroke_color=GREY_B, stroke_opacity=0.4,
+            block[0].get_right(),
+            hidden[0].get_left(),
+            stroke_width=1.0,
+            stroke_color=GREY_B,
+            stroke_opacity=0.4,
         )
         group.add(line)
 
@@ -108,8 +135,11 @@ def _build_fnn(center):
         y = output[0].get_center()[1] + (2.8 * 0.65 / 2) - i * (2.8 * 0.65 / 5)
         end_pt = np.array([output[0].get_left()[0], y, 0])
         line = Line(
-            hidden[0].get_right(), end_pt,
-            stroke_width=1.0, stroke_color=GREY_B, stroke_opacity=0.4,
+            hidden[0].get_right(),
+            end_pt,
+            stroke_width=1.0,
+            stroke_color=GREY_B,
+            stroke_opacity=0.4,
         )
         group.add(line)
 
@@ -119,13 +149,14 @@ def _build_fnn(center):
     group.add(wt_label)
 
     # Model label (returned separately for scaling animation)
-    label = Text("FNN (Word2Vec)", font_size=28, weight=BOLD, color=BLUE)
+    label = Text("FNN", font_size=28, weight=BOLD, color=BLUE)
     label.move_to(c + DOWN * 3.5)
 
     return group, label
 
 
 # --- RNN (Rolled cell) ---
+
 
 def _build_rnn(center):
     c = center
@@ -181,7 +212,9 @@ def _build_rnn(center):
         end_pt,
         end_pt - tangent * 0.1 + perp * 0.04,
         end_pt - tangent * 0.1 - perp * 0.04,
-        fill_color=GREEN_B, fill_opacity=1.0, stroke_width=0,
+        fill_color=GREEN_B,
+        fill_opacity=1.0,
+        stroke_width=0,
     )
     group.add(tip)
 
@@ -198,14 +231,20 @@ def _build_rnn(center):
 
 # --- Transformer (Attention) ---
 
+
 def _build_transformer(center):
     c = center
     group = VGroup()
 
     # Central attention box
     box = RoundedRectangle(
-        width=3.0, height=2.0, corner_radius=0.15,
-        color=YELLOW, fill_opacity=0.05, stroke_width=2, stroke_opacity=0.7,
+        width=3.0,
+        height=2.0,
+        corner_radius=0.15,
+        color=YELLOW,
+        fill_opacity=0.05,
+        stroke_width=2,
+        stroke_opacity=0.7,
     )
     box.move_to(c)
     attn_text = Text("Attention", font_size=24, weight=BOLD, color=YELLOW)
@@ -268,6 +307,7 @@ _SCALE = OVERVIEW_HEIGHT / DETAIL_HEIGHT  # 3.0
 
 # --- Zoom helper ---
 
+
 def _zoom_to_model(scene, model_center, label):
     # Zoom in + scale label down to normal size
     scene.play(
@@ -288,6 +328,7 @@ def _zoom_to_model(scene, model_center, label):
 
 
 # --- Main slide ---
+
 
 def slide_neural_lang_models(scene: Scene):
     # Set frame to overview

@@ -413,11 +413,12 @@ def _build_transformer():
 
     encoder_decoder_connection = enc_dec_conn
 
-    labels = VGroup(inputs_label, outputs_label, nx_enc, nx_dec)
+    inputs_section = VGroup(inputs_label, arr_in_emb, outputs_label, arr_out_emb)
+
+    labels = VGroup(nx_enc, nx_dec)
     boxes = VGroup(enc_box, dec_box)
 
     internal_arrows = VGroup(
-        arr_in_emb, arr_out_emb,
         arr_pos_mha_l, arr_pos_mmha,
         arr_mha_an1_enc, arr_an1_ff_enc, arr_ff_an2_enc,
         arr_mmha_an1, arr_an1_mha_dec, arr_mha_an2_dec,
@@ -425,12 +426,13 @@ def _build_transformer():
     )
 
     all_parts = VGroup(
-        embeddings, positional, encoder_attention, decoder_masked_attention,
+        inputs_section, embeddings, positional, encoder_attention, decoder_masked_attention,
         decoder_attention, add_norms, feed_forwards, linear_softmax,
         encoder_decoder_connection, labels, boxes, internal_arrows,
     )
 
     groups = {
+        "inputs_section": inputs_section,
         "embeddings": embeddings,
         "positional": positional,
         "encoder_attention": encoder_attention,
@@ -445,14 +447,13 @@ def _build_transformer():
         "internal_arrows": internal_arrows,
     }
 
-    # Store symbol refs for special handling during highlights
     circle_symbols = [plus_l, plus_r, sin_wave_l, sin_wave_r]
-
-    circle_symbols = [plus_l, plus_r, sin_wave_l, sin_wave_r]
+    enc_circle_syms = [plus_l, sin_wave_l]
+    dec_circle_syms = [plus_r, sin_wave_r]
 
     # Activation steps: each is a VGroup of [block + incoming connections + relevant labels]
     encoder_steps = [
-        VGroup(input_emb, arr_in_emb, inputs_label),
+        VGroup(input_emb, inputs_label, arr_in_emb),
         VGroup(pos_enc_circle_l, plus_l, sin_circle_l, sin_wave_l, sin_arr_l, arr_emb_pos_l, pos_label_l),
         VGroup(enc_mha, arr_pos_mha_l, nx_enc),
         VGroup(enc_an1, arr_mha_an1_enc, skip1_enc, skip1_enc_arr),
@@ -460,7 +461,7 @@ def _build_transformer():
         VGroup(enc_an2, arr_ff_an2_enc, skip2_enc, skip2_enc_arr),
     ]
     decoder_steps = [
-        VGroup(output_emb, arr_out_emb, outputs_label),
+        VGroup(output_emb, outputs_label, arr_out_emb),
         VGroup(pos_enc_circle_r, plus_r, sin_circle_r, sin_wave_r, sin_arr_r, arr_emb_pos_r, pos_label_r),
         VGroup(dec_mmha, arr_pos_mmha, nx_dec),
         VGroup(dec_an1, arr_mmha_an1, skip1_dec, skip1_dec_arr),
@@ -472,7 +473,7 @@ def _build_transformer():
         VGroup(softmax, arr_linear_softmax, arr_softmax_out, out_prob),
     ]
 
-    return all_parts, groups, circle_symbols, encoder_steps, decoder_steps
+    return all_parts, groups, circle_symbols, enc_circle_syms, dec_circle_syms, encoder_steps, decoder_steps
 
 
 def _highlight(scene, bright_keys, groups, subtitle_text, prev_subtitle, circle_symbols):
@@ -485,20 +486,22 @@ def _highlight(scene, bright_keys, groups, subtitle_text, prev_subtitle, circle_
         else:
             anims.append(groups[key].animate.set_opacity(0.15))
 
-    new_subtitle = Text(subtitle_text, font_size=18, color=GREY_A)
-    new_subtitle.to_edge(DOWN, buff=0.15)
+    new_subtitle = Text(subtitle_text, font_size=16, color=GREY_A, alignment="CENTER")
+    # Position subtitle centered in the empty space above the encoder (between encoder top and decoder top)
+    new_subtitle.move_to(np.array([ENC_X * 0.85, 1.6, 0]))
 
     if prev_subtitle:
         anims.append(FadeOut(prev_subtitle))
     anims.append(FadeIn(new_subtitle))
 
-    # Change +/~ symbols: black when positional highlighted (circle fill is white), white otherwise
+    # Change +/~ symbols: black when positional highlighted (circle fill becomes white),
+    # dim grey when not highlighted so they don't stand out
     if "positional" in bright_keys:
         for sym in circle_symbols:
-            anims.append(sym.animate.set_color(BLACK))
+            anims.append(sym.animate.set_color(BLACK).set_opacity(1.0))
     else:
         for sym in circle_symbols:
-            anims.append(sym.animate.set_color(WHITE))
+            anims.append(sym.animate.set_color(GREY_E).set_opacity(0.15))
 
     scene.play(*anims, run_time=0.8)
     return new_subtitle
@@ -507,12 +510,15 @@ def _highlight(scene, bright_keys, groups, subtitle_text, prev_subtitle, circle_
 # --- Main slide ---
 
 def slide_transformer_overview(scene: Scene):
+    # Reset camera frame to default
+    scene.frame.to_default_state()
+
     # Title
     title = Text("Transformer Architecture", font_size=48, weight=BOLD)
     title.to_edge(UP, buff=0.3)
 
     # Build diagram
-    diagram, groups, circle_symbols, encoder_steps, decoder_steps = _build_transformer()
+    diagram, groups, circle_symbols, enc_circle_syms, dec_circle_syms, encoder_steps, decoder_steps = _build_transformer()
     diagram.scale(0.85)
     diagram.move_to(ORIGIN).shift(DOWN * 0.5)
 
@@ -520,23 +526,34 @@ def slide_transformer_overview(scene: Scene):
     scene.play(FadeIn(diagram), run_time=1.0)
     scene.wait()
 
-    # Step 1: Embeddings
+    # Step 1: Inputs (tokenization)
     sub = _highlight(
         scene,
-        ["embeddings"],
+        ["inputs_section"],
         groups,
-        "Explained in the embedding FFN section",
+        "Explained by looking at\nhow tokenizers work",
         None,
         circle_symbols,
     )
     scene.wait()
 
-    # Step 2: Attention blocks
+    # Step 2: Embeddings
+    sub = _highlight(
+        scene,
+        ["embeddings"],
+        groups,
+        "Explained in the\nembedding FFN section",
+        sub,
+        circle_symbols,
+    )
+    scene.wait()
+
+    # Step 3: Attention
     sub = _highlight(
         scene,
         ["encoder_attention", "decoder_masked_attention", "decoder_attention"],
         groups,
-        "Explained by looking at the history of the RNN",
+        "Explained by looking at\nthe history of the RNN",
         sub,
         circle_symbols,
     )
@@ -547,7 +564,7 @@ def slide_transformer_overview(scene: Scene):
         scene,
         ["add_norms"],
         groups,
-        "Explained by looking at the history of the ImageNet challenge",
+        "Explained by looking at\nthe history of the ImageNet challenge",
         sub,
         circle_symbols,
     )
@@ -558,7 +575,7 @@ def slide_transformer_overview(scene: Scene):
         scene,
         ["positional", "feed_forwards", "encoder_decoder_connection", "linear_softmax"],
         groups,
-        "The glue and the rest of the methodology",
+        "The glue and the rest\nof the methodology",
         sub,
         circle_symbols,
     )
@@ -567,29 +584,29 @@ def slide_transformer_overview(scene: Scene):
     # Step 5: Activation demo — dim everything, then sweep
     dim_anims = [g.animate.set_opacity(0.15) for g in groups.values()]
     dim_anims.append(FadeOut(sub))
-    # Reset symbols to white when dimmed
     for sym in circle_symbols:
-        dim_anims.append(sym.animate.set_color(WHITE))
+        dim_anims.append(sym.animate.set_color(GREY_E).set_opacity(0.15))
     scene.play(*dim_anims, run_time=0.6)
 
-    def _sweep_stack(steps, run_time=0.15):
-        """Sweep a highlight through a list of step groups, bottom-to-top."""
-        for step in steps:
-            scene.play(
-                step.animate.set_opacity(1.0),
-                run_time=run_time,
-            )
-        # Brief pause at the top, then dim back
-        scene.play(
-            *[s.animate.set_opacity(0.15) for s in steps],
-            run_time=0.3,
-        )
+    def _sweep_stack(steps, syms_for_pos, run_time=0.15):
+        """Sweep a highlight through steps. syms_for_pos are the +/~ for this stack's positional step (index 1)."""
+        for i, step in enumerate(steps):
+            anims = [step.animate.set_opacity(1.0)]
+            if i == 1:  # positional step
+                for sym in syms_for_pos:
+                    anims.append(sym.animate.set_color(BLACK).set_opacity(1.0))
+            scene.play(*anims, run_time=run_time)
+        # Dim back
+        dim_back = [s.animate.set_opacity(0.15) for s in steps]
+        for sym in syms_for_pos:
+            dim_back.append(sym.animate.set_color(GREY_E).set_opacity(0.15))
+        scene.play(*dim_back, run_time=0.3)
 
     # Encoder activates once (auto-encoding)
-    _sweep_stack(encoder_steps, run_time=0.12)
+    _sweep_stack(encoder_steps, enc_circle_syms, run_time=0.12)
 
-    # Decoder activates three times (auto-regressive)
+    # Decoder activates five times (auto-regressive)
     for _ in range(5):
-        _sweep_stack(decoder_steps, run_time=0.1)
+        _sweep_stack(decoder_steps, dec_circle_syms, run_time=0.1)
 
     scene.wait()
