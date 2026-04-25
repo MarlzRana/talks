@@ -47,6 +47,7 @@ export default function TalkPlayer() {
           direction={direction}
           onNext={next}
           onPrev={prev}
+          defaultPaper={talk.paper}
         />
       </div>
     )
@@ -54,7 +55,7 @@ export default function TalkPlayer() {
 
   return (
     <div className={styles.container} data-theme={talk.theme ?? 'dark'}>
-      <DeckPlayer slides={talk.slides} currentIndex={index} direction={direction} onNext={next} onPrev={prev} />
+      <DeckPlayer slides={talk.slides} currentIndex={index} direction={direction} onNext={next} onPrev={prev} defaultPaper={talk.paper} />
       <SlideProgress current={index} total={talk.slides.length} />
       <SlideControls onPrev={prev} onNext={next} />
     </div>

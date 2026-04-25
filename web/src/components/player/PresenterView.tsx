@@ -9,6 +9,7 @@ interface PresenterViewProps {
   direction: number
   onNext: () => void
   onPrev: () => void
+  defaultPaper?: string
 }
 
 function formatTime(seconds: number) {
@@ -35,7 +36,7 @@ function useElapsed() {
   return formatTime(elapsed)
 }
 
-export default function PresenterView({ slides, currentIndex, direction, onNext, onPrev }: PresenterViewProps) {
+export default function PresenterView({ slides, currentIndex, direction, onNext, onPrev, defaultPaper }: PresenterViewProps) {
   const clock = useClock()
   const elapsed = useElapsed()
   const currentSlide = slides[currentIndex]
@@ -45,7 +46,7 @@ export default function PresenterView({ slides, currentIndex, direction, onNext,
   return (
     <div className={styles.container}>
       <div className={styles.main}>
-        <DeckPlayer slides={slides} currentIndex={currentIndex} direction={direction} onNext={onNext} onPrev={onPrev} />
+        <DeckPlayer slides={slides} currentIndex={currentIndex} direction={direction} onNext={onNext} onPrev={onPrev} defaultPaper={defaultPaper} />
       </div>
       <div className={styles.sidebar}>
         <div className={styles.sidebarLabel}>Next slide</div>

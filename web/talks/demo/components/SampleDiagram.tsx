@@ -7,8 +7,8 @@ const ZOOMED_VIEW = '150 80 300 200'
 function Box({ x, y, label }: { x: number; y: number; label: string }) {
   return (
     <g>
-      <rect x={x} y={y} width={120} height={50} rx={8} fill="var(--color-surface)" stroke="var(--color-accent)" strokeWidth={2} />
-      <text x={x + 60} y={y + 30} textAnchor="middle" fill="var(--color-text-primary)" fontSize={13} fontWeight={500}>
+      <rect x={x} y={y} width={120} height={50} rx={0} fill="var(--paper-warm)" stroke="var(--ink-line)" strokeWidth={1.5} strokeDasharray="4,3" />
+      <text x={x + 60} y={y + 30} textAnchor="middle" fill="var(--ink-1)" fontSize={13} fontWeight={500} fontFamily="var(--font-mono)">
         {label}
       </text>
     </g>
@@ -16,7 +16,7 @@ function Box({ x, y, label }: { x: number; y: number; label: string }) {
 }
 
 function Arrow({ x1, y1, x2, y2 }: { x1: number; y1: number; x2: number; y2: number }) {
-  return <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="var(--color-text-secondary)" strokeWidth={1.5} markerEnd="url(#arrowhead)" />
+  return <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="var(--ink-3)" strokeWidth={1.5} markerEnd="url(#arrowhead)" />
 }
 
 export default function SampleDiagram() {
@@ -34,7 +34,7 @@ export default function SampleDiagram() {
     >
       <defs>
         <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
-          <polygon points="0 0, 10 3.5, 0 7" fill="var(--color-text-secondary)" />
+          <polygon points="0 0, 10 3.5, 0 7" fill="var(--ink-3)" />
         </marker>
       </defs>
       <Box x={240} y={20} label="Input" />
@@ -44,7 +44,7 @@ export default function SampleDiagram() {
       <Box x={240} y={200} label="FFN" />
       <Arrow x1={300} y1={250} x2={300} y2={290} />
       <Box x={240} y={290} label="Output" />
-      <text x={300} y={380} textAnchor="middle" fill="var(--color-text-secondary)" fontSize={11}>
+      <text x={300} y={380} textAnchor="middle" fill="var(--ink-3)" fontSize={11}>
         Click to {zoomed ? 'zoom out' : 'zoom in'}
       </text>
     </motion.svg>

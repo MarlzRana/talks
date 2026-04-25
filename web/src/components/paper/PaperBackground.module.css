@@ -1,0 +1,32 @@
+.paper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.paper[data-paper='paper'] {
+  background-color: var(--paper);
+  color: var(--ink-1);
+  background-image:
+    radial-gradient(circle, var(--grid-coarse) 0.6px, transparent 0.7px),
+    radial-gradient(circle, var(--grid-fine) 0.5px, transparent 0.6px);
+  background-size: 80px 80px, 16px 16px;
+}
+
+.paper[data-paper='paper-dark'] {
+  background-color: var(--paper-black);
+  color: var(--ink-on-dark-1);
+  background-image:
+    radial-gradient(circle, rgba(241, 237, 227, 0.18) 0.6px, transparent 0.7px),
+    radial-gradient(circle, rgba(241, 237, 227, 0.08) 0.5px, transparent 0.6px);
+  background-size: 80px 80px, 16px 16px;
+}
+
+.paper[data-paper='paper-blueprint'] {
+  background-color: var(--paper-blueprint);
+  color: var(--ink-on-dark-1);
+  background-image:
+    radial-gradient(circle, rgba(241, 237, 227, 0.20) 0.6px, transparent 0.7px),
+    radial-gradient(circle, rgba(241, 237, 227, 0.10) 0.5px, transparent 0.6px);
+  background-size: 80px 80px, 16px 16px;
+}

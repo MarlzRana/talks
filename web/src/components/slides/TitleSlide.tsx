@@ -1,3 +1,4 @@
+import { Wireframe } from '@/components/paper'
 import styles from './TitleSlide.module.css'
 
 interface TitleSlideProps {
@@ -8,10 +9,14 @@ interface TitleSlideProps {
 
 export default function TitleSlide({ title, subtitle, author }: TitleSlideProps) {
   return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>{title}</h1>
-      {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
-      {author && <p className={styles.author}>{author}</p>}
+    <div className={styles.slide}>
+      <Wireframe className={styles.titleZone}>
+        <div className={styles.titleContent}>
+          <h1 className={styles.title}>{title}</h1>
+          {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
+          {author && <p className={styles.author}>{author}</p>}
+        </div>
+      </Wireframe>
     </div>
   )
 }

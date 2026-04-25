@@ -17,9 +17,10 @@ interface DeckPlayerProps {
   direction: number
   onNext?: () => void
   onPrev?: () => void
+  defaultPaper?: string
 }
 
-export default function DeckPlayer({ slides, currentIndex, direction, onNext, onPrev }: DeckPlayerProps) {
+export default function DeckPlayer({ slides, currentIndex, direction, onNext, onPrev, defaultPaper }: DeckPlayerProps) {
   const bind = useSwipe({ next: onNext ?? (() => {}), prev: onPrev ?? (() => {}) })
   const slide = slides[currentIndex]
   if (!slide) return null
@@ -33,6 +34,7 @@ export default function DeckPlayer({ slides, currentIndex, direction, onNext, on
         <motion.div
           key={currentIndex}
           className={styles.slide}
+          data-paper={slide.paper ?? defaultPaper}
           custom={custom}
           variants={slide.transition ? undefined : defaultVariants}
           initial={slide.transition ? slide.transition.enter : 'enter'}
@@ -44,7 +46,13 @@ export default function DeckPlayer({ slides, currentIndex, direction, onNext, on
               : defaultTransition
           }
         >
-          <SlideComponent />
+          {(slide.paper ?? defaultPaper) ? (
+            <div className={styles.frame}>
+              <SlideComponent />
+            </div>
+          ) : (
+            <SlideComponent />
+          )}
         </motion.div>
       </AnimatePresence>
     </div>

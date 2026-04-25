@@ -1,0 +1,158 @@
+---
+name: slide-design
+description: Drafting paper design system for slide creation — grid-aligned wireframes, blueprint backgrounds, ink/paper palette. Use when creating slides, talks, presentations, or decks.
+---
+
+# Drafting Paper Slide Design
+
+Use this system when creating or designing slides and talks. All slides use a warm drafting-paper aesthetic with dot-grid backgrounds and grid-aligned wireframe borders.
+
+## Layout architecture
+
+Three layers:
+
+1. **`.slide`** (DeckPlayer) = `display: flex; align-items: center; justify-content: center` + paper background
+2. **`.frame`** (DeckPlayer) = the outer wireframe border + CSS grid inside, centered by flex parent. Sized `calc(100% - 160px)` with `grid-template: repeat(auto-fill, minmax(80px, 1fr))`
+3. **Template zones** = grid items inside `.frame`, wrapped in `<Wireframe>`, using flexbox internally
+
+The `.frame` div is automatically rendered by DeckPlayer when a slide has `paper` set. It provides the outer wireframe border (0.5px solid) with plus marks at corners.
+
+## Grid system
+
+The `.frame` is a CSS grid with tracks of `minmax(80px, 1fr)` — minimum 80px, expanding to fill the frame evenly. Templates span the full frame grid with `subgrid`:
+
+```css
+.slide {
+  grid-column: 1 / -1;
+  grid-row: 1 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-template-rows: subgrid;
+}
+```
+
+Content zones are placed as grid items with `grid-column` / `grid-row`, then use flexbox internally.
+
+## Wireframe system
+
+Wireframes are thin solid borders (0.5px) that form the boundary of a component's grid area.
+
+**Outer frame**: The `.frame` element's border. Always present on paper slides. Plus marks at the 4 corners. Rendered automatically by DeckPlayer.
+
+**Component wireframes**: Use `<Wireframe>` from `@/components/paper` to wrap content zones. It renders a thin solid border + plus marks at corners. Set grid placement via `className`.
+
+```tsx
+import { Wireframe } from '@/components/paper'
+import styles from './MySlide.module.css'
+
+<Wireframe className={styles.titleZone}>
+  <h2>Title here</h2>
+</Wireframe>
+```
+
+```css
+.titleZone {
+  grid-column: 1 / -1;
+  grid-row: 1 / 2;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--space-4);
+}
+```
+
+**Props**: `label?` (mono uppercase tag), `accent?` (tints the border), `className?`, `children`.
+
+**When to wireframe**: Every distinct content zone (title, body, code block, visual panel, columns container). Do NOT wireframe: individual text elements, inline components, or the slide itself.
+
+## Paper backgrounds
+
+Set `paper` on `TalkConfig` for the talk-wide default. Override per-slide via `export const paper = '...'`.
+
+| Variant | Background | Text color | Grid dots |
+|---------|-----------|------------|-----------|
+| `paper` (default) | Warm vellum `--paper` (#F1EDE3) | `--ink-1` | Dark dots |
+| `paper-dark` | Near-black `--paper-black` (#1A1815) | `--ink-on-dark-1` | Cream dots |
+| `paper-blueprint` | Deep blue `--paper-blueprint` (#0E3A5F) | `--ink-on-dark-1` | Cream dots |
+
+Custom papers: set any string as the paper value and define `[data-paper="my-name"]` in the talk's CSS.
+
+## Standard grid zones
+
+Grid zones are relative to the `.frame` grid (not the slide). `1 / -1` spans the full frame.
+
+| Zone | Grid placement | Purpose |
+|------|---------------|---------|
+| Title | `grid-column: 1 / -1; grid-row: 1 / 2` | Title bar, 1 cell (~80px) tall |
+| Body | `grid-column: 1 / -1; grid-row: 2 / -1` | Main content below title |
+| Full content | `grid-column: 1 / -1; grid-row: 1 / -1` | Spans entire frame |
+| Title (centered) | `grid-column: 2 / -2; grid-row: 2 / -2` | Title slides, inset 1 cell from frame edges |
+| Caption row | `grid-column: 1 / -1; grid-row: -2 / -1` | Bottom row for captions |
+
+Use negative grid lines (`-1`, `-2`) to adapt to any viewport size.
+
+## Typography hierarchy
+
+1. **Eyebrow** — `var(--font-mono)`, 11-12px, uppercase, `letter-spacing: 0.14em`, color `--ink-3`
+2. **Display title** — `var(--font-display)`, weight 700-800, `clamp(2.5rem, 6vw, 5rem)`, `letter-spacing: -0.03em`
+3. **Subtitle** — `var(--font-display)`, weight 300-400, `clamp(1.2rem, 2.5vw, 1.8rem)`
+4. **Body** — `var(--font-text)`, weight 400, 16-20px, `line-height: 1.55`
+5. **Metadata/caption** — `var(--font-mono)`, 11px, uppercase, `letter-spacing: 0.02em`
+
+Font families: `--font-display` (SF Pro Display), `--font-text` (SF Pro Text), `--font-mono` (SF Mono).
+
+## Accent colors
+
+Use **one accent per composition**. Pick from:
+
+| Token | Hex | Use for |
+|-------|-----|---------|
+| `--accent-violet` | #8B4A9E | Primary/hero concept |
+| `--accent-violet-deep` | #5B2A6E | Emphasis on violet hero |
+| `--accent-ochre` | #C08A3E | Warmth, warnings |
+| `--accent-forest` | #3E6B4A | Success, "after" state |
+| `--accent-ink-blue` | #2E4A7A | Links, info |
+| `--accent-crimson` | #9A3333 | Error, "before" state |
+| `--accent-rust` | #B05A3C | Correction, numbers |
+
+Only exception: before/after pairs may use crimson + forest together.
+
+## Ink colors
+
+| Token | Use |
+|-------|-----|
+| `--ink-1` | Primary text |
+| `--ink-2` | Secondary text |
+| `--ink-3` | Tertiary/labels |
+| `--ink-4` | Hairlines, wireframe borders |
+| `--ink-line` | Draftsman's line, strong borders |
+| `--ink-on-dark-1` | Primary text on dark/blueprint surfaces |
+| `--ink-on-dark-2` | Secondary text on dark/blueprint surfaces |
+
+## Code slides
+
+Use `--code-bg` (#EAE4D4) for code block backgrounds. Syntax tokens: `--code-keyword`, `--code-string`, `--code-fn`, `--code-type`, `--code-number`, `--code-comment`, `--code-punct`.
+
+For Shiki, prefer a light theme on `paper` surfaces.
+
+## Borders and spacing
+
+| Token | Value | Use |
+|-------|-------|-----|
+| `--border-hair` | 0.5px solid | Wireframe lines, hairline rules |
+| `--border-thin` | 1px solid | Cards, inputs |
+| `--border-dashed` | 1px dashed | Draft states, placeholders |
+
+Use `--space-1` (4px) through `--space-10` (128px).
+
+## Anti-patterns
+
+- No emoji
+- No gradients on backgrounds
+- No scrollbars — scrollbars are globally hidden via CSS
+- No drop shadows with blur >20px
+- No multiple accent colors in one composition
+- Sharp corners by default. Use radius only with reason
+- No filled icons — use line icons with `currentColor`
+- No body text under 14px (under 28px on slides)
+- Paper surfaces must always show their dot grid
+- Do not put wireframe borders inside components — wireframes wrap components at the grid level

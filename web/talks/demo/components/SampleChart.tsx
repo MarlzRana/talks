@@ -40,7 +40,7 @@ export default function SampleChart() {
           y={y(d.value)}
           height={HEIGHT - MARGIN.bottom - y(d.value)}
           rx={4}
-          fill="var(--color-accent)"
+          fill="var(--accent-ink-blue)"
           initial={{ scaleY: 0 }}
           animate={{ scaleY: 1 }}
           transition={{ duration: 0.6, delay: data.indexOf(d) * 0.1, ease: 'easeOut' }}
@@ -53,7 +53,7 @@ export default function SampleChart() {
           x={(x(d.label) ?? 0) + x.bandwidth() / 2}
           y={HEIGHT - MARGIN.bottom + 20}
           textAnchor="middle"
-          fill="var(--color-text-secondary)"
+          fill="var(--ink-3)"
           fontSize={11}
         >
           {d.label}
@@ -66,10 +66,10 @@ export default function SampleChart() {
             x2={WIDTH - MARGIN.right}
             y1={y(tick)}
             y2={y(tick)}
-            stroke="var(--color-border)"
+            stroke="var(--ink-4)"
             strokeDasharray="2,4"
           />
-          <text x={MARGIN.left - 8} y={y(tick) + 4} textAnchor="end" fill="var(--color-text-secondary)" fontSize={10}>
+          <text x={MARGIN.left - 8} y={y(tick) + 4} textAnchor="end" fill="var(--ink-3)" fontSize={10}>
             {tick}
           </text>
         </g>

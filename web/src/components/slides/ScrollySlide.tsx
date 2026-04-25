@@ -1,5 +1,6 @@
 import { useRef, useState, type ReactNode } from 'react'
 import { useInView } from 'motion/react'
+import { Wireframe } from '@/components/paper'
 import styles from './ScrollySlide.module.css'
 
 interface Step {
@@ -17,7 +18,6 @@ function StepItem({ step, index, onActivate }: { step: Step; index: number; onAc
   const isInView = useInView(ref, { amount: 0.5 })
 
   if (isInView) {
-    // Schedule activation outside render to avoid setState during render
     queueMicrotask(() => onActivate(index))
   }
 
@@ -33,13 +33,17 @@ export default function ScrollySlide({ steps, visual }: ScrollySlideProps) {
   const [activeStep, setActiveStep] = useState(0)
 
   return (
-    <div className={styles.container}>
-      <div className={styles.steps}>
-        {steps.map((step, i) => (
-          <StepItem key={i} step={step} index={i} onActivate={setActiveStep} />
-        ))}
-      </div>
-      <div className={styles.visual}>{visual(activeStep)}</div>
+    <div className={styles.slide}>
+      <Wireframe className={styles.contentZone}>
+        <div className={styles.container}>
+          <div className={styles.steps}>
+            {steps.map((step, i) => (
+              <StepItem key={i} step={step} index={i} onActivate={setActiveStep} />
+            ))}
+          </div>
+          <div className={styles.visual}>{visual(activeStep)}</div>
+        </div>
+      </Wireframe>
     </div>
   )
 }

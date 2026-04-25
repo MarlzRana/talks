@@ -12,14 +12,14 @@ export default function DemoSplitSlide() {
           style={{
             width: '100%',
             height: '100%',
-            background: 'linear-gradient(135deg, var(--color-accent), #4a3f9f)',
-            borderRadius: 'var(--radius-md)',
+            background: 'var(--accent-violet)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            color: '#fff',
+            color: 'var(--ink-on-dark-1)',
             fontSize: '1.5rem',
             fontWeight: 600,
+            fontFamily: 'var(--font-display)',
           }}
         >
           Visual area

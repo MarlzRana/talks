@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { codeToHtml } from 'shiki'
+import { Wireframe } from '@/components/paper'
 import styles from './CodeSlide.module.css'
 
 interface CodeSlideProps {
@@ -25,17 +26,25 @@ export default function CodeSlide({ title, description, language, code, filename
   }, [code, language, theme])
 
   return (
-    <div className={styles.container}>
-      {title && <h2 className={styles.title}>{title}</h2>}
-      {description && <p className={styles.description}>{description}</p>}
-      {html ? (
-        <div className={styles.codeWrapper}>
-          {filename && <div className={styles.filename}>{filename}</div>}
-          <div dangerouslySetInnerHTML={{ __html: html }} />
-        </div>
-      ) : (
-        <div className={styles.loading}>Loading…</div>
+    <div className={styles.slide}>
+      {title && (
+        <Wireframe className={styles.titleZone}>
+          <div className={styles.titleContent}>
+            <h2 className={styles.title}>{title}</h2>
+            {description && <p className={styles.description}>{description}</p>}
+          </div>
+        </Wireframe>
       )}
+      <Wireframe className={title ? styles.codeZone : styles.codeZoneFull}>
+        {html ? (
+          <div className={styles.codeWrapper}>
+            {filename && <div className={styles.filename}>{filename}</div>}
+            <div dangerouslySetInnerHTML={{ __html: html }} />
+          </div>
+        ) : (
+          <div className={styles.loading}>Loading…</div>
+        )}
+      </Wireframe>
     </div>
   )
 }

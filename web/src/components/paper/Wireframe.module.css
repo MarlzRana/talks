@@ -1,0 +1,66 @@
+.wireframe {
+  position: relative;
+  border: 0.5px solid var(--ink-4);
+}
+
+.wireframe[data-accent='violet'] { border-color: color-mix(in srgb, var(--accent-violet) 40%, transparent); }
+.wireframe[data-accent='ochre'] { border-color: color-mix(in srgb, var(--accent-ochre) 40%, transparent); }
+.wireframe[data-accent='forest'] { border-color: color-mix(in srgb, var(--accent-forest) 40%, transparent); }
+.wireframe[data-accent='ink-blue'] { border-color: color-mix(in srgb, var(--accent-ink-blue) 40%, transparent); }
+.wireframe[data-accent='crimson'] { border-color: color-mix(in srgb, var(--accent-crimson) 40%, transparent); }
+.wireframe[data-accent='rust'] { border-color: color-mix(in srgb, var(--accent-rust) 40%, transparent); }
+
+/* ── Corner plus marks ── */
+.mark {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.mark::before,
+.mark::after {
+  content: '';
+  position: absolute;
+  background: var(--ink-4);
+}
+
+/* Vertical bar of the plus */
+.mark::before {
+  left: 50%;
+  top: 0;
+  width: 0.5px;
+  height: 100%;
+  transform: translateX(-50%);
+}
+
+/* Horizontal bar of the plus */
+.mark::after {
+  top: 50%;
+  left: 0;
+  height: 0.5px;
+  width: 100%;
+  transform: translateY(-50%);
+}
+
+.mark[data-pos='tl'] { top: -8px; left: -8px; }
+.mark[data-pos='tr'] { top: -8px; right: -8px; }
+.mark[data-pos='bl'] { bottom: -8px; left: -8px; }
+.mark[data-pos='br'] { bottom: -8px; right: -8px; }
+
+/* ── Label ── */
+.label {
+  position: absolute;
+  top: calc(-1 * var(--space-3));
+  left: var(--space-3);
+  padding: 0 var(--space-2);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  background: inherit;
+  z-index: 3;
+}

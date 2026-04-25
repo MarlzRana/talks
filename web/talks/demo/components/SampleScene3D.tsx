@@ -16,7 +16,7 @@ function RotatingBox() {
   return (
     <mesh ref={ref}>
       <boxGeometry args={[2, 2, 2]} />
-      <meshStandardMaterial color="#7F77DD" />
+      <meshStandardMaterial color="#8B4A9E" />
     </mesh>
   )
 }

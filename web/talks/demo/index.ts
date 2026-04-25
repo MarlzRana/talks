@@ -9,7 +9,8 @@ const demo: TalkConfig = {
   author: 'Marlz Rana',
   date: '2026-04-14',
   tags: ['demo', 'showcase'],
-  theme: 'dark',
+  theme: 'light',
+  paper: 'paper',
   slides,
 }
 

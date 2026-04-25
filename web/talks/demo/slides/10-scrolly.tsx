@@ -6,7 +6,7 @@ const steps = [
   { label: 'Step 3', body: 'Self-attention computes pairwise relationships between all tokens. Each token attends to every other token, weighted by relevance.' },
 ]
 
-const colours = ['#7F77DD', '#DD7777', '#77DDA5']
+const colours = ['var(--accent-violet)', 'var(--accent-crimson)', 'var(--accent-forest)']
 
 export default function DemoScrollySlide() {
   return (
@@ -17,15 +17,17 @@ export default function DemoScrollySlide() {
           style={{
             width: 200,
             height: 200,
-            borderRadius: activeStep === 2 ? '50%' : 'var(--radius-lg)',
+            borderRadius: activeStep === 2 ? '50%' : 0,
+            border: '1px dashed var(--ink-3)',
             background: colours[activeStep] ?? colours[0],
             transition: 'all 0.5s ease',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            color: '#fff',
+            color: 'var(--ink-on-dark-1)',
             fontSize: '1.5rem',
             fontWeight: 700,
+            fontFamily: 'var(--font-display)',
           }}
         >
           {activeStep + 1}

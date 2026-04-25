@@ -7,21 +7,22 @@ export default function DemoInteractiveSlide() {
   return (
     <ContentSlide title="Interactive controls">
       <p>Slides are React components — state works normally.</p>
-      <div style={{ marginTop: 'var(--spacing-lg)', display: 'flex', flexDirection: 'column', gap: 'var(--spacing-md)' }}>
+      <div style={{ marginTop: 'var(--space-5)', display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
         <input
           type="range"
           min={0}
           max={100}
           value={value}
           onChange={(e) => setValue(Number(e.target.value))}
-          style={{ width: '100%', maxWidth: 400, accentColor: 'var(--color-accent)' }}
+          style={{ width: '100%', maxWidth: 400, accentColor: 'var(--accent-violet)' }}
         />
         <div
           style={{
             fontSize: '4rem',
             fontWeight: 700,
             fontVariantNumeric: 'tabular-nums',
-            color: 'var(--color-accent)',
+            color: 'var(--accent-violet)',
+            fontFamily: 'var(--font-display)',
           }}
         >
           {value}
@@ -30,8 +31,7 @@ export default function DemoInteractiveSlide() {
           style={{
             height: 24,
             maxWidth: 400,
-            borderRadius: 'var(--radius-sm)',
-            background: 'var(--color-border)',
+            background: 'var(--ink-4)',
             overflow: 'hidden',
           }}
         >
@@ -39,8 +39,7 @@ export default function DemoInteractiveSlide() {
             style={{
               height: '100%',
               width: `${value}%`,
-              background: 'var(--color-accent)',
-              borderRadius: 'var(--radius-sm)',
+              background: 'var(--accent-violet)',
               transition: 'width 0.1s ease',
             }}
           />

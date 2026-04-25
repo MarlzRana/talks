@@ -1,43 +1,134 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-
 *,
 *::before,
 *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  scrollbar-width: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
 }
 
 :root {
-  --color-bg: #0a0a0a;
-  --color-surface: #141414;
-  --color-border: rgba(255, 255, 255, 0.08);
-  --color-text-primary: #f0f0f0;
-  --color-text-secondary: #888;
-  --color-accent: #7f77dd;
+  /* ── Paper surfaces ── */
+  --paper: #F1EDE3;
+  --paper-warm: #EFE8D8;
+  --paper-cool: #E8EBE3;
+  --paper-black: #1A1815;
+  --paper-deep: #2A2824;
+  --paper-blueprint: #0E3A5F;
 
+  /* ── Ink / foreground ── */
+  --ink-1: #1A1A1A;
+  --ink-2: #4A4A46;
+  --ink-3: #7A776F;
+  --ink-4: #B5B0A3;
+  --ink-line: #2A2824;
+  --ink-on-dark-1: #F1EDE3;
+  --ink-on-dark-2: #B8B3A4;
+
+  /* ── Accents (one per composition) ── */
+  --accent-violet: #8B4A9E;
+  --accent-violet-deep: #5B2A6E;
+  --accent-ochre: #C08A3E;
+  --accent-rust: #B05A3C;
+  --accent-forest: #3E6B4A;
+  --accent-ink-blue: #2E4A7A;
+  --accent-crimson: #9A3333;
+
+  /* ── Code syntax (muted, paper-friendly) ── */
+  --code-bg: #EAE4D4;
+  --code-fg: #1A1A1A;
+  --code-keyword: #5B2A6E;
+  --code-string: #3E6B4A;
+  --code-fn: #2E4A7A;
+  --code-type: #8B4A9E;
+  --code-number: #B05A3C;
+  --code-comment: #7A776F;
+  --code-punct: #4A4A46;
+
+  /* ── Grid dots ── */
+  --grid-fine: rgba(42, 40, 36, 0.12);
+  --grid-coarse: rgba(42, 40, 36, 0.22);
+
+  /* ── Typography ── */
+  --font-display: "SF Pro Display", -apple-system, system-ui, sans-serif;
+  --font-text: "SF Pro Text", -apple-system, system-ui, sans-serif;
+  --font-mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-sans: var(--font-text);
+
+  /* ── Spacing ── */
   --spacing-xs: 4px;
   --spacing-sm: 8px;
   --spacing-md: 16px;
   --spacing-lg: 32px;
   --spacing-xl: 64px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-10: 128px;
 
-  --font-sans: 'Inter', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
-
+  /* ── Radii ── */
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 16px;
+  --radius-0: 0px;
+  --radius-1: 2px;
+  --radius-2: 6px;
+  --radius-3: 12px;
+  --radius-pill: 999px;
 
+  /* ── Borders ── */
+  --border-hair: 0.5px solid var(--ink-4);
+  --border-thin: 1px solid var(--ink-line);
+  --border-thick: 2px solid var(--ink-line);
+  --border-dashed: 1px dashed var(--ink-3);
+
+  /* ── Shadows ── */
+  --shadow-1: 0 1px 0 rgba(42, 40, 36, 0.10);
+  --shadow-2: 0 2px 0 rgba(42, 40, 36, 0.12);
+  --shadow-card: 0 1px 0 rgba(42, 40, 36, 0.08), 0 8px 24px -12px rgba(42, 40, 36, 0.18);
+
+  /* ── Motion ── */
+  --ease-out: cubic-bezier(0.2, 0.9, 0.3, 1);
+  --ease-in: cubic-bezier(0.6, 0, 0.8, 0.4);
+  --ease-io: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur-fast: 120ms;
+  --dur-base: 200ms;
+  --dur-slow: 360ms;
   --transition-slide: 0.35s ease-in-out;
+
+  /* ── Backward-compat aliases ── */
+  --color-bg: var(--paper);
+  --color-surface: var(--paper-warm);
+  --color-border: var(--ink-4);
+  --color-text-primary: var(--ink-1);
+  --color-text-secondary: var(--ink-2);
+  --color-accent: var(--accent-violet);
 }
 
 [data-theme='light'] {
-  --color-bg: #fafafa;
-  --color-surface: #ffffff;
-  --color-border: rgba(0, 0, 0, 0.08);
-  --color-text-primary: #0a0a0a;
-  --color-text-secondary: #666;
+  --color-bg: var(--paper);
+  --color-surface: var(--paper-warm);
+  --color-border: var(--ink-4);
+  --color-text-primary: var(--ink-1);
+  --color-text-secondary: var(--ink-2);
+}
+
+[data-theme='dark'] {
+  --color-bg: var(--paper-black);
+  --color-surface: var(--paper-deep);
+  --color-border: rgba(241, 237, 227, 0.08);
+  --color-text-primary: var(--ink-on-dark-1);
+  --color-text-secondary: var(--ink-on-dark-2);
 }
 
 html,
@@ -48,7 +139,7 @@ body,
 }
 
 body {
-  font-family: var(--font-sans);
+  font-family: var(--font-text);
   background: var(--color-bg);
   color: var(--color-text-primary);
   -webkit-font-smoothing: antialiased;

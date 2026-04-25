@@ -12,3 +12,59 @@
   align-items: center;
   justify-content: center;
 }
+
+/* ── Paper backgrounds ── */
+.slide[data-paper='paper'] {
+  background-color: var(--paper);
+  color: var(--ink-1);
+  background-image:
+    radial-gradient(circle, var(--grid-coarse) 0.6px, transparent 0.7px),
+    radial-gradient(circle, var(--grid-fine) 0.5px, transparent 0.6px);
+  background-size: 80px 80px, 16px 16px;
+}
+
+.slide[data-paper='paper-dark'] {
+  background-color: var(--paper-black);
+  color: var(--ink-on-dark-1);
+  background-image:
+    radial-gradient(circle, rgba(241, 237, 227, 0.18) 0.6px, transparent 0.7px),
+    radial-gradient(circle, rgba(241, 237, 227, 0.08) 0.5px, transparent 0.6px);
+  background-size: 80px 80px, 16px 16px;
+}
+
+.slide[data-paper='paper-blueprint'] {
+  background-color: var(--paper-blueprint);
+  color: var(--ink-on-dark-1);
+  background-image:
+    radial-gradient(circle, rgba(241, 237, 227, 0.20) 0.6px, transparent 0.7px),
+    radial-gradient(circle, rgba(241, 237, 227, 0.10) 0.5px, transparent 0.6px);
+  background-size: 80px 80px, 16px 16px;
+}
+
+/* ── Content frame: outer wireframe + grid ── */
+.frame {
+  position: relative;
+  width: calc(100% - 160px);
+  height: calc(100% - 160px);
+  border: 0.5px solid var(--ink-4);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  grid-template-rows: repeat(auto-fill, minmax(80px, 1fr));
+}
+
+/* ── Corner plus marks on frame ── */
+.frame::after {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  pointer-events: none;
+  z-index: 3;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Cline x1='8' y1='0' x2='8' y2='16' stroke='%23B5B0A3' stroke-width='0.5'/%3E%3Cline x1='0' y1='8' x2='16' y2='8' stroke='%23B5B0A3' stroke-width='0.5'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Cline x1='8' y1='0' x2='8' y2='16' stroke='%23B5B0A3' stroke-width='0.5'/%3E%3Cline x1='0' y1='8' x2='16' y2='8' stroke='%23B5B0A3' stroke-width='0.5'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Cline x1='8' y1='0' x2='8' y2='16' stroke='%23B5B0A3' stroke-width='0.5'/%3E%3Cline x1='0' y1='8' x2='16' y2='8' stroke='%23B5B0A3' stroke-width='0.5'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Cline x1='8' y1='0' x2='8' y2='16' stroke='%23B5B0A3' stroke-width='0.5'/%3E%3Cline x1='0' y1='8' x2='16' y2='8' stroke='%23B5B0A3' stroke-width='0.5'/%3E%3C/svg%3E");
+  background-position: top left, top right, bottom left, bottom right;
+  background-repeat: no-repeat;
+  background-size: 16px 16px;
+}

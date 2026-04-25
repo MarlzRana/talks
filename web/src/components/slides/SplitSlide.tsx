@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { Wireframe } from '@/components/paper'
 import styles from './SplitSlide.module.css'
 
 type Ratio = '40/60' | '50/50' | '60/40'
@@ -19,11 +20,17 @@ function Visual({ children }: { children: ReactNode }) {
 
 function SplitSlideBase({ title, ratio = '50/50', children }: SplitSlideProps) {
   return (
-    <div className={styles.container}>
-      {title && <h2 className={styles.title}>{title}</h2>}
-      <div className={styles.columns} data-ratio={ratio}>
-        {children}
-      </div>
+    <div className={styles.slide}>
+      {title && (
+        <Wireframe className={styles.titleZone}>
+          <h2 className={styles.title}>{title}</h2>
+        </Wireframe>
+      )}
+      <Wireframe className={title ? styles.columnsZone : styles.columnsZoneFull}>
+        <div className={styles.columns} data-ratio={ratio}>
+          {children}
+        </div>
+      </Wireframe>
     </div>
   )
 }

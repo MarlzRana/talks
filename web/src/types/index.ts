@@ -2,6 +2,10 @@ import type { TargetAndTransition, Easing } from 'motion/react'
 
 export type Theme = 'light' | 'dark'
 
+export type PaperVariant = 'paper' | 'paper-dark' | 'paper-blueprint'
+
+export type AccentColor = 'violet' | 'ochre' | 'forest' | 'ink-blue' | 'crimson' | 'rust'
+
 export type SlideComponent = React.ComponentType
 
 export interface SlideTransition {
@@ -15,6 +19,7 @@ export interface SlideModule {
   default: SlideComponent
   transition?: SlideTransition
   notes?: string
+  paper?: PaperVariant | string
 }
 
 export interface TalkConfig {
@@ -25,6 +30,7 @@ export interface TalkConfig {
   date?: string
   tags?: string[]
   theme?: Theme
+  paper?: PaperVariant | string
   slides: SlideModule[]
   coverImage?: string
 }
