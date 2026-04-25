@@ -5,3 +5,4 @@ videos/
 images/
 media/
 latex_cache/
+.env

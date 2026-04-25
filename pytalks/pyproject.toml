@@ -5,7 +5,9 @@ description = "Manim-based mathematical presentations"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "httpx",
     "manimgl>=1.7.2",
+    "python-dotenv",
     "rich>=13.0",
     "setuptools<81",
 ]
