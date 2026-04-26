@@ -16,7 +16,8 @@ pnpm preview    # Preview production build
 - **Routes**: `/` redirects to `/talks` (TalkPicker), `/talks/:slug` (TalkPlayer)
 - **Talks**: each in `talks/<slug>/` with `index.ts`, `slides.tsx`, `slides/`, `components/`
 - **Registry**: `src/lib/talks.ts` — explicit imports, sorted array. One import line per talk
-- **Styling**: CSS Modules (`.module.css` per component), `globals.css` custom properties, `data-theme` attribute for per-deck theming
+- **Styling**: CSS Modules (`.module.css` per component), `globals.css` ink/paper design tokens, `data-theme` and `data-paper` attributes for per-deck theming
+- **Design system**: Drafting-paper aesthetic — dot-grid backgrounds, wireframe borders, SF Pro typography, ink/paper/accent palette. See `.claude/skills/slide-design.md` for full reference
 - **Transitions**: Motion `AnimatePresence` with `custom={direction}` for directional slide animations
 - **Presenter mode**: `P` key or `?presenter=true`, bidirectional BroadcastChannel sync between tabs
 
@@ -36,10 +37,14 @@ src/
       TalkCard.tsx + .module.css    # Card in picker grid
       TagBadge.tsx + .module.css    # Colored tag pill
     player/
-      DeckPlayer.tsx + .module.css  # AnimatePresence wrapper, renders active slide
+      DeckPlayer.tsx + .module.css  # AnimatePresence wrapper, .frame grid, renders active slide
       SlideProgress.tsx + .module.css
       SlideControls.tsx + .module.css
       PresenterView.tsx + .module.css
+    paper/
+      PaperBackground.tsx + .module.css  # Paper background for sub-regions
+      Wireframe.tsx + .module.css        # Wireframe border + corner plus marks
+      index.ts                           # Barrel export
     slides/                         # Reusable slide layout templates
       TitleSlide.tsx + .module.css
       ContentSlide.tsx + .module.css
@@ -81,6 +86,8 @@ interface SlideModule {
   default: SlideComponent       // The React component
   transition?: SlideTransition  // Optional per-slide override
   notes?: string                // Optional speaker notes
+  paper?: PaperVariant | string // Per-slide paper override
+  fullbleed?: boolean           // Skip frame, fill entire viewport
 }
 
 interface TalkConfig {
@@ -91,6 +98,7 @@ interface TalkConfig {
   date?: string         // ISO date
   tags?: string[]
   theme?: Theme         // 'light' | 'dark', defaults to 'dark'
+  paper?: PaperVariant | string  // Talk-wide paper background
   slides: SlideModule[]
   coverImage?: string
 }
@@ -184,6 +192,12 @@ export const transition: SlideTransition = {
 
 // Optional: speaker notes for presenter mode
 export const notes = `Key points to mention during this slide.`
+
+// Optional: per-slide paper background override
+export const paper: PaperVariant = 'paper-dark'
+
+// Optional: skip the wireframe frame, fill entire viewport
+export const fullbleed = true
 ```
 
 ## Library Patterns
