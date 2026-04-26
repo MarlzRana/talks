@@ -10,7 +10,7 @@ interface FullscreenSlideProps {
 export default function FullscreenSlide({ caption, children }: FullscreenSlideProps) {
   return (
     <div className={styles.slide}>
-      <Wireframe className={styles.contentZone}>
+      <Wireframe className={caption ? styles.contentZone : styles.contentZoneFull}>
         <div className={styles.content}>{children}</div>
       </Wireframe>
       {caption && <div className={styles.caption}>{caption}</div>}

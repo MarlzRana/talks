@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import type { SlideModule } from '@/types'
 import DeckPlayer from './DeckPlayer'
 import styles from './PresenterView.module.css'
@@ -36,9 +36,29 @@ function useElapsed() {
   return formatTime(elapsed)
 }
 
+function usePreviewScale() {
+  const ref = useRef<HTMLDivElement>(null)
+  const [scale, setScale] = useState(0.2)
+
+  const measure = useCallback(() => {
+    if (ref.current) {
+      setScale(ref.current.offsetWidth / window.innerWidth)
+    }
+  }, [])
+
+  useEffect(() => {
+    measure()
+    window.addEventListener('resize', measure)
+    return () => window.removeEventListener('resize', measure)
+  }, [measure])
+
+  return { ref, scale }
+}
+
 export default function PresenterView({ slides, currentIndex, direction, onNext, onPrev, defaultPaper }: PresenterViewProps) {
   const clock = useClock()
   const elapsed = useElapsed()
+  const { ref: previewRef, scale: previewScale } = usePreviewScale()
   const currentSlide = slides[currentIndex]
   const nextSlide = slides[currentIndex + 1]
   const NextComponent = nextSlide?.default
@@ -50,11 +70,23 @@ export default function PresenterView({ slides, currentIndex, direction, onNext,
       </div>
       <div className={styles.sidebar}>
         <div className={styles.sidebarLabel}>Next slide</div>
-        <div className={styles.nextPreview}>
+        <div className={styles.nextPreview} ref={previewRef}>
           {NextComponent ? (
-            <div className={styles.nextPreviewInner}>
-              <NextComponent />
-            </div>
+            nextSlide?.fullbleed ? (
+              <div className={styles.nextPreviewDirect} data-paper={nextSlide?.paper ?? defaultPaper}>
+                <NextComponent />
+              </div>
+            ) : (
+              <div
+                className={styles.nextPreviewInner}
+                data-paper={nextSlide?.paper ?? defaultPaper}
+                style={{ width: '100vw', height: '100vh', zoom: previewScale }}
+              >
+                <div className={`${styles.previewFrame} ${(nextSlide?.paper ?? defaultPaper) ? styles.previewFrameWireframe : ''}`}>
+                  <NextComponent />
+                </div>
+              </div>
+            )
           ) : (
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: 'var(--color-text-secondary)', fontSize: '0.8rem' }}>
               End of deck

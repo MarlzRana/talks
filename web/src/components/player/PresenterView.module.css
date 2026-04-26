@@ -38,15 +38,92 @@
   background: var(--color-surface);
 }
 
-.nextPreviewInner {
-  width: 100vw;
-  height: 100vh;
-  transform: scale(0.2);
-  transform-origin: top left;
+/* ── Fullbleed preview: renders at actual preview size ── */
+.nextPreviewDirect {
+  position: absolute;
+  inset: 0;
   pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nextPreviewDirect[data-paper='paper'] {
+  background-color: var(--paper);
+  color: var(--ink-1);
+  background-image:
+    radial-gradient(circle, var(--grid-coarse) 0.6px, transparent 0.7px),
+    radial-gradient(circle, var(--grid-fine) 0.5px, transparent 0.6px);
+  background-size: 80px 80px, 16px 16px;
+}
+
+.nextPreviewDirect[data-paper='paper-dark'] {
+  background-color: var(--paper-black);
+  color: var(--ink-on-dark-1);
+  background-image:
+    radial-gradient(circle, rgba(241, 237, 227, 0.18) 0.6px, transparent 0.7px),
+    radial-gradient(circle, rgba(241, 237, 227, 0.08) 0.5px, transparent 0.6px);
+  background-size: 80px 80px, 16px 16px;
+}
+
+.nextPreviewDirect[data-paper='paper-blueprint'] {
+  background-color: var(--paper-blueprint);
+  color: var(--ink-on-dark-1);
+  background-image:
+    radial-gradient(circle, rgba(241, 237, 227, 0.20) 0.6px, transparent 0.7px),
+    radial-gradient(circle, rgba(241, 237, 227, 0.10) 0.5px, transparent 0.6px);
+  background-size: 80px 80px, 16px 16px;
+}
+
+/* ── Scaled preview: renders at 100vw×100vh then zoomed down ── */
+.nextPreviewInner {
   position: absolute;
   top: 0;
   left: 0;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nextPreviewInner[data-paper='paper'] {
+  background-color: var(--paper);
+  color: var(--ink-1);
+  background-image:
+    radial-gradient(circle, var(--grid-coarse) 0.6px, transparent 0.7px),
+    radial-gradient(circle, var(--grid-fine) 0.5px, transparent 0.6px);
+  background-size: 80px 80px, 16px 16px;
+}
+
+.nextPreviewInner[data-paper='paper-dark'] {
+  background-color: var(--paper-black);
+  color: var(--ink-on-dark-1);
+  background-image:
+    radial-gradient(circle, rgba(241, 237, 227, 0.18) 0.6px, transparent 0.7px),
+    radial-gradient(circle, rgba(241, 237, 227, 0.08) 0.5px, transparent 0.6px);
+  background-size: 80px 80px, 16px 16px;
+}
+
+.nextPreviewInner[data-paper='paper-blueprint'] {
+  background-color: var(--paper-blueprint);
+  color: var(--ink-on-dark-1);
+  background-image:
+    radial-gradient(circle, rgba(241, 237, 227, 0.20) 0.6px, transparent 0.7px),
+    radial-gradient(circle, rgba(241, 237, 227, 0.10) 0.5px, transparent 0.6px);
+  background-size: 80px 80px, 16px 16px;
+}
+
+.previewFrame {
+  position: relative;
+  width: calc(100% - 160px);
+  height: calc(100% - 160px);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  grid-template-rows: repeat(auto-fill, minmax(80px, 1fr));
+}
+
+.previewFrameWireframe {
+  border: 0.5px solid var(--ink-4);
 }
 
 .notes {

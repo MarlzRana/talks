@@ -76,6 +76,16 @@ Set `paper` on `TalkConfig` for the talk-wide default. Override per-slide via `e
 
 Custom papers: set any string as the paper value and define `[data-paper="my-name"]` in the talk's CSS.
 
+## Full-bleed slides
+
+A slide can opt out of the inset frame and fill the entire viewport by exporting `fullbleed`:
+
+```tsx
+export const fullbleed = true
+```
+
+The slide still gets the paper background but skips the `.frame` wrapper (no wireframe border, no grid). Use for hero visuals, full-screen images, or 3D scenes that need edge-to-edge rendering.
+
 ## Standard grid zones
 
 Grid zones are relative to the `.frame` grid (not the slide). `1 / -1` spans the full frame.

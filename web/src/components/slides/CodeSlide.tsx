@@ -27,15 +27,15 @@ export default function CodeSlide({ title, description, language, code, filename
 
   return (
     <div className={styles.slide}>
-      {title && (
+      {(title || description) && (
         <Wireframe className={styles.titleZone}>
           <div className={styles.titleContent}>
-            <h2 className={styles.title}>{title}</h2>
+            {title && <h2 className={styles.title}>{title}</h2>}
             {description && <p className={styles.description}>{description}</p>}
           </div>
         </Wireframe>
       )}
-      <Wireframe className={title ? styles.codeZone : styles.codeZoneFull}>
+      <Wireframe className={(title || description) ? styles.codeZone : styles.codeZoneFull}>
         {html ? (
           <div className={styles.codeWrapper}>
             {filename && <div className={styles.filename}>{filename}</div>}

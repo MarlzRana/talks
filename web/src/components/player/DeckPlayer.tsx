@@ -46,12 +46,12 @@ export default function DeckPlayer({ slides, currentIndex, direction, onNext, on
               : defaultTransition
           }
         >
-          {(slide.paper ?? defaultPaper) ? (
-            <div className={styles.frame}>
+          {slide.fullbleed ? (
+            <SlideComponent />
+          ) : (
+            <div className={`${styles.frame} ${(slide.paper ?? defaultPaper) ? styles.frameWireframe : ''}`}>
               <SlideComponent />
             </div>
-          ) : (
-            <SlideComponent />
           )}
         </motion.div>
       </AnimatePresence>

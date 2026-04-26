@@ -13,6 +13,12 @@
   overflow: hidden;
 }
 
+.contentZoneFull {
+  grid-column: 1 / -1;
+  grid-row: 1 / -1;
+  overflow: hidden;
+}
+
 .content {
   width: 100%;
   height: 100%;
@@ -26,9 +32,10 @@
   justify-content: center;
   font-family: var(--font-mono);
   font-size: 0.75rem;
-  color: var(--ink-3);
+  color: currentColor;
+  opacity: 0.5;
   letter-spacing: 0.02em;
   text-transform: uppercase;
   white-space: nowrap;
-  border-top: 0.5px solid var(--ink-4);
+  border-top: 0.5px solid currentColor;
 }

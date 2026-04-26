@@ -1,4 +1,4 @@
-import { useRef, useState, type ReactNode } from 'react'
+import { useRef, useState, useEffect, type ReactNode } from 'react'
 import { useInView } from 'motion/react'
 import { Wireframe } from '@/components/paper'
 import styles from './ScrollySlide.module.css'
@@ -17,9 +17,9 @@ function StepItem({ step, index, onActivate }: { step: Step; index: number; onAc
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { amount: 0.5 })
 
-  if (isInView) {
-    queueMicrotask(() => onActivate(index))
-  }
+  useEffect(() => {
+    if (isInView) onActivate(index)
+  }, [isInView, index, onActivate])
 
   return (
     <div ref={ref} className={`${styles.step}${isInView ? ` ${styles.active}` : ''}`}>

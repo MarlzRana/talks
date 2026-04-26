@@ -20,6 +20,7 @@ export interface SlideModule {
   transition?: SlideTransition
   notes?: string
   paper?: PaperVariant | string
+  fullbleed?: boolean
 }
 
 export interface TalkConfig {
