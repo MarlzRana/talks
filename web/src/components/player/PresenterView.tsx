@@ -7,6 +7,7 @@ interface PresenterViewProps {
   slides: SlideModule[]
   currentIndex: number
   direction: number
+  activeSubstep?: number
   onNext: () => void
   onPrev: () => void
   defaultPaper?: string
@@ -55,7 +56,7 @@ function usePreviewScale() {
   return { ref, scale }
 }
 
-export default function PresenterView({ slides, currentIndex, direction, onNext, onPrev, defaultPaper }: PresenterViewProps) {
+export default function PresenterView({ slides, currentIndex, direction, activeSubstep = 0, onNext, onPrev, defaultPaper }: PresenterViewProps) {
   const clock = useClock()
   const elapsed = useElapsed()
   const { ref: previewRef, scale: previewScale } = usePreviewScale()
@@ -66,7 +67,7 @@ export default function PresenterView({ slides, currentIndex, direction, onNext,
   return (
     <div className={styles.container}>
       <div className={styles.main}>
-        <DeckPlayer slides={slides} currentIndex={currentIndex} direction={direction} onNext={onNext} onPrev={onPrev} defaultPaper={defaultPaper} />
+        <DeckPlayer slides={slides} currentIndex={currentIndex} direction={direction} activeSubstep={activeSubstep} onNext={onNext} onPrev={onPrev} defaultPaper={defaultPaper} />
       </div>
       <div className={styles.sidebar}>
         <div className={styles.sidebarLabel}>Next slide</div>

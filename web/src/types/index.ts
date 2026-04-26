@@ -6,7 +6,7 @@ export type PaperVariant = 'paper' | 'paper-dark' | 'paper-blueprint'
 
 export type AccentColor = 'violet' | 'ochre' | 'forest' | 'ink-blue' | 'crimson' | 'rust'
 
-export type SlideComponent = React.ComponentType
+export type SlideComponent = React.ComponentType<{ activeSubstep?: number }>
 
 export interface SlideTransition {
   enter: TargetAndTransition
@@ -21,6 +21,7 @@ export interface SlideModule {
   notes?: string
   paper?: PaperVariant | string
   fullbleed?: boolean
+  substeps?: number
 }
 
 export interface TalkConfig {

@@ -24,7 +24,7 @@ describe('useBroadcast', () => {
     expect(channel.closed).toBe(true)
   })
 
-  it('send() posts slide-change message with correct slug and index', () => {
+  it('send() posts slide-change message with correct slug, index and substep', () => {
     // Create a listener channel first so we can capture messages
     const listener = new MockBroadcastChannel('deck-sync')
     const received: any[] = []
@@ -32,45 +32,45 @@ describe('useBroadcast', () => {
 
     const { result } = renderHook(() => useBroadcast('demo', vi.fn()))
 
-    act(() => result.current.send(5))
+    act(() => result.current.send(5, 2))
 
     const slideChanges = received.filter((m) => m.type === 'slide-change' && m.index === 5)
     expect(slideChanges.length).toBeGreaterThanOrEqual(1)
-    expect(slideChanges[0]).toEqual({ type: 'slide-change', index: 5, slug: 'demo' })
+    expect(slideChanges[0]).toEqual({ type: 'slide-change', index: 5, substep: 2, slug: 'demo' })
 
     listener.close()
   })
 
-  it('incoming slide-change with matching slug calls onSlideChange', () => {
-    const onSlideChange = vi.fn()
-    renderHook(() => useBroadcast('demo', onSlideChange))
+  it('incoming slide-change with matching slug calls onSync with index and substep', () => {
+    const onSync = vi.fn()
+    renderHook(() => useBroadcast('demo', onSync))
 
     // Create an external channel to send messages
     const sender = new MockBroadcastChannel('deck-sync')
-    sender.postMessage({ type: 'slide-change', index: 7, slug: 'demo' })
+    sender.postMessage({ type: 'slide-change', index: 7, substep: 2, slug: 'demo' })
 
-    expect(onSlideChange).toHaveBeenCalledWith(7)
+    expect(onSync).toHaveBeenCalledWith(7, 2)
 
     sender.close()
   })
 
   it('incoming slide-change with different slug is ignored', () => {
-    const onSlideChange = vi.fn()
-    renderHook(() => useBroadcast('demo', onSlideChange))
+    const onSync = vi.fn()
+    renderHook(() => useBroadcast('demo', onSync))
 
     const sender = new MockBroadcastChannel('deck-sync')
-    sender.postMessage({ type: 'slide-change', index: 3, slug: 'other-talk' })
+    sender.postMessage({ type: 'slide-change', index: 3, substep: 0, slug: 'other-talk' })
 
-    expect(onSlideChange).not.toHaveBeenCalled()
+    expect(onSync).not.toHaveBeenCalled()
 
     sender.close()
   })
 
-  it('responds to sync-request with last sent index', () => {
+  it('responds to sync-request with last sent index and substep', () => {
     const { result } = renderHook(() => useBroadcast('demo', vi.fn()))
 
     // Send a slide index so lastSentRef is set
-    act(() => result.current.send(4))
+    act(() => result.current.send(4, 1))
 
     // Create a new channel that sends sync-request and captures the response
     const receiver = new MockBroadcastChannel('deck-sync')
@@ -82,7 +82,7 @@ describe('useBroadcast', () => {
     requester.postMessage({ type: 'sync-request', slug: 'demo' })
 
     const slideChanges = received.filter((m) => m.type === 'slide-change')
-    expect(slideChanges).toContainEqual({ type: 'slide-change', index: 4, slug: 'demo' })
+    expect(slideChanges).toContainEqual({ type: 'slide-change', index: 4, substep: 1, slug: 'demo' })
 
     receiver.close()
     requester.close()
@@ -124,18 +124,18 @@ describe('useBroadcast', () => {
   })
 
   it('bidirectional: two hook instances with same slug sync', () => {
-    const onChangeA = vi.fn()
-    const onChangeB = vi.fn()
+    const onSyncA = vi.fn()
+    const onSyncB = vi.fn()
 
-    const { result: a } = renderHook(() => useBroadcast('demo', onChangeA))
-    const { result: b } = renderHook(() => useBroadcast('demo', onChangeB))
+    const { result: a } = renderHook(() => useBroadcast('demo', onSyncA))
+    const { result: b } = renderHook(() => useBroadcast('demo', onSyncB))
 
     // A sends to B
-    act(() => a.current.send(3))
-    expect(onChangeB).toHaveBeenCalledWith(3)
+    act(() => a.current.send(3, 0))
+    expect(onSyncB).toHaveBeenCalledWith(3, 0)
 
     // B sends to A
-    act(() => b.current.send(8))
-    expect(onChangeA).toHaveBeenCalledWith(8)
+    act(() => b.current.send(8, 0))
+    expect(onSyncA).toHaveBeenCalledWith(8, 0)
   })
 })

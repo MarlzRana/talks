@@ -62,10 +62,10 @@ src/
     usePresenter.ts                 # Presenter mode state
 
 talks/
-  demo/                             # Capability demo (12 slides)
+  demo/                             # Capability demo (13 slides)
     index.ts                        # TalkConfig
     slides.tsx                      # Barrel: namespace imports, ordered array
-    slides/01-title.tsx ... 12-custom-transition.tsx
+    slides/01-title.tsx ... 13-substeps.tsx
     components/SampleChart.tsx, SampleDiagram.tsx, SampleScene3D.tsx
 ```
 
@@ -82,12 +82,15 @@ interface SlideTransition {
   config?: { duration?: number; ease?: Easing }  // Easing, not string
 }
 
+type SlideComponent = React.ComponentType<{ activeSubstep?: number }>
+
 interface SlideModule {
-  default: SlideComponent       // The React component
+  default: SlideComponent       // The React component (receives activeSubstep prop)
   transition?: SlideTransition  // Optional per-slide override
   notes?: string                // Optional speaker notes
   paper?: PaperVariant | string // Per-slide paper override
   fullbleed?: boolean           // Skip frame, fill entire viewport
+  substeps?: number             // Number of sub-steps (Up/Down arrow navigation)
 }
 
 interface TalkConfig {
@@ -198,7 +201,29 @@ export const paper: PaperVariant = 'paper-dark'
 
 // Optional: skip the wireframe frame, fill entire viewport
 export const fullbleed = true
+
+// Optional: declare sub-steps navigable with Up/Down arrows
+export const substeps = 3
 ```
+
+### Substeps (within-slide animation)
+
+Slides can declare sub-steps for progressive reveal or within-slide animation. The framework manages the substep index; the slide controls its own rendering and animation.
+
+```tsx
+export const substeps = 4  // declares 4 sub-steps (activeSubstep: 0, 1, 2, 3)
+
+export default function MySlide({ activeSubstep = 0 }: { activeSubstep?: number }) {
+  // Render differently based on activeSubstep
+  return <SplitSlide title="...">...</SplitSlide>
+}
+```
+
+**Navigation**: Down arrow = next sub-step, Up arrow = previous sub-step. Left/Right arrows always change slides (independent axes). Substep resets to 0 on slide change.
+
+**Sync**: Substep state persists in localStorage and syncs across tabs via BroadcastChannel (presenter mode).
+
+**Key detail**: `next()` and `prev()` (slide navigation) reset substep to 0 directly. `goTo(n, sub?)` accepts an optional substep and clamps it against the *target* slide's substep count, avoiding race conditions during broadcast sync where the old slide's count would incorrectly clamp the value.
 
 ## Library Patterns
 
@@ -248,11 +273,11 @@ const variants = {
 
 | Hook | Purpose |
 |------|---------|
-| `useDeck(slug, total)` | `[index, direction]` state, `next()`, `prev()`, `goTo(n)`. localStorage resume. `goTo` uses `indexRef` for stable identity |
-| `useKeyNav(opts)` | ArrowRight/Space = next, ArrowLeft = prev, Escape = back to picker, F = fullscreen, P = presenter |
+| `useDeck(slug, slides)` | `{ index, direction, next, prev, goTo, substep, nextSubstep, prevSubstep }`. Takes `SlideModule[]` to read substep counts. `goTo(n, sub?)` sets slide and optionally substep atomically (clamped against target slide). localStorage resume for both index and substep |
+| `useKeyNav(opts)` | ArrowRight/Space = next, ArrowLeft = prev, ArrowDown = nextSubstep, ArrowUp = prevSubstep, Escape = back to picker, F = fullscreen, P = presenter |
 | `useFullscreen()` | `{ isFullscreen, toggle }` wrapping the Fullscreen API |
 | `useSwipe({ next, prev })` | `useDrag` from `@use-gesture/react`, horizontal swipe detection |
-| `useBroadcast(slug, onSlideChange)` | Bidirectional BroadcastChannel sync. Returns `{ send }`. New tabs send `sync-request` on connect; existing tabs respond with current position |
+| `useBroadcast(slug, onSync)` | Bidirectional BroadcastChannel sync. `onSync(index, substep)` callback receives both values atomically. Returns `{ send(index, substep) }`. New tabs send `sync-request` on connect; existing tabs respond with current position |
 | `usePresenter()` | Reads/writes `?presenter=true` query param. `{ isPresenter, togglePresenter }` |
 
 ## Presenter Mode
@@ -291,3 +316,6 @@ Cloned locally for reading API signatures and types:
 | use-gesture | `~/gh/pmndrs/use-gesture` |
 | shiki | `~/gh/shikijs/shiki` |
 | KaTeX | `~/gh/KaTeX/KaTeX` |
+
+## Verification
+Use the `chrome-devtools` MCP to verify your changes 

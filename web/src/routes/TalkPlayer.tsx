@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useParams, useNavigate, Navigate } from 'react-router-dom'
 import { talks } from '@/lib/talks'
 import { useDeck } from '@/lib/useDeck'
@@ -17,20 +17,23 @@ export default function TalkPlayer() {
   const navigate = useNavigate()
   const talk = talks.find((t) => t.slug === slug)
 
-  const { index, direction, next, prev, goTo } = useDeck(slug ?? '', talk?.slides.length ?? 0)
+  const { index, direction, next, prev, goTo, substep, nextSubstep, prevSubstep } = useDeck(slug ?? '', talk?.slides ?? [])
   const { toggle: toggleFullscreen } = useFullscreen()
   const { isPresenter, togglePresenter } = usePresenter()
 
-  const { send } = useBroadcast(slug ?? '', goTo)
+  const onSync = useCallback((i: number, sub: number) => goTo(i, sub), [goTo])
+  const { send } = useBroadcast(slug ?? '', onSync)
 
-  // Broadcast every slide change to all other tabs
+  // Broadcast every slide/substep change to all other tabs
   useEffect(() => {
-    send(index)
-  }, [index, send])
+    send(index, substep)
+  }, [index, substep, send])
 
   useKeyNav({
     next,
     prev,
+    nextSubstep,
+    prevSubstep,
     escape: () => navigate('/talks'),
     toggleFullscreen,
     togglePresenter,
@@ -45,6 +48,7 @@ export default function TalkPlayer() {
           slides={talk.slides}
           currentIndex={index}
           direction={direction}
+          activeSubstep={substep}
           onNext={next}
           onPrev={prev}
           defaultPaper={talk.paper}
@@ -55,7 +59,7 @@ export default function TalkPlayer() {
 
   return (
     <div className={styles.container} data-theme={talk.theme ?? 'dark'}>
-      <DeckPlayer slides={talk.slides} currentIndex={index} direction={direction} onNext={next} onPrev={prev} defaultPaper={talk.paper} />
+      <DeckPlayer slides={talk.slides} currentIndex={index} direction={direction} activeSubstep={substep} onNext={next} onPrev={prev} defaultPaper={talk.paper} />
       <SlideProgress current={index} total={talk.slides.length} paper={talk.slides[index]?.paper ?? talk.paper} />
       <SlideControls onPrev={prev} onNext={next} />
     </div>

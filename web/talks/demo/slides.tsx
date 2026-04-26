@@ -11,6 +11,7 @@ import * as Scene3DSlide from './slides/09-3d-scene'
 import * as ScrollySlide from './slides/10-scrolly'
 import * as FullscreenSlide from './slides/11-fullscreen'
 import * as CustomTransitionSlide from './slides/12-custom-transition'
+import * as SubstepsSlide from './slides/13-substeps'
 
 export const slides: SlideModule[] = [
   TitleSlide,
@@ -25,4 +26,5 @@ export const slides: SlideModule[] = [
   ScrollySlide,
   FullscreenSlide,
   CustomTransitionSlide,
+  SubstepsSlide,
 ]

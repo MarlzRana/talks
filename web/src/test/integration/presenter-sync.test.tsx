@@ -1,12 +1,19 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 import { renderHook, act } from '@testing-library/react'
+import type { SlideModule } from '@/types'
 import { useDeck } from '@/lib/useDeck'
 import { useBroadcast } from '@/lib/useBroadcast'
 import { MockBroadcastChannel } from '@/test/mocks'
 
+function makeSlides(n: number): SlideModule[] {
+  return Array.from({ length: n }, () => ({ default: () => null }))
+}
+
 function useTestSync(slug: string, totalSlides: number) {
-  const deck = useDeck(slug, totalSlides)
-  const { send } = useBroadcast(slug, deck.goTo)
+  const slides = makeSlides(totalSlides)
+  const deck = useDeck(slug, slides)
+  const onSync = (i: number, sub: number) => deck.goTo(i, sub)
+  const { send } = useBroadcast(slug, onSync)
   return { ...deck, send }
 }
 
@@ -29,7 +36,7 @@ describe('Presenter sync integration', () => {
       instanceA.current.goTo(3)
     })
     act(() => {
-      instanceA.current.send(3)
+      instanceA.current.send(3, 0)
     })
 
     // Instance B should now be at index 3
@@ -45,7 +52,7 @@ describe('Presenter sync integration', () => {
       instanceB.current.goTo(1)
     })
     act(() => {
-      instanceB.current.send(1)
+      instanceB.current.send(1, 0)
     })
 
     // Instance A should now be at index 1
@@ -60,7 +67,7 @@ describe('Presenter sync integration', () => {
       instanceA.current.goTo(3)
     })
     act(() => {
-      instanceA.current.send(3)
+      instanceA.current.send(3, 0)
     })
 
     // New instance joins — on mount it sends a sync-request, instance A replies
@@ -79,7 +86,7 @@ describe('Presenter sync integration', () => {
       instanceA.current.goTo(4)
     })
     act(() => {
-      instanceA.current.send(4)
+      instanceA.current.send(4, 0)
     })
 
     // Instance B should still be at 0 because it listens to a different slug
@@ -95,7 +102,7 @@ describe('Presenter sync integration', () => {
       instanceA.current.goTo(2)
     })
     act(() => {
-      instanceA.current.send(2)
+      instanceA.current.send(2, 0)
     })
     expect(instanceB.current.index).toBe(2)
 
@@ -104,7 +111,7 @@ describe('Presenter sync integration', () => {
       instanceB.current.goTo(4)
     })
     act(() => {
-      instanceB.current.send(4)
+      instanceB.current.send(4, 0)
     })
     expect(instanceA.current.index).toBe(4)
   })

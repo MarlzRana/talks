@@ -6,6 +6,8 @@ function createCallbacks() {
   return {
     next: vi.fn(),
     prev: vi.fn(),
+    nextSubstep: vi.fn(),
+    prevSubstep: vi.fn(),
     escape: vi.fn(),
     toggleFullscreen: vi.fn(),
     togglePresenter: vi.fn(),

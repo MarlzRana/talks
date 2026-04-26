@@ -61,8 +61,8 @@ import * as CodeSlide from '@talks/demo/slides/04-code'
 import * as CustomTransitionSlide from '@talks/demo/slides/12-custom-transition'
 
 describe('Demo slide rendering', () => {
-  it('has 12 slides in the demo deck', () => {
-    expect(slides).toHaveLength(12)
+  it('has 13 slides in the demo deck', () => {
+    expect(slides).toHaveLength(13)
   })
 
   slides.forEach((slide, index) => {

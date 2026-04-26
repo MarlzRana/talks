@@ -3,12 +3,14 @@ import { useEffect } from 'react'
 interface KeyNavOptions {
   next: () => void
   prev: () => void
+  nextSubstep: () => void
+  prevSubstep: () => void
   escape: () => void
   toggleFullscreen: () => void
   togglePresenter: () => void
 }
 
-export function useKeyNav({ next, prev, escape, toggleFullscreen, togglePresenter }: KeyNavOptions) {
+export function useKeyNav({ next, prev, nextSubstep, prevSubstep, escape, toggleFullscreen, togglePresenter }: KeyNavOptions) {
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return
@@ -22,6 +24,14 @@ export function useKeyNav({ next, prev, escape, toggleFullscreen, togglePresente
         case 'ArrowLeft':
           e.preventDefault()
           prev()
+          break
+        case 'ArrowDown':
+          e.preventDefault()
+          nextSubstep()
+          break
+        case 'ArrowUp':
+          e.preventDefault()
+          prevSubstep()
           break
         case 'Escape':
           escape()
@@ -39,5 +49,5 @@ export function useKeyNav({ next, prev, escape, toggleFullscreen, togglePresente
 
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
-  }, [next, prev, escape, toggleFullscreen, togglePresenter])
+  }, [next, prev, nextSubstep, prevSubstep, escape, toggleFullscreen, togglePresenter])
 }

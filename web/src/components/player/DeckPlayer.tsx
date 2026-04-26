@@ -15,12 +15,13 @@ interface DeckPlayerProps {
   slides: SlideModule[]
   currentIndex: number
   direction: number
+  activeSubstep?: number
   onNext?: () => void
   onPrev?: () => void
   defaultPaper?: string
 }
 
-export default function DeckPlayer({ slides, currentIndex, direction, onNext, onPrev, defaultPaper }: DeckPlayerProps) {
+export default function DeckPlayer({ slides, currentIndex, direction, activeSubstep = 0, onNext, onPrev, defaultPaper }: DeckPlayerProps) {
   const bind = useSwipe({ next: onNext ?? (() => {}), prev: onPrev ?? (() => {}) })
   const slide = slides[currentIndex]
   if (!slide) return null
@@ -47,10 +48,10 @@ export default function DeckPlayer({ slides, currentIndex, direction, onNext, on
           }
         >
           {slide.fullbleed ? (
-            <SlideComponent />
+            <SlideComponent activeSubstep={activeSubstep} />
           ) : (
             <div className={`${styles.frame} ${(slide.paper ?? defaultPaper) ? styles.frameWireframe : ''}`}>
-              <SlideComponent />
+              <SlideComponent activeSubstep={activeSubstep} />
             </div>
           )}
         </motion.div>
