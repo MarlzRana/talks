@@ -281,13 +281,13 @@ Cloned locally for reading API signatures and types:
 
 | Library | Path |
 |---------|------|
-| vite | `/Users/marlzrana/gh/vitejs/vite` |
-| react-router | `/Users/marlzrana/gh/remix-run/react-router` |
-| motion | `/Users/marlzrana/gh/motiondivision/motion` |
-| react-three-fiber | `/Users/marlzrana/gh/pmndrs/react-three-fiber` |
-| drei | `/Users/marlzrana/gh/pmndrs/drei` |
-| three.js | `/Users/marlzrana/gh/mrdoob/three.js` |
-| d3 | `/Users/marlzrana/gh/d3/d3` |
-| use-gesture | `/Users/marlzrana/gh/pmndrs/use-gesture` |
-| shiki | `/Users/marlzrana/gh/shikijs/shiki` |
-| KaTeX | `/Users/marlzrana/gh/KaTeX/KaTeX` |
+| vite | `~/gh/vitejs/vite` |
+| react-router | `~/gh/remix-run/react-router` |
+| motion | `~/gh/motiondivision/motion` |
+| react-three-fiber | `~/gh/pmndrs/react-three-fiber` |
+| drei | `~/gh/pmndrs/drei` |
+| three.js | `~/gh/mrdoob/three.js` |
+| d3 | `~/gh/d3/d3` |
+| use-gesture | `~/gh/pmndrs/use-gesture` |
+| shiki | `~/gh/shikijs/shiki` |
+| KaTeX | `~/gh/KaTeX/KaTeX` |
