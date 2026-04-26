@@ -1,11 +1,33 @@
 .container {
+  --progress-accent: var(--color-accent);
+
   position: absolute;
-  bottom: var(--spacing-md);
+  bottom: 0;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   gap: var(--spacing-xs);
   z-index: 10;
+  padding: var(--spacing-lg) var(--spacing-lg) var(--spacing-md);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.container:hover {
+  opacity: 1;
+}
+
+/* Paper-complementary accent overrides */
+.container[data-paper='paper'] {
+  --progress-accent: var(--accent-rust);
+}
+
+.container[data-paper='paper-dark'] {
+  --progress-accent: var(--accent-ochre);
+}
+
+.container[data-paper='paper-blueprint'] {
+  --progress-accent: var(--accent-ochre);
 }
 
 .dot {
@@ -19,6 +41,6 @@
 
 .dot.active {
   opacity: 1;
-  background: var(--color-accent);
+  background: var(--progress-accent);
   transform: scale(1.3);
 }

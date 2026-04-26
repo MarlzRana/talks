@@ -56,7 +56,7 @@ export default function TalkPlayer() {
   return (
     <div className={styles.container} data-theme={talk.theme ?? 'dark'}>
       <DeckPlayer slides={talk.slides} currentIndex={index} direction={direction} onNext={next} onPrev={prev} defaultPaper={talk.paper} />
-      <SlideProgress current={index} total={talk.slides.length} />
+      <SlideProgress current={index} total={talk.slides.length} paper={talk.slides[index]?.paper ?? talk.paper} />
       <SlideControls onPrev={prev} onNext={next} />
     </div>
   )
