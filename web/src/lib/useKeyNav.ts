@@ -3,8 +3,8 @@ import { useEffect } from 'react'
 interface KeyNavOptions {
   next: () => void
   prev: () => void
-  nextSubstep: () => void
-  prevSubstep: () => void
+  nextSubstep?: () => void
+  prevSubstep?: () => void
   escape: () => void
   toggleFullscreen: () => void
   togglePresenter: () => void
@@ -26,12 +26,16 @@ export function useKeyNav({ next, prev, nextSubstep, prevSubstep, escape, toggle
           prev()
           break
         case 'ArrowDown':
-          e.preventDefault()
-          nextSubstep()
+          if (nextSubstep) {
+            e.preventDefault()
+            nextSubstep()
+          }
           break
         case 'ArrowUp':
-          e.preventDefault()
-          prevSubstep()
+          if (prevSubstep) {
+            e.preventDefault()
+            prevSubstep()
+          }
           break
         case 'Escape':
           escape()

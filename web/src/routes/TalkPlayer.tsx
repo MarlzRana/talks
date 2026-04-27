@@ -29,11 +29,13 @@ export default function TalkPlayer() {
     send(index, substep)
   }, [index, substep, send])
 
+  const hasSubsteps = (talk?.slides[index]?.substeps ?? 1) > 1
+
   useKeyNav({
     next,
     prev,
-    nextSubstep,
-    prevSubstep,
+    nextSubstep: hasSubsteps ? nextSubstep : undefined,
+    prevSubstep: hasSubsteps ? prevSubstep : undefined,
     escape: () => navigate('/talks'),
     toggleFullscreen,
     togglePresenter,
