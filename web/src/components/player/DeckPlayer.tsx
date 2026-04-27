@@ -4,9 +4,9 @@ import { useSwipe } from '@/lib/useSwipe'
 import styles from './DeckPlayer.module.css'
 
 const defaultVariants = {
-  enter: (dir: number) => ({ x: dir * 300, opacity: 0 }),
-  center: { x: 0, opacity: 1 },
-  exit: (dir: number) => ({ x: dir * -300, opacity: 0 }),
+  enter: (dir: number) => ({ x: `${dir * 100}%`, zIndex: 1 }),
+  center: { x: 0, zIndex: 1 },
+  exit: (dir: number) => ({ x: `${dir * -100}%`, zIndex: 0 }),
 }
 
 const defaultTransition = { duration: 0.35, ease: 'easeInOut' as const }
@@ -31,7 +31,7 @@ export default function DeckPlayer({ slides, currentIndex, direction, activeSubs
 
   return (
     <div className={styles.viewport} {...bind()} style={{ touchAction: 'pan-y' }}>
-      <AnimatePresence initial={false} custom={custom} mode="wait">
+      <AnimatePresence initial={false} custom={custom}>
         <motion.div
           key={currentIndex}
           className={styles.slide}

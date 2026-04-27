@@ -42,12 +42,12 @@ Wireframes are thin solid borders (0.5px) that form the boundary of a component'
 **Component wireframes**: Use `<Wireframe>` from `@/components/paper` to wrap content zones. It renders a thin solid border + plus marks at corners. Set grid placement via `className`.
 
 ```tsx
-import { Wireframe } from '@/components/paper'
-import styles from './MySlide.module.css'
+import { Wireframe } from '@/components/paper';
+import styles from './MySlide.module.css';
 
 <Wireframe className={styles.titleZone}>
   <h2>Title here</h2>
-</Wireframe>
+</Wireframe>;
 ```
 
 ```css
@@ -68,10 +68,10 @@ import styles from './MySlide.module.css'
 
 Set `paper` on `TalkConfig` for the talk-wide default. Override per-slide via `export const paper = '...'`.
 
-| Variant | Background | Text color | Grid dots |
-|---------|-----------|------------|-----------|
-| `paper` (default) | Warm vellum `--paper` (#F1EDE3) | `--ink-1` | Dark dots |
-| `paper-dark` | Near-black `--paper-black` (#1A1815) | `--ink-on-dark-1` | Cream dots |
+| Variant           | Background                              | Text color        | Grid dots  |
+| ----------------- | --------------------------------------- | ----------------- | ---------- |
+| `paper` (default) | Warm vellum `--paper` (#F1EDE3)         | `--ink-1`         | Dark dots  |
+| `paper-dark`      | Near-black `--paper-black` (#1A1815)    | `--ink-on-dark-1` | Cream dots |
 | `paper-blueprint` | Deep blue `--paper-blueprint` (#0E3A5F) | `--ink-on-dark-1` | Cream dots |
 
 Custom papers: set any string as the paper value and define `[data-paper="my-name"]` in the talk's CSS.
@@ -81,7 +81,7 @@ Custom papers: set any string as the paper value and define `[data-paper="my-nam
 A slide can opt out of the inset frame and fill the entire viewport by exporting `fullbleed`:
 
 ```tsx
-export const fullbleed = true
+export const fullbleed = true;
 ```
 
 The slide still gets the paper background but skips the `.frame` wrapper (no wireframe border, no grid). Use for hero visuals, full-screen images, or 3D scenes that need edge-to-edge rendering.
@@ -90,13 +90,13 @@ The slide still gets the paper background but skips the `.frame` wrapper (no wir
 
 Grid zones are relative to the `.frame` grid (not the slide). `1 / -1` spans the full frame.
 
-| Zone | Grid placement | Purpose |
-|------|---------------|---------|
-| Title | `grid-column: 1 / -1; grid-row: 1 / 2` | Title bar, 1 cell (~80px) tall |
-| Body | `grid-column: 1 / -1; grid-row: 2 / -1` | Main content below title |
-| Full content | `grid-column: 1 / -1; grid-row: 1 / -1` | Spans entire frame |
-| Title (centered) | `grid-column: 2 / -2; grid-row: 2 / -2` | Title slides, inset 1 cell from frame edges |
-| Caption row | `grid-column: 1 / -1; grid-row: -2 / -1` | Bottom row for captions |
+| Zone             | Grid placement                           | Purpose                                     |
+| ---------------- | ---------------------------------------- | ------------------------------------------- |
+| Title            | `grid-column: 1 / -1; grid-row: 1 / 2`   | Title bar, 1 cell (~80px) tall              |
+| Body             | `grid-column: 1 / -1; grid-row: 2 / -1`  | Main content below title                    |
+| Full content     | `grid-column: 1 / -1; grid-row: 1 / -1`  | Spans entire frame                          |
+| Title (centered) | `grid-column: 2 / -2; grid-row: 2 / -2`  | Title slides, inset 1 cell from frame edges |
+| Caption row      | `grid-column: 1 / -1; grid-row: -2 / -1` | Bottom row for captions                     |
 
 Use negative grid lines (`-1`, `-2`) to adapt to any viewport size.
 
@@ -114,28 +114,28 @@ Font families: `--font-display` (SF Pro Display), `--font-text` (SF Pro Text), `
 
 Use **one accent per composition**. Pick from:
 
-| Token | Hex | Use for |
-|-------|-----|---------|
-| `--accent-violet` | #8B4A9E | Primary/hero concept |
+| Token                  | Hex     | Use for                 |
+| ---------------------- | ------- | ----------------------- |
+| `--accent-violet`      | #8B4A9E | Primary/hero concept    |
 | `--accent-violet-deep` | #5B2A6E | Emphasis on violet hero |
-| `--accent-ochre` | #C08A3E | Warmth, warnings |
-| `--accent-forest` | #3E6B4A | Success, "after" state |
-| `--accent-ink-blue` | #2E4A7A | Links, info |
-| `--accent-crimson` | #9A3333 | Error, "before" state |
-| `--accent-rust` | #B05A3C | Correction, numbers |
+| `--accent-ochre`       | #C08A3E | Warmth, warnings        |
+| `--accent-forest`      | #3E6B4A | Success, "after" state  |
+| `--accent-ink-blue`    | #2E4A7A | Links, info             |
+| `--accent-crimson`     | #9A3333 | Error, "before" state   |
+| `--accent-rust`        | #B05A3C | Correction, numbers     |
 
 Only exception: before/after pairs may use crimson + forest together.
 
 ## Ink colors
 
-| Token | Use |
-|-------|-----|
-| `--ink-1` | Primary text |
-| `--ink-2` | Secondary text |
-| `--ink-3` | Tertiary/labels |
-| `--ink-4` | Hairlines, wireframe borders |
-| `--ink-line` | Draftsman's line, strong borders |
-| `--ink-on-dark-1` | Primary text on dark/blueprint surfaces |
+| Token             | Use                                       |
+| ----------------- | ----------------------------------------- |
+| `--ink-1`         | Primary text                              |
+| `--ink-2`         | Secondary text                            |
+| `--ink-3`         | Tertiary/labels                           |
+| `--ink-4`         | Hairlines, wireframe borders              |
+| `--ink-line`      | Draftsman's line, strong borders          |
+| `--ink-on-dark-1` | Primary text on dark/blueprint surfaces   |
 | `--ink-on-dark-2` | Secondary text on dark/blueprint surfaces |
 
 ## Code slides
@@ -146,11 +146,13 @@ For Shiki, prefer a light theme on `paper` surfaces.
 
 ## Borders and spacing
 
-| Token | Value | Use |
-|-------|-------|-----|
-| `--border-hair` | 0.5px solid | Wireframe lines, hairline rules |
-| `--border-thin` | 1px solid | Cards, inputs |
-| `--border-dashed` | 1px dashed | Draft states, placeholders |
+| Token             | Value       | Use                             |
+| ----------------- | ----------- | ------------------------------- |
+| `--border-hair`   | 0.5px solid | Wireframe lines, hairline rules |
+| `--border-thin`   | 1px solid   | Cards, inputs                   |
+| `--border-dashed` | 1px dashed  | Draft states, placeholders      |
+
+**Hairline rendering**: Always draw 0.5px lines with `border` (e.g. `border-top: 0.5px solid var(--ink-4)`), never with `background` + explicit width/height. On non-Retina (1x) displays, `background` and `border` round 0.5px differently — when they overlap at intersections (e.g. a plus mark crossing a wireframe border), the mismatch creates visible thickness inconsistencies. Using `border` everywhere ensures all lines render through the same path.
 
 Use `--space-1` (4px) through `--space-10` (128px).
 
