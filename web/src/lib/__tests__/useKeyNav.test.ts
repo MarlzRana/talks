@@ -4,10 +4,10 @@ import { useKeyNav } from '../useKeyNav'
 
 function createCallbacks() {
   return {
-    next: vi.fn(),
-    prev: vi.fn(),
-    nextSubstep: vi.fn(),
-    prevSubstep: vi.fn(),
+    advance: vi.fn(),
+    retreat: vi.fn(),
+    skipForward: vi.fn(),
+    skipBack: vi.fn(),
     escape: vi.fn(),
     toggleFullscreen: vi.fn(),
     togglePresenter: vi.fn(),
@@ -30,24 +30,36 @@ describe('useKeyNav', () => {
     callbacks = createCallbacks()
   })
 
-  it('ArrowRight calls next()', () => {
+  it('ArrowRight calls advance()', () => {
     renderHook(() => useKeyNav(callbacks))
     fireKey('ArrowRight')
-    expect(callbacks.next).toHaveBeenCalledOnce()
+    expect(callbacks.advance).toHaveBeenCalledOnce()
   })
 
-  it('Space calls next() and preventDefault', () => {
+  it('Space calls advance() and preventDefault', () => {
     renderHook(() => useKeyNav(callbacks))
     const spy = vi.spyOn(KeyboardEvent.prototype, 'preventDefault')
     fireKey(' ')
-    expect(callbacks.next).toHaveBeenCalledOnce()
+    expect(callbacks.advance).toHaveBeenCalledOnce()
     expect(spy).toHaveBeenCalled()
   })
 
-  it('ArrowLeft calls prev()', () => {
+  it('ArrowLeft calls retreat()', () => {
     renderHook(() => useKeyNav(callbacks))
     fireKey('ArrowLeft')
-    expect(callbacks.prev).toHaveBeenCalledOnce()
+    expect(callbacks.retreat).toHaveBeenCalledOnce()
+  })
+
+  it('ArrowUp calls skipForward()', () => {
+    renderHook(() => useKeyNav(callbacks))
+    fireKey('ArrowUp')
+    expect(callbacks.skipForward).toHaveBeenCalledOnce()
+  })
+
+  it('ArrowDown calls skipBack()', () => {
+    renderHook(() => useKeyNav(callbacks))
+    fireKey('ArrowDown')
+    expect(callbacks.skipBack).toHaveBeenCalledOnce()
   })
 
   it('Escape calls escape()', () => {
@@ -84,20 +96,20 @@ describe('useKeyNav', () => {
     renderHook(() => useKeyNav(callbacks))
     const input = document.createElement('input')
     fireKey('ArrowRight', { target: input })
-    expect(callbacks.next).not.toHaveBeenCalled()
+    expect(callbacks.advance).not.toHaveBeenCalled()
   })
 
   it('ignores events from HTMLTextAreaElement', () => {
     renderHook(() => useKeyNav(callbacks))
     const textarea = document.createElement('textarea')
     fireKey('ArrowRight', { target: textarea })
-    expect(callbacks.next).not.toHaveBeenCalled()
+    expect(callbacks.advance).not.toHaveBeenCalled()
   })
 
   it('cleans up listener on unmount', () => {
     const { unmount } = renderHook(() => useKeyNav(callbacks))
     unmount()
     fireKey('ArrowRight')
-    expect(callbacks.next).not.toHaveBeenCalled()
+    expect(callbacks.advance).not.toHaveBeenCalled()
   })
 })

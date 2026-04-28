@@ -17,7 +17,7 @@ export default function TalkPlayer() {
   const navigate = useNavigate()
   const talk = talks.find((t) => t.slug === slug)
 
-  const { index, direction, next, prev, goTo, substep, nextSubstep, prevSubstep } = useDeck(slug ?? '', talk?.slides ?? [])
+  const { index, direction, substep, advance, retreat, skipForward, skipBack, goTo } = useDeck(slug ?? '', talk?.slides ?? [])
   const { toggle: toggleFullscreen } = useFullscreen()
   const { isPresenter, togglePresenter } = usePresenter()
 
@@ -29,13 +29,11 @@ export default function TalkPlayer() {
     send(index, substep)
   }, [index, substep, send])
 
-  const hasSubsteps = (talk?.slides[index]?.substeps ?? 1) > 1
-
   useKeyNav({
-    next,
-    prev,
-    nextSubstep: hasSubsteps ? nextSubstep : undefined,
-    prevSubstep: hasSubsteps ? prevSubstep : undefined,
+    advance,
+    retreat,
+    skipForward,
+    skipBack,
     escape: () => navigate('/talks'),
     toggleFullscreen,
     togglePresenter,
@@ -51,8 +49,8 @@ export default function TalkPlayer() {
           currentIndex={index}
           direction={direction}
           activeSubstep={substep}
-          onNext={next}
-          onPrev={prev}
+          onNext={advance}
+          onPrev={retreat}
           defaultPaper={talk.paper}
         />
       </div>
@@ -61,9 +59,9 @@ export default function TalkPlayer() {
 
   return (
     <div className={styles.container} data-theme={talk.theme ?? 'dark'}>
-      <DeckPlayer slides={talk.slides} currentIndex={index} direction={direction} activeSubstep={substep} onNext={next} onPrev={prev} defaultPaper={talk.paper} />
+      <DeckPlayer slides={talk.slides} currentIndex={index} direction={direction} activeSubstep={substep} onNext={advance} onPrev={retreat} defaultPaper={talk.paper} />
       <SlideProgress current={index} total={talk.slides.length} paper={talk.slides[index]?.paper ?? talk.paper} />
-      <SlideControls onPrev={prev} onNext={next} />
+      <SlideControls onPrev={retreat} onNext={advance} />
     </div>
   )
 }

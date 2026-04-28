@@ -1,16 +1,16 @@
 import { useEffect } from 'react'
 
 interface KeyNavOptions {
-  next: () => void
-  prev: () => void
-  nextSubstep?: () => void
-  prevSubstep?: () => void
+  advance: () => void
+  retreat: () => void
+  skipForward: () => void
+  skipBack: () => void
   escape: () => void
   toggleFullscreen: () => void
   togglePresenter: () => void
 }
 
-export function useKeyNav({ next, prev, nextSubstep, prevSubstep, escape, toggleFullscreen, togglePresenter }: KeyNavOptions) {
+export function useKeyNav({ advance, retreat, skipForward, skipBack, escape, toggleFullscreen, togglePresenter }: KeyNavOptions) {
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return
@@ -19,23 +19,19 @@ export function useKeyNav({ next, prev, nextSubstep, prevSubstep, escape, toggle
         case 'ArrowRight':
         case ' ':
           e.preventDefault()
-          next()
+          advance()
           break
         case 'ArrowLeft':
           e.preventDefault()
-          prev()
-          break
-        case 'ArrowDown':
-          if (nextSubstep) {
-            e.preventDefault()
-            nextSubstep()
-          }
+          retreat()
           break
         case 'ArrowUp':
-          if (prevSubstep) {
-            e.preventDefault()
-            prevSubstep()
-          }
+          e.preventDefault()
+          skipForward()
+          break
+        case 'ArrowDown':
+          e.preventDefault()
+          skipBack()
           break
         case 'Escape':
           escape()
@@ -53,5 +49,5 @@ export function useKeyNav({ next, prev, nextSubstep, prevSubstep, escape, toggle
 
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
-  }, [next, prev, nextSubstep, prevSubstep, escape, toggleFullscreen, togglePresenter])
+  }, [advance, retreat, skipForward, skipBack, escape, toggleFullscreen, togglePresenter])
 }

@@ -72,8 +72,11 @@ describe('TalkPlayer', () => {
     mockUseDeck.mockReturnValue({
       index: 0,
       direction: 1,
-      next: vi.fn(),
-      prev: vi.fn(),
+      substep: 0,
+      advance: vi.fn(),
+      retreat: vi.fn(),
+      skipForward: vi.fn(),
+      skipBack: vi.fn(),
       goTo: vi.fn(),
     })
     mockUsePresenter.mockReturnValue({
