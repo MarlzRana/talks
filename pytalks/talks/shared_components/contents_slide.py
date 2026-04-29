@@ -197,8 +197,8 @@ def make_contents_slide(scene: Scene, bullets: list[str]):
     scene.play(Write(title), run_time=0.6)
 
     # Bullet list — scale font and spacing for more items
-    font_size = 38 if num_steps <= 4 else 30
-    buff = 0.4 if num_steps <= 4 else 0.25
+    font_size = 38 if num_steps <= 4 else 36
+    buff = 0.4 if num_steps <= 4 else 0.35
 
     bullet_group = VGroup()
     for text in bullets:

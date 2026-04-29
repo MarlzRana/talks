@@ -1,9 +1,10 @@
 from talk_types import TalkConfig
 from talks.perceptron import talk_config as perceptron
 from talks.proc_nat_lang_dl_tech_2 import talk_config as proc_nat_lang_dl_tech_2
+from talks.proc_nat_lang_dl_tech_3 import talk_config as proc_nat_lang_dl_tech_3
 
 ALL_TALKS: list[TalkConfig] = sorted(
-    [perceptron, proc_nat_lang_dl_tech_2],
+    [perceptron, proc_nat_lang_dl_tech_2, proc_nat_lang_dl_tech_3],
     key=lambda t: t.title,
 )
 
