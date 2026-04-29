@@ -3,7 +3,7 @@ import { Wireframe } from '@/components/paper'
 import styles from './05-long-term-memory.module.css'
 
 export const fullbleed = true
-export const substeps = 7
+export const substeps = 8
 
 export default function LongTermMemorySlide({ activeSubstep = 0 }: { activeSubstep?: number }) {
   return (
@@ -62,8 +62,18 @@ export default function LongTermMemorySlide({ activeSubstep = 0 }: { activeSubst
                 <span className={styles.statusSuccess}>Successfully installed requests</span>
               </motion.div>
 
+              {/* User: remember */}
+              <motion.div
+                className={styles.contextEntry}
+                animate={{ opacity: activeSubstep >= 4 ? 1 : 0 }}
+                transition={{ duration: 0.35 }}
+              >
+                <span className={styles.contextRole}>User</span>
+                <span className={styles.contextText}>Remember to always use uv, not pip</span>
+              </motion.div>
+
               {/* Memory saved */}
-              {activeSubstep >= 3 && (
+              {activeSubstep >= 4 && (
                 <motion.div
                   className={styles.memorySaveBlock}
                   initial={{ opacity: 0 }}
@@ -71,8 +81,17 @@ export default function LongTermMemorySlide({ activeSubstep = 0 }: { activeSubst
                   transition={{ delay: 0.3, duration: 0.35 }}
                 >
                   <span className={styles.memoryLabel}>MEMORY SAVED</span>
-                  <span className={styles.memoryText}>This project uses uv, not pip</span>
-                  <span className={styles.memoryNote}>via auto-memory — toggleable in /memory</span>
+
+                  <div className={styles.memoryFileBlock}>
+                    <span className={styles.memoryFileName}>Written to MEMORY.md:</span>
+                    <span className={styles.memoryFileEntry}>
+                      - <span className={styles.memoryFileLink}>[Package manager]</span>(feedback_uv.md) — This project uses uv, not pip
+                    </span>
+                  </div>
+
+                  <span className={styles.memoryNote}>
+                    auto-memory must be enabled (on by default) — one MEMORY.md per project
+                  </span>
                 </motion.div>
               )}
             </Wireframe>
@@ -81,7 +100,7 @@ export default function LongTermMemorySlide({ activeSubstep = 0 }: { activeSubst
           {/* Session 2: Memory Retrieve */}
           <motion.div
             className={styles.sessionPanel}
-            animate={{ opacity: activeSubstep >= 4 ? 1 : 0 }}
+            animate={{ opacity: activeSubstep >= 5 ? 1 : 0 }}
             transition={{ duration: 0.35 }}
           >
             <Wireframe accent="violet" className={styles.sessionWindow}>
@@ -89,14 +108,14 @@ export default function LongTermMemorySlide({ activeSubstep = 0 }: { activeSubst
 
               {/* Memory at top of context */}
               <div className={styles.memoryRetrieveBlock}>
-                <span className={styles.memoryLabel}>MEMORY</span>
+                <span className={styles.memoryLabel}>MEMORY LOADED</span>
                 <span className={styles.memoryText}>This project uses uv, not pip</span>
               </div>
 
               {/* User message */}
               <motion.div
                 className={styles.contextEntry}
-                animate={{ opacity: activeSubstep >= 5 ? 1 : 0 }}
+                animate={{ opacity: activeSubstep >= 6 ? 1 : 0 }}
                 transition={{ duration: 0.35 }}
               >
                 <span className={styles.contextRole}>User</span>
@@ -106,7 +125,7 @@ export default function LongTermMemorySlide({ activeSubstep = 0 }: { activeSubst
               {/* Agent uses uv directly */}
               <motion.div
                 className={styles.contextEntry}
-                animate={{ opacity: activeSubstep >= 5 ? 1 : 0 }}
+                animate={{ opacity: activeSubstep >= 6 ? 1 : 0 }}
                 transition={{ delay: 0.2, duration: 0.35 }}
               >
                 <span className={styles.contextRole}>Agent</span>
@@ -118,7 +137,7 @@ export default function LongTermMemorySlide({ activeSubstep = 0 }: { activeSubst
 
               {/* Clean context indicator */}
               <div className={styles.contextEmpty}>
-                {activeSubstep >= 5 && (
+                {activeSubstep >= 6 && (
                   <motion.span
                     className={styles.noFailureLabel}
                     initial={{ opacity: 0 }}
@@ -136,7 +155,7 @@ export default function LongTermMemorySlide({ activeSubstep = 0 }: { activeSubst
         {/* Bottom: Benefits row */}
         <motion.div
           className={styles.benefitsRow}
-          animate={{ opacity: activeSubstep >= 6 ? 1 : 0, y: activeSubstep >= 6 ? 0 : 20 }}
+          animate={{ opacity: activeSubstep >= 7 ? 1 : 0, y: activeSubstep >= 7 ? 0 : 20 }}
           transition={{ duration: 0.35 }}
         >
           <Wireframe accent="violet" className={styles.benefitCard}>

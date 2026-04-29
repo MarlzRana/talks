@@ -47,7 +47,7 @@ export default function MemoryConsolidationSlide({
         </div>
 
         <div className={styles.subtitle}>
-          Auto Dream: like REM sleep for agent memory — toggleable via /memory
+          Auto Dream: consolidates MEMORY.md like REM sleep — toggleable via /memory
         </div>
 
         {/* Visual area with scattered fragments */}
