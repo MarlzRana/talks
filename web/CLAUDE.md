@@ -219,11 +219,11 @@ export default function MySlide({ activeSubstep = 0 }: { activeSubstep?: number 
 }
 ```
 
-**Navigation**: Down arrow = next sub-step, Up arrow = previous sub-step. Left/Right arrows always change slides (independent axes). Substep resets to 0 on slide change.
+**Navigation**: Right/Space = advance (substep+1, then next slide at substep 0). Left = retreat (substep-1, then previous slide at its last substep). Up = skip to next slide (restore saved substep). Down = skip to previous slide (restore saved substep). Per-slide substep state is saved in a session-only map; Up/Down preserve+restore, Right overflow resets to 0, Left overflow goes to last substep.
 
 **Sync**: Substep state persists in localStorage and syncs across tabs via BroadcastChannel (presenter mode).
 
-**Key detail**: `next()` and `prev()` (slide navigation) reset substep to 0 directly. `goTo(n, sub?)` accepts an optional substep and clamps it against the *target* slide's substep count, avoiding race conditions during broadcast sync where the old slide's count would incorrectly clamp the value.
+**Key detail**: `advance()` and `retreat()` handle both substep and slide navigation in a single linear flow. `goTo(n, sub?)` accepts an optional substep and clamps it against the *target* slide's substep count; when `sub` is omitted it restores the saved substep from the session map.
 
 ## Library Patterns
 
@@ -273,10 +273,10 @@ const variants = {
 
 | Hook | Purpose |
 |------|---------|
-| `useDeck(slug, slides)` | `{ index, direction, next, prev, goTo, substep, nextSubstep, prevSubstep }`. Takes `SlideModule[]` to read substep counts. `goTo(n, sub?)` sets slide and optionally substep atomically (clamped against target slide). localStorage resume for both index and substep |
-| `useKeyNav(opts)` | ArrowRight/Space = next, ArrowLeft = prev, ArrowDown = nextSubstep, ArrowUp = prevSubstep, Escape = back to picker, F = fullscreen, P = presenter |
+| `useDeck(slug, slides)` | `{ index, direction, substep, advance, retreat, skipForward, skipBack, goTo }`. Linear substep-then-slide navigation. Per-slide substep map (session-only). localStorage resume for index and substep |
+| `useKeyNav(opts)` | ArrowRight/Space = advance, ArrowLeft = retreat, ArrowUp = skipForward, ArrowDown = skipBack, Escape = back to picker, F = fullscreen, P = presenter |
 | `useFullscreen()` | `{ isFullscreen, toggle }` wrapping the Fullscreen API |
-| `useSwipe({ next, prev })` | `useDrag` from `@use-gesture/react`, horizontal swipe detection |
+| `useSwipe({ next, prev })` | `useDrag` from `@use-gesture/react`, horizontal swipe detection. Wired to `advance`/`retreat` |
 | `useBroadcast(slug, onSync)` | Bidirectional BroadcastChannel sync. `onSync(index, substep)` callback receives both values atomically. Returns `{ send(index, substep) }`. New tabs send `sync-request` on connect; existing tabs respond with current position |
 | `usePresenter()` | Reads/writes `?presenter=true` query param. `{ isPresenter, togglePresenter }` |
 
