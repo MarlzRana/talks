@@ -1,0 +1,204 @@
+.outer {
+  width: 100%;
+  height: 100%;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-7) var(--space-8);
+}
+
+/* ── Title bar ── */
+.titleBar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-bottom: var(--space-3);
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-violet);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--ink-on-dark-1);
+}
+
+.subtitle {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  color: var(--ink-on-dark-2);
+  margin-bottom: var(--space-5);
+  font-style: italic;
+}
+
+/* ── Visual area ── */
+.visualArea {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+  margin-bottom: var(--space-5);
+}
+
+.memorySpace {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── Memory fragments (scattered) ── */
+.memoryFragment {
+  position: absolute;
+  font-family: var(--font-mono);
+  font-size: 16px;
+  color: var(--ink-on-dark-1);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--accent-violet);
+  background: color-mix(in srgb, var(--accent-violet) 8%, transparent);
+  border-radius: 2px;
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.fragmentHighlight {
+  border-color: var(--accent-violet);
+  background: color-mix(in srgb, var(--accent-violet) 15%, transparent);
+  box-shadow: 0 0 0 2px var(--accent-violet);
+}
+
+.fragmentPruned {
+  border-color: var(--accent-crimson);
+  background: color-mix(in srgb, var(--accent-crimson) 8%, transparent);
+}
+
+.fragmentMergeHighlight {
+  border-color: var(--accent-violet);
+  background: color-mix(in srgb, var(--accent-violet) 15%, transparent);
+  box-shadow: 0 0 0 2px var(--accent-violet);
+}
+
+.fragmentMerged {
+  border-color: var(--accent-crimson);
+  background: color-mix(in srgb, var(--accent-crimson) 5%, transparent);
+}
+
+.fragmentRefreshed {
+  border-color: var(--accent-forest);
+  background: color-mix(in srgb, var(--accent-forest) 10%, transparent);
+}
+
+.strikethrough {
+  text-decoration: line-through;
+  color: var(--accent-crimson);
+}
+
+.refreshContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.refreshNew {
+  color: var(--accent-forest);
+  font-weight: 600;
+}
+
+.mergeContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+/* ── Operation label ── */
+.operationLabel {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-5) var(--space-7);
+  background: color-mix(in srgb, var(--paper-black) 95%, transparent);
+  border: 1px solid var(--accent-violet);
+  border-radius: 2px;
+  z-index: 20;
+}
+
+.opName {
+  font-family: var(--font-mono);
+  font-size: 28px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-violet);
+  font-weight: 700;
+}
+
+.opDesc {
+  font-family: var(--font-text);
+  font-size: 18px;
+  color: var(--ink-on-dark-2);
+  text-align: center;
+}
+
+/* ── Center label ── */
+.centerLabel {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-mono);
+  font-size: 18px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-on-dark-2);
+  font-style: italic;
+  opacity: 0.6;
+}
+
+/* ── Benefits row ── */
+.benefitsRow {
+  display: flex;
+  gap: var(--space-6);
+  justify-content: center;
+}
+
+.benefitCard {
+  flex: 0 0 auto;
+  padding: var(--space-4) var(--space-6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.benefitTitle {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-violet);
+  font-weight: 700;
+}
+
+.benefitDesc {
+  font-family: var(--font-text);
+  font-size: 17px;
+  color: var(--ink-on-dark-2);
+  text-align: center;
+}

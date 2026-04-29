@@ -155,6 +155,7 @@ export default function WithPtcSlide({ activeSubstep = 0 }: { activeSubstep?: nu
                 <div className={styles.contextBar}>
                   <motion.div
                     className={styles.contextBarFill}
+                    initial={false}
                     animate={{
                       width: activeSubstep >= 3 ? '8%' : '5%',
                     }}
