@@ -180,6 +180,7 @@ export default function WithoutPtcSlide({ activeSubstep = 0 }: { activeSubstep?:
                 <div className={styles.contextBar}>
                   <motion.div
                     className={styles.contextBarFill}
+                    initial={false}
                     animate={{
                       width:
                         activeSubstep === 0
