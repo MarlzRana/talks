@@ -71,20 +71,20 @@ Machine Learning Engineers, working on agents:
         <programmatic_tool_execution>
             Analogy based explanation.
             <analogy>
-                You are looking to host yourself a birthday party, and you ask Claude "Please find a date and time where the most amount of my friends are available, and then block that time out on my calendar, and invite all my friends, even those who are unavailable, asking them to RSVP"
+                You ask Claude "How much did I spend at Starbucks over the past month?"
                 <tools>
-                    1. `get_friends()`
-                    2. `get_calendar()`
-                    3. `create_calendar_invite()`
-                    4. `send_text()`
-                    5. `send_email()`
+                    1. `get_transactions(period='last_month')`
                 </tools>
             </analogy>
             1. Show what the traditional flow would look like without PTC
+                - Tool returns all 150 transactions
+                - All transactions flood into the context window
+                - Model manually scans for Starbucks transactions
+                - Model tries to sum amounts (error-prone on long lists)
             2. Show what the flow would look like with PTC highlighting how we
-                a. Did not pollute the context
-                b. Did not rely on long context retrieval which models can struggle on
-                c. Token savings
+                a. Did not pollute the context (code executes outside, only result enters)
+                b. Did not rely on long context retrieval which models can struggle on (guaranteed accurate math)
+                c. Token savings (~800 vs ~45,000 tokens = 98% savings)
         </programmatic_tool_execution>
         <model_context_protocol>
             <different_computer_interfaces>
