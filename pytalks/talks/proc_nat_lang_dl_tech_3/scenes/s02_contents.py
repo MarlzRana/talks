@@ -6,8 +6,8 @@ _BULLETS = [
     "RNN Architectures for NLP Tasks",
     "Bidirectional LSTM",
     "Multi-Layer RNN",
-    "Attention",
     "Attention RNN",
+    "Attention",
 ]
 
 
