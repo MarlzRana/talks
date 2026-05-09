@@ -1,17 +1,36 @@
+import { useState, useEffect } from 'react'
 import { motion } from 'motion/react'
+import { codeToHtml } from 'shiki'
 import { Wireframe } from '@/components/paper'
 import styles from './04-with-ptc.module.css'
 
 export const fullbleed = true
-export const substeps = 5
+export const substeps = 9
+
+const CODE = `from mcp.bank import get_transactions
+txns = get_transactions("last_month")
+txns_starbucks = [t for t in txns if t.merchant == "Starbucks"]
+total = {sum(t.amount for t in txns_starbucks)}
+print("Total: £" + total)`
 
 const CODE_LINES = [
+  'from mcp.bank import get_transactions',
   'txns = get_transactions("last_month")',
-  'starbucks = [t for t in txns if t.merchant == "Starbucks"]',
-  'total = sum(t.amount for t in starbucks)',
+  'txns_starbucks = [t for t in txns if t.merchant == "Starbucks"]',
+  'total = {sum(t.amount for t in txns_starbucks)}',
+  'print("Total: £" + total)',
 ]
 
 export default function WithPtcSlide({ activeSubstep = 0 }: { activeSubstep?: number }) {
+  const [codeHtml, setCodeHtml] = useState('')
+
+  useEffect(() => {
+    let mounted = true
+    codeToHtml(CODE, { lang: 'python', theme: 'github-dark' }).then((result) => {
+      if (mounted) setCodeHtml(result)
+    })
+    return () => { mounted = false }
+  }, [])
   return (
     <Wireframe className={styles.outer} accent="forest">
       <div className={styles.container}>
@@ -34,59 +53,161 @@ export default function WithPtcSlide({ activeSubstep = 0 }: { activeSubstep?: nu
               </div>
             </div>
 
+            {/* Substep 1: Model predict call */}
             <motion.div
               className={styles.connector}
               animate={{ opacity: activeSubstep >= 1 ? 1 : 0 }}
               transition={{ duration: 0.35 }}
             />
-
-            {/* Step 2: Claude writes code */}
             <motion.div
               className={styles.flowStep}
               animate={{ opacity: activeSubstep >= 1 ? 1 : 0 }}
               transition={{ duration: 0.35 }}
             >
-              <span className={styles.stepLabel}>CLAUDE WRITES CODE TO FILE</span>
+              <span className={styles.stepLabel}>MODEL PREDICT</span>
+              {activeSubstep >= 1 && (
+                <motion.div
+                  className={styles.thinkingText}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.3, duration: 0.35 }}
+                >
+                  Thinking: The get_transactions tool only has a time filter, but I also need to filter by merchant. Let me write some code to filter again by merchant.
+                </motion.div>
+              )}
+            </motion.div>
+
+            {/* Substep 2: Write + response */}
+            <motion.div
+              className={styles.connector}
+              animate={{ opacity: activeSubstep >= 2 ? 1 : 0 }}
+              transition={{ duration: 0.35 }}
+            />
+            <motion.div
+              className={styles.flowStep}
+              animate={{ opacity: activeSubstep >= 2 ? 1 : 0 }}
+              transition={{ duration: 0.35 }}
+            >
+              <span className={styles.stepLabel}>Write("/tmp/get_txns_starbucks_transactions_last_month.py", ...)</span>
               <div className={styles.codeBlock}>
-                {CODE_LINES.map((line, i) => (
-                  <motion.div
-                    key={i}
-                    className={styles.codeLine}
-                    animate={{
-                      opacity: activeSubstep >= 1 ? 1 : 0,
-                    }}
-                    transition={{ delay: i * 0.12, duration: 0.35 }}
-                  >
-                    {line}
-                  </motion.div>
-                ))}
+                {codeHtml ? (
+                  <div dangerouslySetInnerHTML={{ __html: codeHtml }} />
+                ) : (
+                  CODE_LINES.map((line, i) => (
+                    <div key={i} className={styles.codeLine}>{line}</div>
+                  ))
+                )}
               </div>
-              {activeSubstep >= 2 && (
+            </motion.div>
+
+            <motion.div
+              className={styles.connector}
+              animate={{ opacity: activeSubstep >= 2 ? 1 : 0 }}
+              transition={{ duration: 0.35 }}
+            />
+
+            {/* Write tool response */}
+            <motion.div
+              className={styles.flowStep}
+              animate={{ opacity: activeSubstep >= 2 ? 1 : 0 }}
+              transition={{ delay: 0.1, duration: 0.35 }}
+            >
+              <span className={styles.stepLabel}>Write Tool Response</span>
+              <div className={styles.resultCompact} style={{ opacity: 0.5, fontStyle: 'italic' }}>Success</div>
+            </motion.div>
+
+            {/* Substep 3: Model predict call */}
+            <motion.div
+              className={styles.connector}
+              animate={{ opacity: activeSubstep >= 3 ? 1 : 0 }}
+              transition={{ duration: 0.35 }}
+            />
+            <motion.div
+              className={styles.flowStep}
+              animate={{ opacity: activeSubstep >= 3 ? 1 : 0 }}
+              transition={{ duration: 0.35 }}
+            >
+              <span className={styles.stepLabel}>MODEL PREDICT</span>
+              {activeSubstep >= 3 && (
+                <motion.div
+                  className={styles.thinkingText}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.3, duration: 0.35 }}
+                >
+                  Thinking: Code written, let me now execute it!
+                </motion.div>
+              )}
+            </motion.div>
+
+            {/* Substep 4: Bash tool call + result */}
+            <motion.div
+              className={styles.connector}
+              animate={{ opacity: activeSubstep >= 4 ? 1 : 0 }}
+              transition={{ duration: 0.35 }}
+            />
+            <motion.div
+              className={styles.flowStep}
+              animate={{ opacity: activeSubstep >= 4 ? 1 : 0 }}
+              transition={{ duration: 0.35 }}
+            >
+              <span className={styles.stepLabel}>Bash("python3 /tmp/get_txns_starbucks_transactions_last_month.py")</span>
+              {activeSubstep >= 4 && (
                 <motion.div
                   className={styles.executesOutside}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.5, duration: 0.35 }}
                 >
-                  BASH TOOL EXECUTES CODE (OUTSIDE CONTEXT)
+                  BASH TOOL EXECUTES CODE
+                  <br />
+                  STDOUT IS PIPED TO TOOL RESPONSE
                 </motion.div>
               )}
             </motion.div>
-
             <motion.div
               className={styles.connector}
-              animate={{ opacity: activeSubstep >= 3 ? 1 : 0 }}
+              animate={{ opacity: activeSubstep >= 5 ? 1 : 0 }}
               transition={{ duration: 0.35 }}
             />
-
-            {/* Step 3: Compact result */}
             <motion.div
               className={styles.flowStep}
-              animate={{ opacity: activeSubstep >= 3 ? 1 : 0 }}
+              animate={{ opacity: activeSubstep >= 5 ? 1 : 0 }}
               transition={{ duration: 0.35 }}
             >
-              <span className={styles.stepLabel}>RESULT</span>
-              <div className={styles.resultCompact}>£47.50 across 12 transactions</div>
+              <span className={styles.stepLabel}>Bash Tool Response</span>
+              <div className={styles.resultCompact}>Total: £47.50</div>
+            </motion.div>
+
+            {/* Substep 6: Model predict call */}
+            <motion.div
+              className={styles.connector}
+              animate={{ opacity: activeSubstep >= 6 ? 1 : 0 }}
+              transition={{ duration: 0.35 }}
+            />
+            <motion.div
+              className={styles.flowStep}
+              animate={{ opacity: activeSubstep >= 6 ? 1 : 0 }}
+              transition={{ duration: 0.35 }}
+            >
+              <span className={styles.stepLabel}>MODEL PREDICT</span>
+            </motion.div>
+
+            {/* Substep 7: Model response */}
+            <motion.div
+              className={styles.connector}
+              animate={{ opacity: activeSubstep >= 7 ? 1 : 0 }}
+              transition={{ duration: 0.35 }}
+            />
+            <motion.div
+              className={styles.flowStep}
+              animate={{ opacity: activeSubstep >= 7 ? 1 : 0 }}
+              transition={{ duration: 0.35 }}
+            >
+              <span className={styles.stepLabel}>MODEL RESPONSE</span>
+              <div className={styles.messageBubble}>
+                "You spent £47.50 on Starbucks over the last month"
+              </div>
             </motion.div>
           </div>
 
@@ -94,50 +215,91 @@ export default function WithPtcSlide({ activeSubstep = 0 }: { activeSubstep?: nu
           <div className={styles.contextColumn}>
             <span className={styles.columnHeader}>CONTEXT WINDOW</span>
             <Wireframe
-              accent={activeSubstep >= 3 ? 'forest' : undefined}
+              accent={activeSubstep >= 7 ? 'forest' : undefined}
               className={styles.contextWindow}
             >
-              {/* User message */}
+              {/* 1. User query */}
               <div className={styles.contextEntry}>
                 <span className={styles.contextRole}>User</span>
-                <span className={styles.contextText}>How much at Starbucks...?</span>
+                <span className={styles.contextText}>How much did I spend at Starbucks over the past month?</span>
               </div>
 
-              {/* Code entry - appears at substep 1+ */}
+              {/* 2. Write tool call - appears at substep 2 */}
               <motion.div
                 className={styles.contextEntry}
                 animate={{
-                  opacity: activeSubstep >= 1 ? 1 : 0,
-                  y: activeSubstep >= 1 ? 0 : 8,
+                  opacity: activeSubstep >= 2 ? 1 : 0,
+                  y: activeSubstep >= 2 ? 0 : 8,
                 }}
                 transition={{ duration: 0.35 }}
               >
-                <span className={styles.contextRole}>Code</span>
+                <span className={styles.contextRole}>Write Tool Call</span>
                 <div className={styles.contextCodeBlock}>
-                  {CODE_LINES.map((line, i) => (
-                    <div key={i} className={styles.contextCodeLine}>
-                      {line}
-                    </div>
-                  ))}
+                  {codeHtml ? (
+                    <div dangerouslySetInnerHTML={{ __html: codeHtml }} />
+                  ) : (
+                    CODE_LINES.map((line, i) => (
+                      <div key={i} className={styles.contextCodeLine}>{line}</div>
+                    ))
+                  )}
                 </div>
               </motion.div>
 
-              {/* Result entry - only appears at substep 3+ */}
+              {/* 3. Write tool response */}
               <motion.div
                 className={styles.contextEntry}
                 animate={{
-                  opacity: activeSubstep >= 3 ? 1 : 0,
-                  y: activeSubstep >= 3 ? 0 : 8,
+                  opacity: activeSubstep >= 2 ? 1 : 0,
+                  y: activeSubstep >= 2 ? 0 : 8,
+                }}
+                transition={{ delay: 0.1, duration: 0.35 }}
+              >
+                <span className={styles.contextRole}>Write Tool Response</span>
+                <span className={styles.contextDimText}>Success</span>
+              </motion.div>
+
+              {/* 4. Bash tool call - appears at substep 4 */}
+              <motion.div
+                className={styles.contextEntry}
+                animate={{
+                  opacity: activeSubstep >= 4 ? 1 : 0,
+                  y: activeSubstep >= 4 ? 0 : 8,
                 }}
                 transition={{ duration: 0.35 }}
               >
-                <span className={styles.contextRole}>Result</span>
-                <span className={styles.contextResultText}>£47.50 across 12 transactions</span>
+                <span className={styles.contextRole}>Bash Tool Call</span>
+                <span className={styles.contextText}>python3 /tmp/get_txns_starbucks_transactions_last_month.py</span>
+              </motion.div>
+
+              {/* 5. Bash tool response - appears at substep 5 */}
+              <motion.div
+                className={styles.contextEntry}
+                animate={{
+                  opacity: activeSubstep >= 5 ? 1 : 0,
+                  y: activeSubstep >= 5 ? 0 : 8,
+                }}
+                transition={{ duration: 0.35 }}
+              >
+                <span className={styles.contextRole}>Bash Tool Response</span>
+                <span className={styles.contextResultText}>Total: £47.50</span>
+              </motion.div>
+
+              {/* 6. Assistant response - appears at substep 7 */}
+              <motion.div
+                className={styles.contextEntry}
+                animate={{
+                  opacity: activeSubstep >= 7 ? 1 : 0,
+                  y: activeSubstep >= 7 ? 0 : 8,
+                }}
+                transition={{ duration: 0.35 }}
+              >
+                <span className={styles.contextRole}>Assistant</span>
+                <span className={styles.contextText}>You spent £47.50 on Starbucks over the last month</span>
               </motion.div>
 
               {/* Large empty space - visually represents how clean context is */}
               <div className={styles.contextEmpty}>
-                {activeSubstep >= 3 && (
+                {activeSubstep >= 7 && (
                   <motion.span
                     className={styles.contextCleanLabel}
                     initial={{ opacity: 0 }}
@@ -157,11 +319,11 @@ export default function WithPtcSlide({ activeSubstep = 0 }: { activeSubstep?: nu
                     className={styles.contextBarFill}
                     initial={false}
                     animate={{
-                      width: activeSubstep >= 3 ? '8%' : '5%',
+                      width: activeSubstep >= 7 ? '8%' : '5%',
                     }}
                     style={{
                       backgroundColor:
-                        activeSubstep >= 3 ? 'var(--accent-forest)' : 'var(--ink-4)',
+                        activeSubstep >= 7 ? 'var(--accent-forest)' : 'var(--ink-4)',
                     }}
                     transition={{ duration: 0.5 }}
                   />
@@ -172,7 +334,7 @@ export default function WithPtcSlide({ activeSubstep = 0 }: { activeSubstep?: nu
             {/* Token cost */}
             <motion.div
               className={styles.tokenCost}
-              animate={{ opacity: activeSubstep >= 4 ? 1 : 0 }}
+              animate={{ opacity: activeSubstep >= 7 ? 1 : 0 }}
               transition={{ duration: 0.35 }}
             >
               <span className={styles.tokenLabel}>TOKEN COST</span>
@@ -184,7 +346,7 @@ export default function WithPtcSlide({ activeSubstep = 0 }: { activeSubstep?: nu
         {/* Bottom: Benefits row */}
         <motion.div
           className={styles.benefitsRow}
-          animate={{ opacity: activeSubstep >= 4 ? 1 : 0, y: activeSubstep >= 4 ? 0 : 20 }}
+          animate={{ opacity: activeSubstep >= 8 ? 1 : 0, y: activeSubstep >= 8 ? 0 : 20 }}
           transition={{ duration: 0.35 }}
         >
           <Wireframe accent="forest" className={styles.benefitCard}>
