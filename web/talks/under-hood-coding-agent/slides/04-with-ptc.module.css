@@ -75,7 +75,7 @@
 .flowStep {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: 0;
 }
 
 .stepLabel {
@@ -138,18 +138,19 @@
   font-size: 14px;
   font-style: italic;
   color: var(--ink-on-dark-2);
-  padding: 0 var(--space-3);
-  margin-top: calc(-1 * var(--space-1));
+  padding: var(--space-2) var(--space-3);
+  border: 1px dashed var(--ink-on-dark-2);
   opacity: 0.7;
 }
 
 .resultCompact {
   font-family: var(--font-text);
-  font-size: clamp(14px, 1.2vw, 18px);
+  font-size: clamp(12px, 1vw, 14px);
   color: var(--ink-on-dark-1);
-  padding: var(--space-3);
-  border-left: 2px solid var(--accent-forest);
+  padding: 2px var(--space-3);
+  border-left: 1px solid color-mix(in srgb, var(--accent-forest) 40%, transparent);
   padding-left: var(--space-4);
+  margin: -2px 0;
 }
 
 .connector {

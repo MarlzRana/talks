@@ -191,6 +191,16 @@ export default function WithPtcSlide({ activeSubstep = 0 }: { activeSubstep?: nu
               transition={{ duration: 0.35 }}
             >
               <span className={styles.stepLabel}>MODEL PREDICT</span>
+              {activeSubstep >= 6 && (
+                <motion.div
+                  className={styles.thinkingText}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.3, duration: 0.35 }}
+                >
+                  Thinking: Nice that worked! Let me tell the user.
+                </motion.div>
+              )}
             </motion.div>
 
             {/* Substep 7: Model response */}
@@ -223,6 +233,19 @@ export default function WithPtcSlide({ activeSubstep = 0 }: { activeSubstep?: nu
                 <span className={styles.contextRole}>User</span>
                 <span className={styles.contextText}>How much did I spend at Starbucks over the past month?</span>
               </div>
+
+              {/* Thinking 1 - appears at substep 1 */}
+              <motion.div
+                className={styles.contextEntry}
+                animate={{
+                  opacity: activeSubstep >= 1 ? 1 : 0,
+                  y: activeSubstep >= 1 ? 0 : 8,
+                }}
+                transition={{ duration: 0.35 }}
+              >
+                <span className={styles.contextRole}>Thinking</span>
+                <span className={styles.contextDimText}>The get_transactions tool only has a time filter, but I also need to filter by merchant. Let me write some code to filter again by merchant.</span>
+              </motion.div>
 
               {/* 2. Write tool call - appears at substep 2 */}
               <motion.div
@@ -258,6 +281,19 @@ export default function WithPtcSlide({ activeSubstep = 0 }: { activeSubstep?: nu
                 <span className={styles.contextDimText}>Success</span>
               </motion.div>
 
+              {/* Thinking 2 - appears at substep 3 */}
+              <motion.div
+                className={styles.contextEntry}
+                animate={{
+                  opacity: activeSubstep >= 3 ? 1 : 0,
+                  y: activeSubstep >= 3 ? 0 : 8,
+                }}
+                transition={{ duration: 0.35 }}
+              >
+                <span className={styles.contextRole}>Thinking</span>
+                <span className={styles.contextDimText}>Code written, let me now execute it!</span>
+              </motion.div>
+
               {/* 4. Bash tool call - appears at substep 4 */}
               <motion.div
                 className={styles.contextEntry}
@@ -282,6 +318,19 @@ export default function WithPtcSlide({ activeSubstep = 0 }: { activeSubstep?: nu
               >
                 <span className={styles.contextRole}>Bash Tool Response</span>
                 <span className={styles.contextResultText}>Total: £47.50</span>
+              </motion.div>
+
+              {/* Thinking 3 - appears at substep 6 */}
+              <motion.div
+                className={styles.contextEntry}
+                animate={{
+                  opacity: activeSubstep >= 6 ? 1 : 0,
+                  y: activeSubstep >= 6 ? 0 : 8,
+                }}
+                transition={{ duration: 0.35 }}
+              >
+                <span className={styles.contextRole}>Thinking</span>
+                <span className={styles.contextDimText}>Nice that worked! Let me tell the user.</span>
               </motion.div>
 
               {/* 6. Assistant response - appears at substep 7 */}
