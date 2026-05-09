@@ -1,25 +1,28 @@
-import { motion } from 'motion/react'
-import { Wireframe } from '@/components/paper'
+import { motion } from 'motion/react';
+import { Wireframe } from '@/components/paper';
 import {
   AgentFlowLayout,
   FlowStep,
   FlowConnector,
   ThinkingBlock,
   CommentaryBlock,
-  ContextEntry,
   ContextBar,
   BottomCards,
+  BashBlock,
+  UserBlock,
+  ThinkingBlockContext,
+  ModelBlock,
   styles,
-} from '../components'
-import localStyles from './03-without-ptc.module.css'
+} from '../components';
+import localStyles from './03-without-ptc.module.css';
 
-export const fullbleed = true
-export const substeps = 9
+export const fullbleed = true;
+export const substeps = 9;
 
 interface Transaction {
-  merchant: string
-  amount: string
-  isStarbucks: boolean
+  merchant: string;
+  amount: string;
+  isStarbucks: boolean;
 }
 
 const SAMPLE_TRANSACTIONS: Transaction[] = [
@@ -36,21 +39,31 @@ const SAMPLE_TRANSACTIONS: Transaction[] = [
   { merchant: 'Deliveroo', amount: '£28.45', isStarbucks: false },
   { merchant: 'John Lewis', amount: '£89.00', isStarbucks: false },
   { merchant: 'Starbucks', amount: '£4.15', isStarbucks: true },
-]
+];
 
 const PROBLEMS = [
   { title: 'Context Pollution', desc: '150 raw transactions in context' },
   { title: 'Unreliable Math', desc: 'Model may miscalculate' },
   { title: 'High Token Cost', desc: 'Tens of thousands of tokens consumed' },
-]
+];
 
-export default function WithoutPtcSlide({ activeSubstep = 0 }: { activeSubstep?: number }) {
+export default function WithoutPtcSlide({
+  activeSubstep = 0,
+}: {
+  activeSubstep?: number;
+}) {
   return (
     <AgentFlowLayout
       eyebrow="Traditional Flow"
       title="Without Programmatic Tool Calling"
       accent="crimson"
-      bottom={<BottomCards accent="crimson" visible={activeSubstep >= 8} cards={PROBLEMS} />}
+      bottom={
+        <BottomCards
+          accent="crimson"
+          visible={activeSubstep >= 8}
+          cards={PROBLEMS}
+        />
+      }
     >
       <AgentFlowLayout.Runtime>
         {/* Substep 0: User question */}
@@ -70,7 +83,10 @@ export default function WithoutPtcSlide({ activeSubstep = 0 }: { activeSubstep?:
 
         {/* Substep 2: Tool call */}
         <FlowConnector visible={activeSubstep >= 2} />
-        <FlowStep label="Model asks agent runner to call get_transactions" visible={activeSubstep >= 2}>
+        <FlowStep
+          label="Model asks agent runner to call get_transactions"
+          visible={activeSubstep >= 2}
+        >
           <div className={styles.codeBlock}>
             <code>get_transactions(period="last_month")</code>
           </div>
@@ -78,7 +94,10 @@ export default function WithoutPtcSlide({ activeSubstep = 0 }: { activeSubstep?:
 
         {/* Substep 3: Tool result */}
         <FlowConnector visible={activeSubstep >= 3} />
-        <FlowStep label="Agent Runner Executes Get_Transactions" visible={activeSubstep >= 3}>
+        <FlowStep
+          label="Agent Runner Executes Get_Transactions"
+          visible={activeSubstep >= 3}
+        >
           <div className={styles.resultCompact}>150 transactions returned</div>
         </FlowStep>
 
@@ -86,10 +105,12 @@ export default function WithoutPtcSlide({ activeSubstep = 0 }: { activeSubstep?:
         <FlowConnector visible={activeSubstep >= 4} />
         <FlowStep label="MODEL PREDICT" visible={activeSubstep >= 4}>
           <ThinkingBlock visible={activeSubstep >= 4}>
-            Thinking: OK I have all 150 transactions. Let me find the Starbucks ones...
+            Thinking: OK I have all 150 transactions. Let me find the Starbucks
+            ones...
           </ThinkingBlock>
           <ThinkingBlock visible={activeSubstep >= 5}>
-            Found them. Now let me add them up... 4.50 + 3.80 + 5.20 + 3.95 + 4.15...
+            Found them. Now let me add them up... 4.50 + 3.80 + 5.20 + 3.95 +
+            4.15...
           </ThinkingBlock>
           <CommentaryBlock visible={activeSubstep >= 6}>
             Models are not good at scanning, filtering and math
@@ -111,67 +132,64 @@ export default function WithoutPtcSlide({ activeSubstep = 0 }: { activeSubstep?:
           className={styles.contextWindow}
         >
           {/* User query */}
-          <div className={styles.contextEntry}>
-            <span className={styles.contextRole}>User</span>
-            <span className={styles.contextText}>How much did I spend at Starbucks over the past month?</span>
-          </div>
+          <UserBlock>
+            How much did I spend at Starbucks over the past month?
+          </UserBlock>
 
           {/* Thinking 1 */}
-          <ContextEntry role="Thinking" visible={activeSubstep >= 1} variant="dim">
+          <ThinkingBlockContext visible={activeSubstep >= 1}>
             I need to get the user's transactions from last month.
-          </ContextEntry>
+          </ThinkingBlockContext>
 
-          {/* Tool call */}
-          <ContextEntry role="Tool Call" visible={activeSubstep >= 2}>
-            get_transactions(period="last_month")
-          </ContextEntry>
-
-          {/* Tool result with transaction flood */}
-          <motion.div
-            className={styles.contextEntry}
-            animate={{ opacity: activeSubstep >= 3 ? 1 : 0 }}
-            transition={{ duration: 0.35 }}
-          >
-            <span className={styles.contextRole}>Tool Response</span>
-          </motion.div>
-
-          <motion.div
-            className={localStyles.transactionFlood}
-            animate={{ opacity: activeSubstep >= 3 ? 1 : 0 }}
-            transition={{ duration: 0.35 }}
-          >
-            {SAMPLE_TRANSACTIONS.map((txn, i) => (
-              <div
-                key={i}
-                className={`${localStyles.txnRow} ${
-                  activeSubstep >= 4 && txn.isStarbucks ? localStyles.txnHighlight : ''
-                }`}
-              >
-                <span>{txn.merchant}</span>
-                <span>{txn.amount}</span>
-              </div>
-            ))}
-            <div className={localStyles.txnEllipsis}>... 137 more rows</div>
-          </motion.div>
+          {/* Tool call + response */}
+          <BashBlock
+            command='get_transactions(period="last_month")'
+            visible={activeSubstep >= 2}
+            response={
+              activeSubstep >= 3 ? (
+                <div className={localStyles.transactionFlood}>
+                  {SAMPLE_TRANSACTIONS.map((txn, i) => (
+                    <div
+                      key={i}
+                      className={`${localStyles.txnRow} ${
+                        activeSubstep >= 4 && txn.isStarbucks
+                          ? localStyles.txnHighlight
+                          : ''
+                      }`}
+                    >
+                      <span>{txn.merchant}</span>
+                      <span>{txn.amount}</span>
+                    </div>
+                  ))}
+                  <div className={localStyles.txnEllipsis}>
+                    ... 137 more rows
+                  </div>
+                </div>
+              ) : undefined
+            }
+          />
 
           {/* Thinking 2 - scanning */}
-          <ContextEntry role="Thinking" visible={activeSubstep >= 4} variant="dim">
+          <ThinkingBlockContext visible={activeSubstep >= 4}>
             OK I have all 150 transactions. Let me find the Starbucks ones...
-          </ContextEntry>
+          </ThinkingBlockContext>
 
           {/* Thinking 2 continued - summing */}
-          <ContextEntry role="Thinking" visible={activeSubstep >= 5} variant="dim">
-            Found them. Now let me add them up... 4.50 + 3.80 + 5.20 + 3.95 + 4.15...
-          </ContextEntry>
+          <ThinkingBlockContext visible={activeSubstep >= 5}>
+            Found them. Now let me add them up... 4.50 + 3.80 + 5.20 + 3.95 +
+            4.15...
+          </ThinkingBlockContext>
 
           {/* Wrong assistant response */}
-          <ContextEntry role="Assistant" visible={activeSubstep >= 7}>
+          <ModelBlock visible={activeSubstep >= 7}>
             You spent £46.80 on Starbucks over the last month
-          </ContextEntry>
+          </ModelBlock>
 
           {/* Context usage bar */}
           <ContextBar
-            fill={activeSubstep >= 3 ? '85%' : activeSubstep >= 1 ? '10%' : '5%'}
+            fill={
+              activeSubstep >= 3 ? '85%' : activeSubstep >= 1 ? '10%' : '5%'
+            }
             active={activeSubstep >= 3}
           />
         </Wireframe>
@@ -182,12 +200,14 @@ export default function WithoutPtcSlide({ activeSubstep = 0 }: { activeSubstep?:
           animate={{ opacity: activeSubstep >= 7 ? 1 : 0 }}
           transition={{ duration: 0.35 }}
         >
-          <span className={styles.tokenLabel}>TOKEN COST</span>
-          <span className={styles.tokenValue}>Tens of thousands</span>
+          <Wireframe accent="crimson" className={styles.tokenCostInner}>
+            <span className={styles.tokenLabel}>TOKEN COST</span>
+            <span className={styles.tokenValue}>10K+</span>
+          </Wireframe>
         </motion.div>
       </AgentFlowLayout.Context>
     </AgentFlowLayout>
-  )
+  );
 }
 
-export const notes = `This slide shows the traditional approach without PTC. All 150 transactions flood into the context window, consuming tens of thousands of tokens. The model must manually scan and sum — error-prone and expensive. It gets the answer wrong.`
+export const notes = `This slide shows the traditional approach without PTC. All 150 transactions flood into the context window, consuming tens of thousands of tokens. The model must manually scan and sum — error-prone and expensive. It gets the answer wrong.`;

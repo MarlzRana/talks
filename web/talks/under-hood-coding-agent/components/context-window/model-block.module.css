@@ -1,0 +1,25 @@
+/* ── Model Block (Context Window) ── */
+.modelBlock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-2);
+  border: 0.5px solid var(--ink-4);
+  background: color-mix(in srgb, var(--ink-4) 5%, transparent);
+  border-radius: 2px;
+}
+
+.modelLabel {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-on-dark-2);
+  font-weight: 600;
+}
+
+.modelText {
+  font-family: var(--font-text);
+  font-size: 13px;
+  color: var(--ink-on-dark-1);
+}

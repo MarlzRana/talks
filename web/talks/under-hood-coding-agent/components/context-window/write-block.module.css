@@ -1,0 +1,99 @@
+/* ── Write Block ── */
+.writeBlock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-2);
+  border: 0.5px solid var(--ink-4);
+  background: color-mix(in srgb, var(--ink-4) 5%, transparent);
+  border-radius: 2px;
+}
+
+.writeLabel {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-violet);
+  font-weight: 600;
+}
+
+.writeFilename {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-on-dark-1);
+  font-weight: 500;
+  position: relative;
+  cursor: pointer;
+  border-bottom: 1px dashed var(--ink-on-dark-3);
+  width: fit-content;
+}
+
+.writeFilename::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--ink-on-dark-1);
+  background: color-mix(in srgb, var(--ink-1) 95%, transparent);
+  border: 1px solid var(--accent-violet);
+  border-radius: 4px;
+  padding: var(--space-2) var(--space-3);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  z-index: 10;
+}
+
+.writeFilename:hover::after {
+  opacity: 1;
+}
+
+.writeContentFallback {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink-on-dark-2);
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin: 0;
+  padding-top: var(--space-1);
+  border-top: 0.5px solid var(--ink-4);
+}
+
+.highlightedContent {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.5;
+  padding-top: var(--space-1);
+  border-top: 0.5px solid var(--ink-4);
+}
+
+.highlightedContent :global(pre) {
+  background: transparent !important;
+  margin: 0;
+  padding: 0;
+}
+
+.highlightedContent :global(code) {
+  font-family: var(--font-mono);
+  font-size: inherit;
+}
+
+.writeDivider {
+  height: 0;
+  border-top: 0.5px solid var(--ink-4);
+  margin-top: var(--space-1);
+}
+
+.writeResponse {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--accent-forest);
+  font-weight: 500;
+}

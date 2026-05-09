@@ -1,0 +1,46 @@
+/* ── Bash Block ── */
+.bashBlock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-2);
+  border: 0.5px solid var(--ink-4);
+  background: color-mix(in srgb, var(--ink-4) 5%, transparent);
+  border-radius: 2px;
+}
+
+.bashLabel {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #e5c07b;
+  font-weight: 600;
+}
+
+.bashCommand {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-on-dark-1);
+  font-weight: 400;
+}
+
+.bashDivider {
+  height: 0;
+  border-top: 0.5px solid var(--ink-4);
+  margin-top: var(--space-1);
+}
+
+.bashResponseSuccess {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--accent-forest);
+  font-weight: 500;
+}
+
+.bashResponseFail {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--accent-crimson);
+  font-weight: 500;
+}

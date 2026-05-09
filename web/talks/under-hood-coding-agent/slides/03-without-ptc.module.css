@@ -7,6 +7,14 @@
   overflow: hidden;
 }
 
+.txnHeader {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--accent-forest);
+  font-weight: 500;
+  padding-bottom: var(--space-1);
+}
+
 .txnRow {
   font-family: var(--font-mono);
   font-size: 12px;

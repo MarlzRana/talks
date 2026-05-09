@@ -1,11 +1,72 @@
+import { useState } from 'react'
 import { motion } from 'motion/react'
 import { Wireframe } from '@/components/paper'
+import { FinderOverlay, WriteBlock, UserBlock, BashBlock } from '../components'
 import styles from './05-long-term-memory.module.css'
 
+const FILE_CONTENTS: Record<string, string> = {
+  'project_package_manager.md': `---
+name: Package Manager
+description: This project uses uv, not pip
+type: feedback
+---
+
+Always use \`uv pip install\` instead of \`pip install\`.`,
+  'MEMORY.md': `- [Package manager](project_package_manager.md) — This project uses uv, not pip`,
+}
+
+
 export const fullbleed = true
-export const substeps = 8
+export const substeps = 12
+
+const SYSTEM_REMINDER_PREVIEW = 'Memories for this project belong in /Users/daniel-tsiang/.claude/project/...'
+const SYSTEM_REMINDER_FULL = `Memories for this project belong in /Users/daniel-tsiang/.claude/project/-Users-daniel-tsiang-code-my-repo/memory/, following the below protocol:
+1. Write a memory file (e.g., user_role.md, feedback_testing.md) with frontmatter:
+
+---
+name: {{memory name}}
+description: {{one-line description}}
+type: {{user, feedback, project, reference}}
+---
+
+{{memory content}}
+
+2. Add a pointer to MEMORY.md — one line, under ~150 characters: - [Title](file.md) — one-line hook
+
+Memory types available:
+- user — info about you (role, preferences, knowledge)
+- feedback — guidance on how I should approach work (corrections and confirmations)
+- project — ongoing work context, goals, decisions
+- reference — pointers to external systems/resources`
+
+function SystemReminder() {
+  const [expanded, setExpanded] = useState(false)
+
+  return (
+    <div
+      className={styles.systemReminderBlock}
+      onClick={() => setExpanded(!expanded)}
+    >
+      <span className={styles.systemReminderTag}>&lt;system-reminder&gt;</span>
+      {expanded ? (
+        <pre className={styles.systemReminderContent}>{SYSTEM_REMINDER_FULL}</pre>
+      ) : (
+        <span className={styles.systemReminderPreview}>
+          {SYSTEM_REMINDER_PREVIEW}
+          <span className={styles.systemReminderEllipsis}>...</span>
+        </span>
+      )}
+      <span className={styles.systemReminderTag}>&lt;/system-reminder&gt;</span>
+    </div>
+  )
+}
 
 export default function LongTermMemorySlide({ activeSubstep = 0 }: { activeSubstep?: number }) {
+  const finderFiles = [
+    ...(activeSubstep >= 6 ? [{ name: 'project_package_manager.md', content: FILE_CONTENTS['project_package_manager.md'] ?? '' }] : []),
+    ...(activeSubstep >= 7 ? [{ name: 'MEMORY.md', content: FILE_CONTENTS['MEMORY.md'] ?? '' }] : []),
+  ]
+
   return (
     <Wireframe className={styles.outer} accent="violet">
       <div className={styles.container}>
@@ -15,139 +76,99 @@ export default function LongTermMemorySlide({ activeSubstep = 0 }: { activeSubst
           <h2 className={styles.title}>Long Term Memory</h2>
         </div>
 
-        <div className={styles.subtitle}>
-          Each session starts with a fresh context window
-        </div>
-
         {/* Two session panels */}
         <div className={styles.sessions}>
-          {/* Session 1: Memory Save */}
+          {/* Session 1 */}
           <motion.div
             className={styles.sessionPanel}
             animate={{ opacity: activeSubstep >= 1 ? 1 : 0 }}
             transition={{ duration: 0.35 }}
           >
             <Wireframe className={styles.sessionWindow}>
-              <span className={styles.sessionHeader}>SESSION 1</span>
-
-              {/* User message */}
-              <div className={styles.contextEntry}>
-                <span className={styles.contextRole}>User</span>
-                <span className={styles.contextText}>Install the requests library</span>
+              <div className={styles.sessionHeaderRow}>
+                <span className={styles.sessionHeader}>SESSION 1</span>
+                <span className={styles.cwd}>~/code/my-repo</span>
               </div>
 
-              {/* Agent tries pip - fails */}
-              <motion.div
-                className={styles.contextEntry}
-                animate={{ opacity: activeSubstep >= 2 ? 1 : 0 }}
-                transition={{ duration: 0.35 }}
-              >
-                <span className={styles.contextRole}>Agent</span>
-                <div className={styles.commandBlock}>
-                  <code>pip install requests</code>
-                </div>
-                <span className={styles.statusFail}>command not found: pip</span>
-              </motion.div>
+              {/* System reminder */}
+              <SystemReminder />
 
-              {/* Agent tries uv - succeeds */}
-              <motion.div
-                className={styles.contextEntry}
-                animate={{ opacity: activeSubstep >= 3 ? 1 : 0 }}
-                transition={{ duration: 0.35 }}
-              >
-                <span className={styles.contextRole}>Agent</span>
-                <div className={styles.commandBlock}>
-                  <code>uv pip install requests</code>
-                </div>
-                <span className={styles.statusSuccess}>Successfully installed requests</span>
-              </motion.div>
+              {/* User: Install requests */}
+              <UserBlock visible={activeSubstep >= 2}>
+                Install the requests library
+              </UserBlock>
 
-              {/* User: remember */}
-              <motion.div
-                className={styles.contextEntry}
-                animate={{ opacity: activeSubstep >= 4 ? 1 : 0 }}
-                transition={{ duration: 0.35 }}
-              >
-                <span className={styles.contextRole}>User</span>
-                <span className={styles.contextText}>Remember to always use uv, not pip</span>
-              </motion.div>
+              {/* Agent: pip fails */}
+              <BashBlock
+                command="pip install requests"
+                visible={activeSubstep >= 3}
+                response="command not found: pip"
+                responseVariant="fail"
+              />
 
-              {/* Memory saved */}
-              {activeSubstep >= 4 && (
-                <motion.div
-                  className={styles.memorySaveBlock}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.3, duration: 0.35 }}
-                >
-                  <span className={styles.memoryLabel}>MEMORY SAVED</span>
+              {/* Agent: uv succeeds */}
+              <BashBlock
+                command="uv pip install requests"
+                visible={activeSubstep >= 4}
+                response="Successfully installed requests"
+              />
 
-                  <div className={styles.memoryFileBlock}>
-                    <span className={styles.memoryFileName}>Written to MEMORY.md:</span>
-                    <span className={styles.memoryFileEntry}>
-                      - <span className={styles.memoryFileLink}>[Package manager]</span>(feedback_uv.md) — This project uses uv, not pip
-                    </span>
-                  </div>
+              {/* User: Remember */}
+              <UserBlock visible={activeSubstep >= 5}>
+                Remember to always use uv, not pip
+              </UserBlock>
 
-                  <span className={styles.memoryNote}>
-                    auto-memory must be enabled (on by default) — one MEMORY.md per project
-                  </span>
-                </motion.div>
-              )}
+              {/* Write: project_package_manager.md */}
+              <WriteBlock
+                filename="project_package_manager.md"
+                content={FILE_CONTENTS['project_package_manager.md'] ?? ''}
+                tooltip="/Users/daniel-tsiang/.claude/project/-Users-daniel-tsiang-code-my-repo/memory/project_package_manager.md"
+                visible={activeSubstep >= 6}
+              />
+
+              {/* Write: MEMORY.md */}
+              <WriteBlock
+                filename="MEMORY.md"
+                content={FILE_CONTENTS['MEMORY.md'] ?? ''}
+                tooltip="/Users/daniel-tsiang/.claude/project/-Users-daniel-tsiang-code-my-repo/memory/MEMORY.md"
+                visible={activeSubstep >= 7}
+              />
             </Wireframe>
           </motion.div>
 
-          {/* Session 2: Memory Retrieve */}
+          {/* Session 2 */}
           <motion.div
             className={styles.sessionPanel}
-            animate={{ opacity: activeSubstep >= 5 ? 1 : 0 }}
+            animate={{ opacity: activeSubstep >= 8 ? 1 : 0 }}
             transition={{ duration: 0.35 }}
           >
             <Wireframe accent="violet" className={styles.sessionWindow}>
-              <span className={styles.sessionHeader}>SESSION 2</span>
-
-              {/* Memory at top of context */}
-              <div className={styles.memoryRetrieveBlock}>
-                <span className={styles.memoryLabel}>MEMORY LOADED</span>
-                <span className={styles.memoryText}>This project uses uv, not pip</span>
+              <div className={styles.sessionHeaderRow}>
+                <span className={styles.sessionHeader}>SESSION 2</span>
+                <span className={styles.cwd}>~/code/my-repo</span>
               </div>
 
-              {/* User message */}
-              <motion.div
-                className={styles.contextEntry}
-                animate={{ opacity: activeSubstep >= 6 ? 1 : 0 }}
-                transition={{ duration: 0.35 }}
-              >
-                <span className={styles.contextRole}>User</span>
-                <span className={styles.contextText}>Install pandas</span>
-              </motion.div>
+              {/* System reminder */}
+              <SystemReminder />
 
-              {/* Agent uses uv directly */}
-              <motion.div
-                className={styles.contextEntry}
-                animate={{ opacity: activeSubstep >= 6 ? 1 : 0 }}
-                transition={{ delay: 0.2, duration: 0.35 }}
-              >
-                <span className={styles.contextRole}>Agent</span>
-                <div className={styles.commandBlock}>
-                  <code>uv pip install pandas</code>
-                </div>
-                <span className={styles.statusSuccess}>Successfully installed pandas</span>
-              </motion.div>
-
-              {/* Clean context indicator */}
-              <div className={styles.contextEmpty}>
-                {activeSubstep >= 6 && (
-                  <motion.span
-                    className={styles.noFailureLabel}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 0.6 }}
-                    transition={{ delay: 0.5, duration: 0.35 }}
-                  >
-                    No failed attempts
-                  </motion.span>
-                )}
+              {/* System reminder: MEMORY.md loaded */}
+              <div className={styles.systemReminderBlock}>
+                <span className={styles.systemReminderTag}>&lt;system-reminder&gt;</span>
+                <pre className={styles.systemReminderContent}>{`Contents of /Users/daniel-tsiang/.claude/project/-Users-daniel-tsiang-code-my-repo/memory/MEMORY.md:\n- [Package manager](project_package_manager.md) — This project uses uv, not pip`}</pre>
+                <span className={styles.systemReminderTag}>&lt;/system-reminder&gt;</span>
               </div>
+
+              {/* User: Install pandas */}
+              <UserBlock visible={activeSubstep >= 9}>
+                Install pandas
+              </UserBlock>
+
+              {/* Agent: uv pip install pandas */}
+              <BashBlock
+                command="uv pip install pandas"
+                visible={activeSubstep >= 10}
+                response="Successfully installed pandas"
+              />
             </Wireframe>
           </motion.div>
         </div>
@@ -155,7 +176,7 @@ export default function LongTermMemorySlide({ activeSubstep = 0 }: { activeSubst
         {/* Bottom: Benefits row */}
         <motion.div
           className={styles.benefitsRow}
-          animate={{ opacity: activeSubstep >= 7 ? 1 : 0, y: activeSubstep >= 7 ? 0 : 20 }}
+          animate={{ opacity: activeSubstep >= 11 ? 1 : 0, y: activeSubstep >= 11 ? 0 : 20 }}
           transition={{ duration: 0.35 }}
         >
           <Wireframe accent="violet" className={styles.benefitCard}>
@@ -170,10 +191,19 @@ export default function LongTermMemorySlide({ activeSubstep = 0 }: { activeSubst
             <span className={styles.benefitTitle}>Reduces Context Waste</span>
             <span className={styles.benefitDesc}>No tokens spent on known-bad approaches</span>
           </Wireframe>
+          <Wireframe accent="violet" className={styles.benefitCard}>
+            <span className={styles.benefitTitle}>Hierarchical</span>
+            <span className={styles.benefitDesc}>Progressively disclose entire memories only when needed</span>
+          </Wireframe>
         </motion.div>
+        {/* Finder overlay */}
+        <FinderOverlay
+          files={finderFiles}
+          directoryPath="/Users/daniel-tsiang/.claude/project/-Users-daniel-tsiang-code-my-repo/memory/"
+        />
       </div>
     </Wireframe>
   )
 }
 
-export const notes = `Long-term memory allows coding agents to persist knowledge across sessions. Each new session starts with a blank context, but saved memories are loaded at the top. The agent learns from past mistakes — like discovering a project uses uv instead of pip — and applies that knowledge immediately in future sessions, avoiding repeated failures.`
+export const notes = `Long-term memory allows coding agents to persist knowledge across sessions. Each new session starts with a blank context, but saved memories are loaded at the top via the system reminder. The agent learns from past mistakes — like discovering a project uses uv instead of pip — and applies that knowledge immediately in future sessions, avoiding repeated failures. The memory protocol writes structured files and indexes them in MEMORY.md for retrieval.`

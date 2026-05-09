@@ -1,0 +1,27 @@
+/* ── Thinking Block (Context Window) ── */
+.thinkingBlock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-2);
+  border: 0.5px dashed var(--ink-on-dark-3);
+  background: color-mix(in srgb, var(--ink-4) 3%, transparent);
+  border-radius: 2px;
+}
+
+.thinkingLabel {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-on-dark-3);
+  font-weight: 500;
+}
+
+.thinkingText {
+  font-family: var(--font-text);
+  font-size: 13px;
+  font-style: italic;
+  color: var(--ink-on-dark-3);
+  opacity: 0.7;
+}

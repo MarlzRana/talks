@@ -67,6 +67,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
+  position: relative;
 }
 
 .flowStep {
@@ -161,20 +162,20 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-  padding: var(--space-3);
-  gap: var(--space-2);
+  overflow-y: auto;
+  padding: var(--space-2);
+  gap: var(--space-1);
 }
 
 .contextEntry {
   display: flex;
   flex-direction: column;
-  gap: var(--space-1);
+  gap: 0;
 }
 
 .contextRole {
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 10px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--ink-on-dark-2);
@@ -182,13 +183,13 @@
 
 .contextText {
   font-family: var(--font-text);
-  font-size: 16px;
+  font-size: 13px;
   color: var(--ink-on-dark-1);
 }
 
 .contextDimText {
   font-family: var(--font-text);
-  font-size: 16px;
+  font-size: 13px;
   color: var(--ink-on-dark-3);
   font-style: italic;
   opacity: 0.5;
@@ -196,7 +197,7 @@
 
 .contextResultText {
   font-family: var(--font-text);
-  font-size: 16px;
+  font-size: 13px;
   color: var(--slide-accent);
   font-weight: 500;
 }
@@ -247,6 +248,9 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
+  position: sticky;
+  bottom: 0;
+  padding-top: var(--space-2);
 }
 
 .contextBarLabel {
@@ -272,10 +276,18 @@
 }
 
 .tokenCost {
+  position: absolute;
+  bottom: var(--space-6);
+  right: var(--space-6);
+}
+
+.tokenCostInner {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   gap: var(--space-1);
+  padding: var(--space-3) var(--space-4);
+  background: color-mix(in srgb, var(--ink-1) 80%, transparent);
 }
 
 .tokenLabel {
