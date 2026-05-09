@@ -22,6 +22,11 @@ export default defineConfig({
     },
     react(),
   ],
+  server: {
+    hmr: {
+      host: 'talks.localhost',
+    },
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
