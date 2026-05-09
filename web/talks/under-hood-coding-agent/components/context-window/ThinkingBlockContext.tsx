@@ -5,9 +5,10 @@ interface ThinkingBlockContextProps {
   children: React.ReactNode
   visible?: boolean
   delay?: number
+  label?: string | null
 }
 
-export function ThinkingBlockContext({ children, visible = true, delay = 0 }: ThinkingBlockContextProps) {
+export function ThinkingBlockContext({ children, visible = true, delay = 0, label = 'Thinking' }: ThinkingBlockContextProps) {
   return (
     <AnimatePresence>
       {visible && (
@@ -18,7 +19,7 @@ export function ThinkingBlockContext({ children, visible = true, delay = 0 }: Th
           exit={{ opacity: 0, y: 8 }}
           transition={{ delay, duration: 0.35 }}
         >
-          <span className={styles.thinkingLabel}>Thinking</span>
+          {label && <span className={styles.thinkingLabel}>{label}</span>}
           <span className={styles.thinkingText}>{children}</span>
         </motion.div>
       )}

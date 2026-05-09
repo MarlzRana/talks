@@ -2,16 +2,14 @@ import { motion } from 'motion/react';
 import { Wireframe } from '@/components/paper';
 import {
   AgentFlowLayout,
-  FlowStep,
   FlowConnector,
-  ThinkingBlock,
   CommentaryBlock,
   ContextBar,
   BottomCards,
-  BashBlock,
   UserBlock,
   ThinkingBlockContext,
   ModelBlock,
+  McpBlock,
   styles,
 } from '../components';
 import localStyles from './03-without-ptc.module.css';
@@ -67,63 +65,48 @@ export default function WithoutPtcSlide({
     >
       <AgentFlowLayout.Runtime>
         {/* Substep 0: User question */}
-        <FlowStep label="USER">
-          <div className={styles.messageBubble}>
-            "How much did I spend at Starbucks over the past month?"
-          </div>
-        </FlowStep>
+        <UserBlock>
+          "How much did I spend at Starbucks over the past month?"
+        </UserBlock>
 
         {/* Substep 1: Model predict */}
         <FlowConnector visible={activeSubstep >= 1} />
-        <FlowStep label="MODEL PREDICT" visible={activeSubstep >= 1}>
-          <ThinkingBlock visible={activeSubstep >= 1}>
-            Thinking: I need to get the user's transactions from last month.
-          </ThinkingBlock>
-        </FlowStep>
+        <ThinkingBlockContext label="MODEL PREDICT" visible={activeSubstep >= 1}>
+          Thinking: I need to get the user's transactions from last month.
+        </ThinkingBlockContext>
 
-        {/* Substep 2: Tool call */}
+        {/* Substep 2: MCP tool call */}
         <FlowConnector visible={activeSubstep >= 2} />
-        <FlowStep
-          label="Model asks agent runner to call get_transactions"
+        <McpBlock
+          explainer="Model asks agent runner to call get_transactions"
+          command='get_transactions(period="last_month")'
           visible={activeSubstep >= 2}
-        >
-          <div className={styles.codeBlock}>
-            <code>get_transactions(period="last_month")</code>
-          </div>
-        </FlowStep>
+        />
 
-        {/* Substep 3: Tool result */}
-        <FlowConnector visible={activeSubstep >= 3} />
-        <FlowStep
-          label="Agent Runner Executes Get_Transactions"
+        {/* Substep 3: MCP tool response */}
+        <McpBlock
+          explainer="Agent runner executes get_transactions, returns result to model's context"
           visible={activeSubstep >= 3}
-        >
-          <div className={styles.resultCompact}>150 transactions returned</div>
-        </FlowStep>
+          response="150 transactions returned"
+        />
 
         {/* Substep 4-6: Model predict with progressive thinking */}
         <FlowConnector visible={activeSubstep >= 4} />
-        <FlowStep label="MODEL PREDICT" visible={activeSubstep >= 4}>
-          <ThinkingBlock visible={activeSubstep >= 4}>
-            Thinking: OK I have all 150 transactions. Let me find the Starbucks
-            ones...
-          </ThinkingBlock>
-          <ThinkingBlock visible={activeSubstep >= 5}>
-            Found them. Now let me add them up... 4.50 + 3.80 + 5.20 + 3.95 +
-            4.15...
-          </ThinkingBlock>
-          <CommentaryBlock visible={activeSubstep >= 6}>
-            Models are not good at scanning, filtering and math
-          </CommentaryBlock>
-        </FlowStep>
+        <ThinkingBlockContext label="MODEL PREDICT" visible={activeSubstep >= 4}>
+          Thinking: OK I have all 150 transactions. Let me find the Starbucks ones...
+        </ThinkingBlockContext>
+        <ThinkingBlockContext label={null} visible={activeSubstep >= 5}>
+          Found them. Now let me add them up... 4.50 + 3.80 + 5.20 + 3.95 + 4.15...
+        </ThinkingBlockContext>
+        <CommentaryBlock visible={activeSubstep >= 6}>
+          Models are not good at scanning, filtering and math
+        </CommentaryBlock>
 
         {/* Substep 7: Model response (wrong) */}
         <FlowConnector visible={activeSubstep >= 7} />
-        <FlowStep label="MODEL RESPONSE" visible={activeSubstep >= 7}>
-          <div className={styles.messageBubble}>
-            "You spent £46.80 on Starbucks over the last month"
-          </div>
-        </FlowStep>
+        <ModelBlock label="Model Response" visible={activeSubstep >= 7}>
+          "You spent £46.80 on Starbucks over the last month"
+        </ModelBlock>
       </AgentFlowLayout.Runtime>
 
       <AgentFlowLayout.Context>
@@ -141,8 +124,8 @@ export default function WithoutPtcSlide({
             I need to get the user's transactions from last month.
           </ThinkingBlockContext>
 
-          {/* Tool call + response */}
-          <BashBlock
+          {/* MCP tool call */}
+          <McpBlock
             command='get_transactions(period="last_month")'
             visible={activeSubstep >= 2}
             response={

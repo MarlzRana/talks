@@ -4,9 +4,10 @@ import styles from './model-block.module.css'
 interface ModelBlockProps {
   children: React.ReactNode
   visible?: boolean
+  label?: string
 }
 
-export function ModelBlock({ children, visible = true }: ModelBlockProps) {
+export function ModelBlock({ children, visible = true, label = 'Model' }: ModelBlockProps) {
   return (
     <AnimatePresence>
       {visible && (
@@ -17,7 +18,7 @@ export function ModelBlock({ children, visible = true }: ModelBlockProps) {
           exit={{ opacity: 0, y: 8 }}
           transition={{ duration: 0.35 }}
         >
-          <span className={styles.modelLabel}>Model</span>
+          <span className={styles.modelLabel}>{label}</span>
           <span className={styles.modelText}>{children}</span>
         </motion.div>
       )}

@@ -1,5 +1,5 @@
-/* ── Bash Block ── */
-.bashBlock {
+/* ── MCP Block ── */
+.mcpBlock {
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
@@ -9,7 +9,7 @@
   border-radius: 2px;
 }
 
-.bashExplainer {
+.mcpExplainer {
   font-family: var(--font-mono);
   font-size: 10px;
   letter-spacing: 0.14em;
@@ -18,42 +18,35 @@
   font-weight: 500;
 }
 
-.bashResponseWrapper {
+.mcpResponseWrapper {
   overflow: hidden;
 }
 
-.bashLabel {
+.mcpLabel {
   font-family: var(--font-mono);
   font-size: 10px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #e5c07b;
+  color: var(--accent-ink-blue);
   font-weight: 600;
 }
 
-.bashCommand {
+.mcpCommand {
   font-family: var(--font-mono);
   font-size: 12px;
   color: var(--ink-on-dark-1);
   font-weight: 400;
 }
 
-.bashDivider {
+.mcpDivider {
   height: 0;
   border-top: 0.5px solid var(--ink-4);
   margin-top: var(--space-1);
 }
 
-.bashResponseSuccess {
+.mcpResponse {
   font-family: var(--font-mono);
   font-size: 10px;
   color: var(--accent-forest);
-  font-weight: 500;
-}
-
-.bashResponseFail {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: var(--accent-crimson);
   font-weight: 500;
 }
