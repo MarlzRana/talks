@@ -88,7 +88,10 @@ export default function WithPtcSlide({ activeSubstep = 0 }: { activeSubstep?: nu
               animate={{ opacity: activeSubstep >= 2 ? 1 : 0 }}
               transition={{ duration: 0.35 }}
             >
-              <span className={styles.stepLabel}>Write("/tmp/get_txns_starbucks_transactions_last_month.py", ...)</span>
+              <span className={styles.stepLabel}>Model Asks Agent Runner to Write Below Code</span>
+              <div className={styles.codeBlock}>
+                <code>Write("/tmp/get_txns_starbucks_transactions_last_month.py", ...)</code>
+              </div>
               <div className={styles.codeBlock}>
                 {codeHtml ? (
                   <div dangerouslySetInnerHTML={{ __html: codeHtml }} />
@@ -112,7 +115,7 @@ export default function WithPtcSlide({ activeSubstep = 0 }: { activeSubstep?: nu
               animate={{ opacity: activeSubstep >= 2 ? 1 : 0 }}
               transition={{ delay: 0.1, duration: 0.35 }}
             >
-              <span className={styles.stepLabel}>Write Tool Response</span>
+              <span className={styles.stepLabel}>Agent Runner Executes Write</span>
               <div className={styles.resultCompact} style={{ opacity: 0.5, fontStyle: 'italic' }}>Success</div>
             </motion.div>
 
@@ -151,19 +154,10 @@ export default function WithPtcSlide({ activeSubstep = 0 }: { activeSubstep?: nu
               animate={{ opacity: activeSubstep >= 4 ? 1 : 0 }}
               transition={{ duration: 0.35 }}
             >
-              <span className={styles.stepLabel}>Bash("python3 /tmp/get_txns_starbucks_transactions_last_month.py")</span>
-              {activeSubstep >= 4 && (
-                <motion.div
-                  className={styles.executesOutside}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.5, duration: 0.35 }}
-                >
-                  BASH TOOL EXECUTES CODE
-                  <br />
-                  STDOUT IS PIPED TO TOOL RESPONSE
-                </motion.div>
-              )}
+              <span className={styles.stepLabel}>Model Asks Agent Runner to Execute Code</span>
+              <div className={styles.codeBlock}>
+                <code>Bash("python3 /tmp/get_txns_starbucks_transactions_last_month.py")</code>
+              </div>
             </motion.div>
             <motion.div
               className={styles.connector}
@@ -175,7 +169,19 @@ export default function WithPtcSlide({ activeSubstep = 0 }: { activeSubstep?: nu
               animate={{ opacity: activeSubstep >= 5 ? 1 : 0 }}
               transition={{ duration: 0.35 }}
             >
-              <span className={styles.stepLabel}>Bash Tool Response</span>
+              <span className={styles.stepLabel}>Agent Runner Executes Bash Command</span>
+              {activeSubstep >= 5 && (
+                <motion.div
+                  className={styles.executesOutside}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.5, duration: 0.35 }}
+                >
+                  BASH TOOL EXECUTES CODE
+                  <br />
+                  STDOUT IS PIPED TO TOOL RESPONSE
+                </motion.div>
+              )}
               <div className={styles.resultCompact}>Total: £47.50</div>
             </motion.div>
 
@@ -223,7 +229,7 @@ export default function WithPtcSlide({ activeSubstep = 0 }: { activeSubstep?: nu
 
           {/* Right: Context window */}
           <div className={styles.contextColumn}>
-            <span className={styles.columnHeader}>CONTEXT WINDOW</span>
+            <span className={styles.columnHeader}>Δ Context Window</span>
             <Wireframe
               accent={activeSubstep >= 7 ? 'forest' : undefined}
               className={styles.contextWindow}
