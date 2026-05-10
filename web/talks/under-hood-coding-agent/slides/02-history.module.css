@@ -1,163 +1,54 @@
-.outer {
+.card {
+  width: clamp(120px, 11vw, 170px);
+  height: clamp(170px, 22vh, 230px);
+}
+
+.logoArea {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
-  height: 100%;
+  flex: 1;
 }
 
-.container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
+.logo {
+  width: clamp(32px, 4vw, 48px);
+  height: clamp(32px, 4vw, 48px);
+  object-fit: contain;
 }
 
-/* ── Title ── */
-.titleBox {
-  position: absolute;
-  top: 8%;
-  left: 50%;
-  transform: translateX(-50%);
-  border-left: 0.5px solid var(--ink-4);
-  border-right: 0.5px solid var(--ink-4);
-  padding: var(--space-3) var(--space-6);
-  z-index: 1;
-}
-
-/* Top full-width rail */
-.titleBox::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100vw;
-  right: -100vw;
-  height: 0;
-  border-top: 0.5px solid var(--ink-4);
-}
-
-/* Bottom full-width rail */
-.titleBox::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: -100vw;
-  right: -100vw;
-  height: 0;
-  border-top: 0.5px solid var(--ink-4);
-}
-
-/* ── Corner plus marks (matches Wireframe pattern) ── */
-.mark {
-  position: absolute;
-  width: 16px;
-  height: 16px;
-  pointer-events: none;
-  z-index: 3;
-}
-
-.mark::before,
-.mark::after {
-  content: '';
-  position: absolute;
-}
-
-/* Vertical bar */
-.mark::before {
-  left: 50%;
-  top: 0;
-  width: 0;
-  height: 100%;
-  border-left: 0.5px solid var(--ink-4);
-  transform: translateX(-50%);
-}
-
-/* Horizontal bar */
-.mark::after {
-  top: 50%;
-  left: 0;
-  width: 100%;
-  height: 0;
-  border-top: 0.5px solid var(--ink-4);
-  transform: translateY(-50%);
-}
-
-.mark[data-pos='tl'] { top: -8px; left: -8px; }
-.mark[data-pos='tr'] { top: -8px; right: -8px; }
-.mark[data-pos='bl'] { bottom: -8px; left: -8px; }
-.mark[data-pos='br'] { bottom: -8px; right: -8px; }
-
-/* Display title tier */
-.titleText {
-  font-family: var(--font-display);
-  font-size: clamp(1.6rem, 3vw, 2.4rem);
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  color: var(--ink-on-dark-1);
-  white-space: nowrap;
-}
-
-/* ── Timeline line ── */
-.timelineLine {
-  position: absolute;
-  top: 55%;
-  left: 0;
-  right: 0;
-  height: 0;
-  border-top: 0.5px solid var(--ink-4);
-}
-
-/* ── Items ── */
-.item {
-  position: absolute;
+.cardBody {
   display: flex;
   flex-direction: column;
   align-items: center;
-  transform: translateX(-50%);
-  width: clamp(120px, 12vw, 180px);
-  gap: var(--space-2);
+  justify-content: flex-end;
+  gap: var(--space-1);
+  padding: var(--space-2) var(--space-2) var(--space-3);
 }
 
-.itemTop {
-  bottom: 45%;
+.name {
+  font-family: var(--font-display);
+  font-size: clamp(0.8rem, 1.2vw, 1.1rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--ink-on-dark-1);
+  text-align: center;
 }
 
-.itemBottom {
-  top: 55%;
-}
-
-/* ── Connector ── */
-.connector {
-  width: 0;
-  height: clamp(24px, 4vh, 48px);
-  border-left: 0.5px solid var(--ink-4);
-  flex-shrink: 0;
-}
-
-/* ── Logo ── */
-.logo {
-  width: clamp(40px, 5vw, 64px);
-  height: clamp(40px, 5vw, 64px);
-  object-fit: contain;
-  flex-shrink: 0;
-}
-
-/* ── Date: eyebrow tier ── */
 .date {
   font-family: var(--font-mono);
-  font-size: clamp(0.65rem, 0.9vw, 0.75rem);
+  font-size: clamp(0.5rem, 0.7vw, 0.6rem);
   font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--ink-on-dark-2);
   text-align: center;
-  flex-shrink: 0;
 }
 
-/* ── Description: body tier (scaled for density) ── */
 .description {
   font-family: var(--font-text);
-  font-size: clamp(0.8rem, 1.1vw, 1rem);
-  font-weight: 400;
-  line-height: 1.55;
-  color: var(--ink-on-dark-1);
+  font-size: clamp(0.6rem, 0.8vw, 0.75rem);
+  line-height: 1.5;
+  color: var(--ink-on-dark-2);
   text-align: center;
-  flex-shrink: 0;
 }

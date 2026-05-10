@@ -1,5 +1,4 @@
-import { motion } from 'motion/react'
-import { Wireframe } from '@/components/paper'
+import { TimelineSlide, TimelineCard } from '../components'
 import styles from './02-history.module.css'
 
 export const fullbleed = true
@@ -7,10 +6,11 @@ export const substeps = 9
 
 const TOTAL_MONTHS = 51 // June 2021 → Sep 2025
 const RANGE_START = 8
-const RANGE = 84 // 92 - 8
+const RANGE = 84
 const pos = (months: number) => RANGE_START + (months / TOTAL_MONTHS) * RANGE
 
-interface TimelineItem {
+interface Item {
+  name: string
   date: string
   lines: string[]
   logo: string
@@ -18,8 +18,9 @@ interface TimelineItem {
   position: number
 }
 
-const items: TimelineItem[] = [
+const items: Item[] = [
   {
+    name: 'GitHub Copilot',
     date: 'June 2021',
     lines: ['Inline Copilot Suggestion', 'Powered by Codex'],
     logo: '/assets/github_copilot.svg',
@@ -27,6 +28,7 @@ const items: TimelineItem[] = [
     position: pos(0),
   },
   {
+    name: 'ChatGPT',
     date: 'November 2022',
     lines: ['ChatGPT release,', 'the advent of Generative AI'],
     logo: '/assets/openai.svg',
@@ -34,6 +36,7 @@ const items: TimelineItem[] = [
     position: pos(17),
   },
   {
+    name: 'Cursor',
     date: 'March 2023',
     lines: ['Cursor and', 'the Agentic IDEs'],
     logo: '/assets/cursor.svg',
@@ -41,6 +44,7 @@ const items: TimelineItem[] = [
     position: pos(21),
   },
   {
+    name: 'Copilot Chat',
     date: 'December 2023',
     lines: ['Copilot Chat'],
     logo: '/assets/github_copilot.svg',
@@ -48,6 +52,7 @@ const items: TimelineItem[] = [
     position: pos(30),
   },
   {
+    name: 'Copilot Agent',
     date: 'February 2025',
     lines: ['Copilot Agent Mode'],
     logo: '/assets/github_copilot.svg',
@@ -55,6 +60,7 @@ const items: TimelineItem[] = [
     position: pos(44),
   },
   {
+    name: 'Claude Code',
     date: 'February 2025',
     lines: ['Claude Code'],
     logo: '/assets/claude_code.svg',
@@ -62,6 +68,7 @@ const items: TimelineItem[] = [
     position: pos(44),
   },
   {
+    name: 'Sonnet 4.5',
     date: 'September 2025',
     lines: ['Sonnet 4.5 Release'],
     logo: '/assets/claude.svg',
@@ -70,73 +77,42 @@ const items: TimelineItem[] = [
   },
 ]
 
+function getItemOpacity(index: number, activeSubstep: number): number {
+  const isDimming = activeSubstep >= 1 && activeSubstep <= items.length
+  const isRevealed = activeSubstep >= index + 1
+
+  if (!isDimming) return 1 // substep 0 or beyond last reveal: all visible
+  if (isRevealed) return 1
+  return 0.15
+}
+
 export default function HistorySlide({ activeSubstep = 0 }: { activeSubstep?: number }) {
-  const isDimming = activeSubstep >= 1 && activeSubstep <= 7
-
   return (
-    <Wireframe className={styles.outer}>
-      <div className={styles.container}>
-        {/* Title box with extending lines via ::before/::after */}
-        <motion.div
-          className={styles.titleBox}
-          animate={{ opacity: isDimming ? 0.2 : 1 }}
-          transition={{ duration: 0.35 }}
-        >
-          <span className={styles.mark} data-pos="tl" />
-          <span className={styles.mark} data-pos="tr" />
-          <span className={styles.mark} data-pos="bl" />
-          <span className={styles.mark} data-pos="br" />
-          <span className={styles.titleText}>History of Agentic Coding</span>
-        </motion.div>
-
-        {/* Single timeline line */}
-        <motion.div
-          className={styles.timelineLine}
-          animate={{ opacity: isDimming ? 0.3 : 1 }}
-          transition={{ duration: 0.35 }}
-        />
-
-        {/* Timeline items */}
-        {items.map((item, i) => {
-          const isRevealed = activeSubstep >= i + 1
-          const opacity = isDimming ? (isRevealed ? 1 : 0.15) : 1
-
-          return (
-            <motion.div
-              key={i}
-              className={`${styles.item} ${item.row === 'top' ? styles.itemTop : styles.itemBottom}`}
-              style={{ left: `${item.position}%` }}
-              animate={{ opacity }}
-              transition={{ duration: 0.35 }}
-            >
-              {item.row === 'top' ? (
-                <>
-                  <img src={item.logo} alt="" className={styles.logo} />
-                  <div className={styles.date}>{item.date}</div>
-                  <div className={styles.description}>
-                    {item.lines.map((line, j) => (
-                      <div key={j}>{line}</div>
-                    ))}
-                  </div>
-                  <div className={styles.connector} />
-                </>
-              ) : (
-                <>
-                  <div className={styles.connector} />
-                  <div className={styles.date}>{item.date}</div>
-                  <div className={styles.description}>
-                    {item.lines.map((line, j) => (
-                      <div key={j}>{line}</div>
-                    ))}
-                  </div>
-                  <img src={item.logo} alt="" className={styles.logo} />
-                </>
-              )}
-            </motion.div>
-          )
-        })}
-      </div>
-    </Wireframe>
+    <TimelineSlide
+      title="History of Agentic Coding"
+      accent="var(--accent-ochre)"
+      wireframeAccent="ochre"
+      items={items}
+      activeSubstep={activeSubstep}
+      getItemOpacity={getItemOpacity}
+      connectorThreshold={0.99}
+      renderCard={(item) => (
+        <TimelineCard className={styles.card}>
+          <div className={styles.logoArea}>
+            <img src={item.logo} alt="" className={styles.logo} />
+          </div>
+          <div className={styles.cardBody}>
+            <div className={styles.name}>{item.name}</div>
+            <div className={styles.date}>{item.date}</div>
+            <div className={styles.description}>
+              {item.lines.map((line, j) => (
+                <div key={j}>{line}</div>
+              ))}
+            </div>
+          </div>
+        </TimelineCard>
+      )}
+    />
   )
 }
 

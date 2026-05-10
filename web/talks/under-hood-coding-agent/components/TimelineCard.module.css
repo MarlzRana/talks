@@ -1,0 +1,54 @@
+.card {
+  position: relative;
+  border: 0.5px solid color-mix(in srgb, var(--timeline-accent) 40%, transparent);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.cardHighlighted {
+  border-color: var(--timeline-accent);
+  box-shadow: 0 0 12px 0 color-mix(in srgb, var(--timeline-accent) 30%, transparent);
+}
+
+/* Card corner marks (grey) */
+.mark {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.mark::before,
+.mark::after {
+  content: '';
+  position: absolute;
+}
+
+.mark::before {
+  left: 50%;
+  top: 0;
+  width: 0;
+  height: 100%;
+  border-left: 0.5px solid var(--ink-4);
+  transform: translateX(-50%);
+}
+
+.mark::after {
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 0;
+  border-top: 0.5px solid var(--ink-4);
+  transform: translateY(-50%);
+}
+
+.mark[data-pos='tl'] { top: -8px; left: -8px; }
+.mark[data-pos='tr'] { top: -8px; right: -8px; }
+.mark[data-pos='bl'] { bottom: -8px; left: -8px; }
+.mark[data-pos='br'] { bottom: -8px; right: -8px; }
