@@ -88,9 +88,9 @@ Machine Learning Engineers, working on agents:
         </programmatic_tool_execution>
         <model_context_protocol>
             <different_computer_interfaces>
-                1. GUI - Computer -> Human
+                1. GUI - Human -> Computer
                 2. API - Computer <-> Computer
-                3. MCP - Computer <-> Agent
+                3. MCP - Agent <-> Computer 
             </different_computer_interfaces>
             <compare_api_mcp>
                 1. Show an API - highlight how it is not agent friendly
@@ -164,6 +164,7 @@ CSS theming: Components use `--slide-accent` CSS variable set by `AgentFlowLayou
 | Resource | Path |
 |---------|------|
 | Claude Code Documentation | `~/gh/ericbuess/claude-code-docs` |
+| Live Talk URL | `http://talks.localhost/talks/under-hood-coding-agent` |
 </resources>
 
 <guidance>
