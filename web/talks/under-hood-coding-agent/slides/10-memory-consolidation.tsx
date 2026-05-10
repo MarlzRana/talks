@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from 'motion/react'
 import { Wireframe } from '@/components/paper'
-import styles from './09-memory-consolidation.module.css'
+import styles from './10-memory-consolidation.module.css'
 
 export const fullbleed = true
 export const substeps = 9
