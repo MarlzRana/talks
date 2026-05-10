@@ -119,6 +119,47 @@ Machine Learning Engineers, working on agents:
 </presentation_structure>
 
 
+<context_window_blocks>
+Shared components in `talks/under-hood-coding-agent/components/context-window/` for rendering context window entries consistently across slides. Each block uses AnimatePresence (only mounts when visible) and accepts a `visible` prop.
+
+| Component | Label Color | Purpose |
+|-----------|-------------|---------|
+| `UserBlock` | grey | User message |
+| `ThinkingBlockContext` | grey (dashed border) | Model thinking/reasoning. Supports `label` prop (default "Thinking", use "MODEL PREDICT" in agent runtime, `null` to hide) |
+| `ModelBlock` | grey | Model response. Supports `label` prop (default "Model") |
+| `WriteBlock` | violet | Write tool call. Props: `filename`, `content`, `language`, `tooltip`, `response`, `explainer` |
+| `BashBlock` | yellow | Bash tool call. Props: `command`, `response` (string or ReactNode), `responseVariant`, `explainer` |
+| `McpBlock` | ink-blue | MCP tool call. Props: `command`, `response` (string or ReactNode), `explainer` |
+| `ContextBar` | slide-accent | Context usage progress bar. Props: `fill`, `active`, `accent` |
+| `ContextEntry` | varies | Generic entry (legacy, prefer specific blocks above) |
+
+All blocks support animated response reveal (height + opacity transition when response prop changes from undefined to a value).
+
+The `explainer` prop renders uppercase grey text above the block label — used in agent runtime to describe what's happening (e.g. "Model Asks Agent Runner to Write Below Code").
+</context_window_blocks>
+
+<shared_components>
+Other shared components in `talks/under-hood-coding-agent/components/`:
+
+| Component | Purpose |
+|-----------|---------|
+| `AgentFlowLayout` | Two-column shell (Agent Runtime / Context Window). Props: `eyebrow`, `title`, `accent`, `bottom`. Compound: `.Runtime`, `.Context` |
+| `FlowStep` | Agent runtime step with label |
+| `FlowConnector` | Vertical line between steps |
+| `ThinkingBlock` | Agent runtime thinking (legacy, replaced by ThinkingBlockContext) |
+| `CommentaryBlock` | Green/accent dashed explainer box (e.g. "BASH TOOL EXECUTES CODE") |
+| `BottomCards` | Benefits/problems card row |
+| `FinderOverlay` | Interactive file explorer overlay. Props: `files` (array of {name, content, language}), `directoryPath` |
+
+CSS theming: Components use `--slide-accent` CSS variable set by `AgentFlowLayout` or manually.
+</shared_components>
+
+<slide_features>
+- **Thinking toggle**: Brain icon (top-right) persists to localStorage key `showThinking`. Hides all ThinkingBlockContext blocks + their connectors on slides 3 and 4.
+- **Finder overlay**: Clickable Finder icon shows a file explorer. Files appear progressively based on substep. Used on slides 4 (tmp python file) and 5 (memory files).
+- **Shiki highlighting**: WriteBlock uses `codeToHtml` from shiki with `github-dark` theme. FinderOverlay also syntax-highlights file contents.
+</slide_features>
+
 <resources>
 | Resource | Path |
 |---------|------|
