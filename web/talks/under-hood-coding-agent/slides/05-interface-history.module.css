@@ -16,8 +16,8 @@
   top: 8%;
   left: 50%;
   transform: translateX(-50%);
-  border-left: 0.5px solid var(--ink-4);
-  border-right: 0.5px solid var(--ink-4);
+  border-left: 0.5px solid color-mix(in srgb, var(--accent-cyan) 50%, transparent);
+  border-right: 0.5px solid color-mix(in srgb, var(--accent-cyan) 50%, transparent);
   padding: var(--space-3) var(--space-6);
   z-index: 1;
 }
@@ -29,7 +29,7 @@
   left: -100vw;
   right: -100vw;
   height: 0;
-  border-top: 0.5px solid var(--ink-4);
+  border-top: 0.5px solid color-mix(in srgb, var(--accent-cyan) 50%, transparent);
 }
 
 .titleBox::after {
@@ -39,7 +39,7 @@
   left: -100vw;
   right: -100vw;
   height: 0;
-  border-top: 0.5px solid var(--ink-4);
+  border-top: 0.5px solid color-mix(in srgb, var(--accent-cyan) 50%, transparent);
 }
 
 /* ── Corner plus marks ── */
@@ -96,7 +96,21 @@
   left: 0;
   right: 0;
   height: 0;
-  border-top: 0.5px solid var(--ink-4);
+  border-top: 0.5px solid color-mix(in srgb, var(--accent-cyan) 50%, transparent);
+}
+
+/* ── Timeline pulse ── */
+.pulse {
+  position: absolute;
+  top: calc(55% - 4px);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent-cyan);
+  box-shadow: 0 0 16px 6px var(--accent-cyan), 0 0 32px 12px color-mix(in srgb, var(--accent-cyan) 40%, transparent);
+  pointer-events: none;
+  z-index: 2;
+  transform: translateX(-50%);
 }
 
 /* ── Items ── */
@@ -116,24 +130,53 @@
   top: 55%;
 }
 
-/* ── Connector ── */
+/* ── Connector with T-bar ── */
 .connector {
+  position: relative;
   width: 0;
   height: clamp(16px, 2.5vh, 32px);
-  border-left: 0.5px solid var(--ink-4);
+  border-left: 0.5px solid color-mix(in srgb, var(--accent-cyan) 50%, transparent);
   flex-shrink: 0;
+}
+
+/* Horizontal T-bar at the timeline end */
+.connector::after {
+  content: '';
+  position: absolute;
+  left: -8px;
+  width: 16px;
+  height: 0;
+  border-top: 0.5px solid var(--ink-4);
+}
+
+/* T-bar at bottom for top items (connector goes down to timeline) */
+.connectorDown::after {
+  bottom: 0;
+}
+
+/* T-bar at top for bottom items (connector goes down from timeline) */
+.connectorUp::after {
+  top: 0;
 }
 
 /* ── Card ── */
 .card {
   position: relative;
-  border: 0.5px solid color-mix(in srgb, var(--accent-ink-blue) 40%, transparent);
+  border: 0.5px solid color-mix(in srgb, var(--accent-cyan) 40%, transparent);
   width: clamp(160px, 14vw, 220px);
   height: clamp(220px, 28vh, 300px);
   display: flex;
   flex-direction: column;
   align-items: center;
   overflow: hidden;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.cardHighlighted {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 12px 0 color-mix(in srgb, var(--accent-cyan) 30%, transparent);
 }
 
 /* Card corner marks */
@@ -214,7 +257,7 @@
 .anchor {
   font-family: var(--font-text);
   font-size: clamp(0.7rem, 1vw, 0.85rem);
-  color: var(--accent-ink-blue);
+  color: var(--accent-cyan);
   text-align: center;
 }
 

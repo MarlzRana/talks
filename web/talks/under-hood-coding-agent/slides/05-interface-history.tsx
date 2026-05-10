@@ -1,3 +1,4 @@
+import { useRef, useEffect, useState } from 'react'
 import { motion } from 'motion/react'
 import { Wireframe } from '@/components/paper'
 import styles from './05-interface-history.module.css'
@@ -68,9 +69,13 @@ const items: TimelineItem[] = [
   },
 ]
 
-function TimelineCard({ item }: { item: TimelineItem }) {
+function TimelineCard({ item, highlighted }: { item: TimelineItem; highlighted?: boolean }) {
   return (
-    <div className={styles.card}>
+    <motion.div
+      className={`${styles.card} ${highlighted ? styles.cardHighlighted : ''}`}
+      animate={highlighted ? { borderColor: 'var(--accent-cyan)' } : {}}
+      transition={{ duration: 0.5 }}
+    >
       <span className={styles.cardMark} data-pos="tl" />
       <span className={styles.cardMark} data-pos="tr" />
       <span className={styles.cardMark} data-pos="bl" />
@@ -88,13 +93,37 @@ function TimelineCard({ item }: { item: TimelineItem }) {
         <div className={styles.description}>{item.description}</div>
         <div className={styles.interaction}>{item.interaction}</div>
       </div>
-    </div>
+    </motion.div>
   )
 }
 
+// Get position for a substep index (0 = left edge, 1-4 = item positions)
+function getPosition(substep: number): number {
+  if (substep <= 0) return 0
+  if (substep > items.length) return items[items.length - 1].position
+  return items[substep - 1].position
+}
+
 export default function InterfaceHistorySlide({ activeSubstep = 0 }: { activeSubstep?: number }) {
+  const prevSubstepRef = useRef(activeSubstep)
+  const [pulse, setPulse] = useState<{ from: number; to: number; key: number } | null>(null)
+  const pulseKeyRef = useRef(0)
+
+  useEffect(() => {
+    if (activeSubstep !== prevSubstepRef.current) {
+      const prev = prevSubstepRef.current
+      const fromPos = getPosition(prev)
+      const toPos = getPosition(activeSubstep)
+      pulseKeyRef.current += 1
+      setPulse({ from: fromPos, to: toPos, key: pulseKeyRef.current })
+      prevSubstepRef.current = activeSubstep
+    }
+  }, [activeSubstep])
+
+  const isFinalStep = activeSubstep >= items.length
+
   return (
-    <Wireframe className={styles.outer}>
+    <Wireframe className={styles.outer} accent="cyan">
       <div className={styles.container}>
         {/* Title box with extending rails */}
         <div className={styles.titleBox}>
@@ -108,30 +137,59 @@ export default function InterfaceHistorySlide({ activeSubstep = 0 }: { activeSub
         {/* Timeline line */}
         <div className={styles.timelineLine} />
 
+        {/* Timeline pulse — single element that travels between positions */}
+        {pulse && (
+          <motion.div
+            key={pulse.key}
+            className={styles.pulse}
+            initial={{ left: `${pulse.from}%`, opacity: 0 }}
+            animate={{ left: `${pulse.to}%`, opacity: [0, 1, 0] }}
+            transition={{
+              left: { duration: 0.7, ease: 'easeOut' },
+              opacity: { duration: 1.0, times: [0, 0.3, 1] },
+            }}
+          />
+        )}
+
         {/* Timeline items */}
         {items.map((item, i) => {
           const isRevealed = activeSubstep >= i + 1
+          const isMcp = i === items.length - 1
+          const dimmed = isFinalStep && !isMcp
 
           return (
             <motion.div
               key={i}
               className={`${styles.item} ${item.row === 'top' ? styles.itemTop : styles.itemBottom}`}
               style={{ left: `${item.position}%` }}
-              animate={{
-                opacity: isRevealed ? 1 : 0,
-                y: isRevealed ? 0 : item.row === 'top' ? 12 : -12,
-              }}
-              transition={{ duration: 0.4, ease: 'easeOut' }}
+              animate={{ opacity: dimmed ? 0.35 : isRevealed ? 1 : 0 }}
+              transition={{ duration: 0.55, ease: 'easeOut' }}
             >
               {item.row === 'top' ? (
                 <>
-                  <TimelineCard item={item} />
-                  <div className={styles.connector} />
+                  <TimelineCard
+                    item={item}
+                    highlighted={isFinalStep && isMcp}
+                  />
+                  <motion.div
+                    className={`${styles.connector} ${styles.connectorDown}`}
+                    animate={{ scaleY: isRevealed ? 1 : 0 }}
+                    transition={{ duration: 0.35, ease: 'easeOut' }}
+                    style={{ transformOrigin: 'top' }}
+                  />
                 </>
               ) : (
                 <>
-                  <div className={styles.connector} />
-                  <TimelineCard item={item} />
+                  <motion.div
+                    className={`${styles.connector} ${styles.connectorUp}`}
+                    animate={{ scaleY: isRevealed ? 1 : 0 }}
+                    transition={{ duration: 0.35, ease: 'easeOut' }}
+                    style={{ transformOrigin: 'bottom' }}
+                  />
+                  <TimelineCard
+                    item={item}
+                    highlighted={isFinalStep && isMcp}
+                  />
                 </>
               )}
             </motion.div>

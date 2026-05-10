@@ -4,7 +4,7 @@ export type Theme = 'light' | 'dark'
 
 export type PaperVariant = 'paper' | 'paper-dark' | 'paper-blueprint'
 
-export type AccentColor = 'violet' | 'ochre' | 'forest' | 'ink-blue' | 'crimson' | 'rust'
+export type AccentColor = 'violet' | 'ochre' | 'forest' | 'ink-blue' | 'cyan' | 'crimson' | 'rust'
 
 export type SlideComponent = React.ComponentType<{ activeSubstep?: number }>
 
