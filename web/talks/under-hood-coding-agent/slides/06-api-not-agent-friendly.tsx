@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence, LayoutGroup } from 'motion/react'
 import { codeToHtml } from 'shiki'
 import { Wireframe } from '@/components/paper'
-import { UserBlock, McpBlock, ModelBlock, ThinkingBlockContext, ContextBar, BottomCards, styles as flowStyles } from '../components'
+import { UserBlock, McpBlock, ModelBlock, ThinkingBlockContext, ContextBar, BottomCards, XmlBlock, styles as flowStyles } from '../components'
 import styles from './06-api-not-agent-friendly.module.css'
 
 export const fullbleed = true
@@ -14,7 +14,7 @@ const ENDPOINT_TOOLS = [
   { path: '/customers', methods: ['GET', 'POST'], tools: ['get_customers', 'create_customer'] },
   { path: '/customers/:id', methods: ['GET', 'PUT', 'DEL'], tools: ['get_customer_by_id', 'update_customer', 'delete_customer'] },
   { path: '/customers/:id/orders', methods: ['GET', 'POST'], tools: ['get_customer_orders', 'create_customer_order'] },
-  { path: '/orders/:id', methods: ['GET', 'POST', 'DEL'], tools: ['get_order_by_id', 'update_order', 'delete_order'] },
+  { path: '/orders/:id', methods: ['GET', 'PUT', 'DEL'], tools: ['get_order_by_id', 'update_order', 'delete_order'] },
   { path: '/orders/:id/refund', methods: ['POST'], tools: ['create_refund'] },
 ]
 
@@ -249,15 +249,18 @@ const TOOL_SCHEMAS: Record<string, string> = {
 }`,
 }
 
-const SYSTEM_REMINDER_PREVIEW = `Available tools (7): get_customers, get_customer_by_id, update_customer, delete_customer, get_customer_orders, create_customer_order, create_refund`
 
 const SYSTEM_REMINDER_FULL = `[
   { "name": "get_customers", "description": "Retrieve customers by filter", "inputSchema": { "properties": { "email": { "type": "string" }, "limit": { "type": "number" } } } },
+  { "name": "create_customer", "description": "Create a new customer", "inputSchema": { "properties": { "email": { "type": "string" }, "name": { "type": "string" } }, "required": ["email", "name"] } },
   { "name": "get_customer_by_id", "description": "Get a single customer by ID", "inputSchema": { "properties": { "customer_id": { "type": "string" } }, "required": ["customer_id"] } },
   { "name": "update_customer", "description": "Update customer details", "inputSchema": { "properties": { "customer_id": { "type": "string" }, "data": { "type": "object" } }, "required": ["customer_id"] } },
   { "name": "delete_customer", "description": "Delete a customer", "inputSchema": { "properties": { "customer_id": { "type": "string" } }, "required": ["customer_id"] } },
   { "name": "get_customer_orders", "description": "List orders for a customer", "inputSchema": { "properties": { "customer_id": { "type": "string" }, "status": { "type": "string" } }, "required": ["customer_id"] } },
   { "name": "create_customer_order", "description": "Create an order for a customer", "inputSchema": { "properties": { "customer_id": { "type": "string" }, "items": { "type": "array" } }, "required": ["customer_id", "items"] } },
+  { "name": "get_order_by_id", "description": "Get an order by ID", "inputSchema": { "properties": { "order_id": { "type": "string" } }, "required": ["order_id"] } },
+  { "name": "update_order", "description": "Update an order", "inputSchema": { "properties": { "order_id": { "type": "string" }, "status": { "type": "string" } }, "required": ["order_id"] } },
+  { "name": "delete_order", "description": "Delete an order", "inputSchema": { "properties": { "order_id": { "type": "string" } }, "required": ["order_id"] } },
   { "name": "create_refund", "description": "Create a refund for an order", "inputSchema": { "properties": { "order_id": { "type": "string" }, "amount": { "type": "number" }, "reason": { "type": "string" } }, "required": ["order_id"] } }
 ]`
 
@@ -318,27 +321,6 @@ function ToolCard({ name, expanded }: { name: string; expanded: boolean }) {
   )
 }
 
-function SystemReminder({ accent }: { accent: 'crimson' | 'forest' }) {
-  const [expanded, setExpanded] = useState(false)
-
-  return (
-    <div
-      className={`${styles.systemReminderBlock} ${styles[`sr${accent}`]}`}
-      onClick={() => setExpanded(!expanded)}
-    >
-      <span className={styles.systemReminderTag}>&lt;system-reminder&gt;</span>
-      {expanded ? (
-        <pre className={styles.systemReminderContent}>{SYSTEM_REMINDER_FULL}</pre>
-      ) : (
-        <span className={styles.systemReminderPreview}>
-          {SYSTEM_REMINDER_PREVIEW}
-          <span className={styles.systemReminderEllipsis}>...</span>
-        </span>
-      )}
-      <span className={styles.systemReminderTag}>&lt;/system-reminder&gt;</span>
-    </div>
-  )
-}
 
 /* ── Main Slide ── */
 
@@ -350,7 +332,7 @@ export default function ApiNotAgentFriendlySlide({ activeSubstep = 0 }: { active
 
   return (
     <Wireframe className={styles.outer} accent="crimson">
-      <div className={styles.container}>
+      <div className={styles.container} style={{ '--slide-accent': 'var(--accent-crimson)' } as React.CSSProperties}>
         {/* Thinking toggle */}
         <button
           className={`${flowStyles.thinkingToggle} ${!showThinking ? flowStyles.thinkingToggleOff : ''}`}
@@ -439,8 +421,10 @@ export default function ApiNotAgentFriendlySlide({ activeSubstep = 0 }: { active
                     <Wireframe accent="crimson" className={styles.runtimeWindow}>
                       <span className={styles.columnHeader}>Δ Context Window</span>
 
-                      {/* System reminder */}
-                      <SystemReminder accent="crimson" />
+                      {/* Tools block */}
+                      <XmlBlock tag="tools" accent="crimson" expandedContent={SYSTEM_REMINDER_FULL}>
+                        Available tools <span className={styles.toolCountPulse}>(11)</span>: get_customers, create_customer, get_customer_by_id, update_customer, delete_customer, get_customer_orders, create_customer_order, get_order_by_id, update_order, delete_order, create_refund...
+                      </XmlBlock>
 
                       {/* User message */}
                       <UserBlock visible={activeSubstep >= 5}>
@@ -448,10 +432,21 @@ export default function ApiNotAgentFriendlySlide({ activeSubstep = 0 }: { active
                       </UserBlock>
 
                       <ThinkingBlockContext visible={showThinking && activeSubstep >= 6}>
-                        I need to refund this customer. First I&apos;ll look up the customer by email, then find their orders, then issue the refund.
+                        I need to refund this customer. Let me look up the customer by email first.
                       </ThinkingBlockContext>
 
                       {/* MCP calls */}
+                      <McpBlock
+                        visible={activeSubstep >= 6}
+                        command='get_customer_by_id({ customer_id: "john@example.com" })'
+                        response='Error: Invalid customer_id format. Expected UUID.'
+                        explainer="WRONG TOOL — confused email for ID"
+                      />
+
+                      <ThinkingBlockContext visible={showThinking && activeSubstep >= 6}>
+                        That failed. I used the wrong tool — I need get_customers with an email filter, not get_customer_by_id.
+                      </ThinkingBlockContext>
+
                       <McpBlock
                         visible={activeSubstep >= 6}
                         command='get_customers({ email: "john@example.com" })'
@@ -488,6 +483,19 @@ export default function ApiNotAgentFriendlySlide({ activeSubstep = 0 }: { active
                         active={activeSubstep >= 4}
                         accent="var(--accent-crimson)"
                       />
+
+                      {/* Token cost label */}
+                      <motion.div
+                        className={flowStyles.tokenCost}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: activeSubstep >= 6 ? 1 : 0 }}
+                        transition={{ duration: 0.35 }}
+                      >
+                        <Wireframe accent="crimson" className={flowStyles.tokenCostInner}>
+                          <span className={flowStyles.tokenLabel}>TOKEN COST</span>
+                          <span className={flowStyles.tokenValue}>~2,400</span>
+                        </Wireframe>
+                      </motion.div>
                     </Wireframe>
                   </motion.div>
                 )}
