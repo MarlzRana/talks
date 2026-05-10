@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'motion/react'
 import { codeToHtml } from 'shiki'
 import { Wireframe } from '@/components/paper'
 import { UserBlock, McpBlock, ModelBlock, ThinkingBlockContext, BottomCards, XmlBlock, styles as flowStyles } from '../components'
-import styles from './07-design-for-agent-stories.module.css'
+import styles from './08-design-for-agent-stories.module.css'
 
 export const fullbleed = true
 export const substeps = 4

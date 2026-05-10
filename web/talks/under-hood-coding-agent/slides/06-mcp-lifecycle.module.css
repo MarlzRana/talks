@@ -1,0 +1,314 @@
+/* ── Slide 06: MCP Lifecycle Sequence Diagram ── */
+
+.outer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: stretch;
+}
+
+.container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-6) var(--space-7);
+  gap: var(--space-4);
+  min-height: 0;
+  position: relative;
+}
+
+/* ── Title bar ── */
+.titleBar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  flex-shrink: 0;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-cyan);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--ink-on-dark-1);
+  margin: 0;
+}
+
+/* ── Diagram ── */
+.diagram {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 0;
+}
+
+/* ── Participants ── */
+.participantRow {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 700px;
+  margin-bottom: var(--space-3);
+}
+
+.participant {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3) var(--space-6);
+}
+
+.participantLabel {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-on-dark-1);
+}
+
+/* ── Lifelines ── */
+.lifelines {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  max-width: 700px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.lifeline {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1.5px;
+  border-left: 1.5px dashed color-mix(in srgb, var(--accent-cyan) 30%, transparent);
+}
+
+.lifeline:first-child {
+  left: 40px;
+}
+
+.lifeline:nth-child(2) {
+  right: 40px;
+}
+
+/* ── Phase group ── */
+.phaseGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  position: relative;
+  z-index: 1;
+}
+
+.phaseSeparator {
+  width: 100%;
+  height: 1px;
+  background: var(--ink-4);
+  margin: var(--space-2) 0;
+}
+
+/* ── Arrow rows ── */
+.arrowRow {
+  display: flex;
+  align-items: center;
+  padding: var(--space-1) 0;
+  padding-left: 56px;
+  padding-right: 56px;
+}
+
+.arrowClickable {
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.arrowClickable:hover {
+  background: color-mix(in srgb, var(--accent-cyan) 8%, transparent);
+}
+
+.arrowClickable:hover .arrowLabel {
+  color: var(--accent-cyan);
+}
+
+/* ── Arrow line ── */
+.arrow {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 24px;
+}
+
+.arrow::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 0;
+  border-top: 1.5px dashed var(--accent-cyan);
+  transform: translateY(-50%);
+}
+
+/* Direction arrows */
+.right::before {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 8px solid var(--accent-cyan);
+  z-index: 1;
+}
+
+.left::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-right: 8px solid var(--accent-cyan);
+  z-index: 1;
+}
+
+/* Variant styling */
+.response::after {
+  opacity: 0.6;
+}
+
+.notification::after {
+  opacity: 0.4;
+  border-top-style: dotted;
+}
+
+.notification::before {
+  opacity: 0.4;
+}
+
+/* ── Arrow label ── */
+.arrowLabel {
+  position: relative;
+  z-index: 2;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink-on-dark-2);
+  background: var(--ink-1);
+  padding: 2px 8px;
+  white-space: nowrap;
+  margin: 0 auto;
+}
+
+/* ── Popup overlay ── */
+.popupBackdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.popupWindow {
+  width: fit-content;
+  min-width: 500px;
+  max-width: 90%;
+  max-height: 80%;
+  display: flex;
+  flex-direction: column;
+  background: var(--ink-1);
+  border: 1px solid var(--ink-4);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.popupTitleBar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: color-mix(in srgb, var(--ink-4) 30%, transparent);
+  border-bottom: 1px solid var(--ink-4);
+  flex-shrink: 0;
+}
+
+.popupCloseBtn {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #ff5f57;
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: opacity 0.2s;
+}
+
+.popupCloseBtn:hover {
+  opacity: 0.8;
+}
+
+.popupTitle {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-on-dark-2);
+  letter-spacing: 0.05em;
+}
+
+.popupContent {
+  padding: var(--space-4);
+  overflow-y: auto;
+  flex: 1;
+}
+
+.popupCode {
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.popupCode :global(pre) {
+  margin: 0;
+  padding: 0;
+  background: transparent !important;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.popupCode :global(code) {
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.popupCodeFallback {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-on-dark-2);
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin: 0;
+}

@@ -1,6 +1,6 @@
 import { motion } from 'motion/react'
 import { Wireframe } from '@/components/paper'
-import styles from './08-mcp-capabilities.module.css'
+import styles from './09-mcp-capabilities.module.css'
 
 export const fullbleed = true
 export const substeps = 3
