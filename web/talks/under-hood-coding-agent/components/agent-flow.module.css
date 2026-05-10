@@ -336,3 +336,43 @@
   color: var(--ink-on-dark-2);
   text-align: center;
 }
+
+/* ── Thinking toggle ── */
+.thinkingToggle {
+  position: absolute;
+  top: var(--space-7);
+  right: var(--space-8);
+  background: color-mix(in srgb, var(--ink-4) 30%, transparent);
+  border: 1px solid var(--ink-4);
+  border-radius: 8px;
+  padding: var(--space-2);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: box-shadow 0.2s, opacity 0.2s, border-color 0.2s;
+}
+
+.thinkingToggle:hover {
+  box-shadow: 0 0 12px color-mix(in srgb, var(--ink-on-dark-2) 30%, transparent);
+  border-color: var(--ink-on-dark-2);
+}
+
+.thinkingToggle img {
+  width: 28px;
+  height: 28px;
+  opacity: 0.9;
+  transition: opacity 0.2s;
+}
+
+.thinkingToggleOff {
+  opacity: 0.3;
+}
+
+.thinkingToggleOff img {
+  opacity: 0.3;
+}
+
+.thinkingToggleShifted {
+  right: calc(var(--space-8) + 56px);
+}

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { motion } from 'motion/react';
 import { Wireframe } from '@/components/paper';
 import {
@@ -50,6 +51,7 @@ export default function WithoutPtcSlide({
 }: {
   activeSubstep?: number;
 }) {
+  const [showThinking, setShowThinking] = useState(() => localStorage.getItem('showThinking') !== 'false')
   return (
     <AgentFlowLayout
       eyebrow="Traditional Flow"
@@ -63,6 +65,12 @@ export default function WithoutPtcSlide({
         />
       }
     >
+      <button
+        className={`${styles.thinkingToggle} ${!showThinking ? styles.thinkingToggleOff : ''}`}
+        onClick={() => { const next = !showThinking; setShowThinking(next); localStorage.setItem('showThinking', String(next)) }}
+      >
+        <img src="/assets/brain.svg" alt="Toggle thinking" width={28} height={28} />
+      </button>
       <AgentFlowLayout.Runtime>
         {/* Substep 0: User question */}
         <UserBlock>
@@ -70,8 +78,8 @@ export default function WithoutPtcSlide({
         </UserBlock>
 
         {/* Substep 1: Model predict */}
-        <FlowConnector visible={activeSubstep >= 1} />
-        <ThinkingBlockContext label="MODEL PREDICT" visible={activeSubstep >= 1}>
+        {showThinking && <FlowConnector visible={activeSubstep >= 1} />}
+        <ThinkingBlockContext label="MODEL PREDICT" visible={showThinking && activeSubstep >= 1}>
           Thinking: I need to get the user's transactions from last month.
         </ThinkingBlockContext>
 
@@ -91,11 +99,11 @@ export default function WithoutPtcSlide({
         />
 
         {/* Substep 4-6: Model predict with progressive thinking */}
-        <FlowConnector visible={activeSubstep >= 4} />
-        <ThinkingBlockContext label="MODEL PREDICT" visible={activeSubstep >= 4}>
+        {showThinking && <FlowConnector visible={activeSubstep >= 4} />}
+        <ThinkingBlockContext label="MODEL PREDICT" visible={showThinking && activeSubstep >= 4}>
           Thinking: OK I have all 150 transactions. Let me find the Starbucks ones...
         </ThinkingBlockContext>
-        <ThinkingBlockContext label={null} visible={activeSubstep >= 5}>
+        <ThinkingBlockContext label={null} visible={showThinking && activeSubstep >= 5}>
           Found them. Now let me add them up... 4.50 + 3.80 + 5.20 + 3.95 + 4.15...
         </ThinkingBlockContext>
         <CommentaryBlock visible={activeSubstep >= 6}>
@@ -120,7 +128,7 @@ export default function WithoutPtcSlide({
           </UserBlock>
 
           {/* Thinking 1 */}
-          <ThinkingBlockContext visible={activeSubstep >= 1}>
+          <ThinkingBlockContext visible={showThinking && activeSubstep >= 1}>
             I need to get the user's transactions from last month.
           </ThinkingBlockContext>
 
@@ -153,12 +161,12 @@ export default function WithoutPtcSlide({
           />
 
           {/* Thinking 2 - scanning */}
-          <ThinkingBlockContext visible={activeSubstep >= 4}>
+          <ThinkingBlockContext visible={showThinking && activeSubstep >= 4}>
             OK I have all 150 transactions. Let me find the Starbucks ones...
           </ThinkingBlockContext>
 
           {/* Thinking 2 continued - summing */}
-          <ThinkingBlockContext visible={activeSubstep >= 5}>
+          <ThinkingBlockContext visible={showThinking && activeSubstep >= 5}>
             Found them. Now let me add them up... 4.50 + 3.80 + 5.20 + 3.95 +
             4.15...
           </ThinkingBlockContext>

@@ -1,6 +1,7 @@
+import { useState } from 'react';
 import { motion } from 'motion/react';
 import { Wireframe } from '@/components/paper';
-import { FinderOverlay, ContextBar, WriteBlock, BashBlock, UserBlock, ThinkingBlockContext, ModelBlock } from '../components';
+import { FinderOverlay, ContextBar, WriteBlock, BashBlock, UserBlock, ThinkingBlockContext, ModelBlock, styles as sharedStyles } from '../components';
 import styles from './04-with-ptc.module.css';
 
 export const fullbleed = true;
@@ -17,6 +18,7 @@ export default function WithPtcSlide({
 }: {
   activeSubstep?: number;
 }) {
+  const [showThinking, setShowThinking] = useState(() => localStorage.getItem('showThinking') !== 'false')
   return (
     <Wireframe className={styles.outer} accent="forest">
       <div className={styles.container}>
@@ -37,12 +39,12 @@ export default function WithPtcSlide({
             </UserBlock>
 
             {/* Substep 1: Model predict call */}
-            <motion.div
+            {showThinking && <motion.div
               className={styles.connector}
               animate={{ opacity: activeSubstep >= 1 ? 1 : 0 }}
               transition={{ duration: 0.35 }}
-            />
-            <ThinkingBlockContext label="MODEL PREDICT" visible={activeSubstep >= 1}>
+            />}
+            <ThinkingBlockContext label="MODEL PREDICT" visible={showThinking && activeSubstep >= 1}>
               Thinking: The get_transactions tool only has a time filter, but I also need to filter by merchant. Let me write some code to filter again by merchant.
             </ThinkingBlockContext>
 
@@ -69,12 +71,12 @@ export default function WithPtcSlide({
             />
 
             {/* Substep 4: Model predict call */}
-            <motion.div
+            {showThinking && <motion.div
               className={styles.connector}
               animate={{ opacity: activeSubstep >= 4 ? 1 : 0 }}
               transition={{ duration: 0.35 }}
-            />
-            <ThinkingBlockContext label="MODEL PREDICT" visible={activeSubstep >= 4}>
+            />}
+            <ThinkingBlockContext label="MODEL PREDICT" visible={showThinking && activeSubstep >= 4}>
               Thinking: Code written, let me now execute it!
             </ThinkingBlockContext>
 
@@ -99,12 +101,12 @@ export default function WithPtcSlide({
             />
 
             {/* Substep 7: Model predict call */}
-            <motion.div
+            {showThinking && <motion.div
               className={styles.connector}
               animate={{ opacity: activeSubstep >= 7 ? 1 : 0 }}
               transition={{ duration: 0.35 }}
-            />
-            <ThinkingBlockContext label="MODEL PREDICT" visible={activeSubstep >= 7}>
+            />}
+            <ThinkingBlockContext label="MODEL PREDICT" visible={showThinking && activeSubstep >= 7}>
               Thinking: Nice that worked! Let me tell the user.
             </ThinkingBlockContext>
 
@@ -132,7 +134,7 @@ export default function WithPtcSlide({
               </UserBlock>
 
               {/* Thinking 1 */}
-              <ThinkingBlockContext visible={activeSubstep >= 1}>
+              <ThinkingBlockContext visible={showThinking && activeSubstep >= 1}>
                 The get_transactions tool only has a time filter, but I also need to filter by merchant. Let me write some code to filter again by merchant.
               </ThinkingBlockContext>
 
@@ -147,7 +149,7 @@ export default function WithPtcSlide({
               />
 
               {/* Thinking 2 */}
-              <ThinkingBlockContext visible={activeSubstep >= 4}>
+              <ThinkingBlockContext visible={showThinking && activeSubstep >= 4}>
                 Code written, let me now execute it!
               </ThinkingBlockContext>
 
@@ -159,7 +161,7 @@ export default function WithPtcSlide({
               />
 
               {/* Thinking 3 */}
-              <ThinkingBlockContext visible={activeSubstep >= 7}>
+              <ThinkingBlockContext visible={showThinking && activeSubstep >= 7}>
                 Nice that worked! Let me tell the user.
               </ThinkingBlockContext>
 
@@ -220,6 +222,13 @@ export default function WithPtcSlide({
             </span>
           </Wireframe>
         </motion.div>
+        {/* Thinking toggle */}
+        <button
+          className={`${sharedStyles.thinkingToggle} ${sharedStyles.thinkingToggleShifted} ${!showThinking ? sharedStyles.thinkingToggleOff : ''}`}
+          onClick={() => { const next = !showThinking; setShowThinking(next); localStorage.setItem('showThinking', String(next)) }}
+        >
+          <img src="/assets/brain.svg" alt="Toggle thinking" width={28} height={28} />
+        </button>
         {/* Finder overlay */}
         <FinderOverlay
           files={activeSubstep >= 3 ? [{ name: 'get_txns_starbucks_transactions_last_month.py', content: CODE, language: 'python' }] : []}
