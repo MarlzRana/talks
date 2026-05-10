@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from 'motion/react'
 import DecoderDiagram from '../components/DecoderDiagram'
 import ChatWindow from '../components/ChatWindow'
-import styles from './03-what-is-a-model.module.css'
+import styles from './what-is-a-model.module.css'
 
 export const fullbleed = true
 export const substeps = 26

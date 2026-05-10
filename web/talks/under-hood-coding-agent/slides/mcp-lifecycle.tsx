@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import { codeToHtml } from 'shiki'
 import { Wireframe } from '@/components/paper'
-import styles from './06-mcp-lifecycle.module.css'
+import styles from './mcp-lifecycle.module.css'
 
 export const fullbleed = true
 export const substeps = 7

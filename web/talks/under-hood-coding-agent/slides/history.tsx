@@ -1,5 +1,5 @@
 import { TimelineSlide, TimelineCard } from '../components'
-import styles from './02-history.module.css'
+import styles from './history.module.css'
 
 export const fullbleed = true
 export const substeps = 9

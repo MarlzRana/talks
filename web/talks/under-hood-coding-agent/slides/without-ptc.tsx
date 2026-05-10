@@ -13,7 +13,7 @@ import {
   McpBlock,
   styles,
 } from '../components';
-import localStyles from './03-without-ptc.module.css';
+import localStyles from './without-ptc.module.css';
 
 export const fullbleed = true;
 export const substeps = 9;

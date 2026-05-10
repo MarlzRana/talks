@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { motion } from 'motion/react';
 import { Wireframe } from '@/components/paper';
 import { FinderOverlay, ContextBar, WriteBlock, BashBlock, UserBlock, ThinkingBlockContext, ModelBlock, styles as sharedStyles } from '../components';
-import styles from './04-with-ptc.module.css';
+import styles from './with-ptc.module.css';
 
 export const fullbleed = true;
 export const substeps = 10;
