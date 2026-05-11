@@ -1,0 +1,172 @@
+.container {
+  --slide-accent: var(--accent-indigo);
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--paper-black);
+  background-image:
+    radial-gradient(circle, rgba(241, 237, 227, 0.18) 0.6px, transparent 0.7px),
+    radial-gradient(circle, rgba(241, 237, 227, 0.08) 0.5px, transparent 0.6px);
+  background-size: 80px 80px, 16px 16px;
+  overflow: hidden;
+}
+
+/* ── Title box with wireframe rails ── */
+.titleBox {
+  position: absolute;
+  top: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 0.5px solid color-mix(in srgb, var(--slide-accent) 50%, transparent);
+  border-right: 0.5px solid color-mix(in srgb, var(--slide-accent) 50%, transparent);
+  padding: var(--space-3) var(--space-6);
+  z-index: 1;
+}
+
+.titleBox::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100vw;
+  right: -100vw;
+  height: 0;
+  border-top: 0.5px solid color-mix(in srgb, var(--slide-accent) 50%, transparent);
+}
+
+.titleBox::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: -100vw;
+  right: -100vw;
+  height: 0;
+  border-top: 0.5px solid color-mix(in srgb, var(--slide-accent) 50%, transparent);
+}
+
+.titleText {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  font-weight: 700;
+  color: var(--ink-on-dark-1);
+  margin: 0;
+  white-space: nowrap;
+}
+
+.mark {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.mark::before,
+.mark::after {
+  content: '';
+  position: absolute;
+}
+
+.mark::before {
+  width: 16px;
+  height: 0.5px;
+  top: 50%;
+  left: 0;
+  background: var(--ink-on-dark-2);
+  opacity: 0.5;
+}
+
+.mark::after {
+  width: 0.5px;
+  height: 16px;
+  top: 0;
+  left: 50%;
+  background: var(--ink-on-dark-2);
+  opacity: 0.5;
+}
+
+.mark[data-pos='tl'] { top: -8px; left: -8px; }
+.mark[data-pos='tr'] { top: -8px; right: -8px; }
+.mark[data-pos='bl'] { bottom: -8px; left: -8px; }
+.mark[data-pos='br'] { bottom: -8px; right: -8px; }
+
+/* ── Content layout ── */
+.content {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+  width: 100%;
+}
+
+.diagramFull {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px var(--space-4) var(--space-4);
+}
+
+.diagramLeft {
+  flex: 0 0 25%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+}
+
+.contextArea {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-5) var(--space-5) var(--space-5) 0;
+  overflow-y: auto;
+}
+
+.runtimeHeader {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--ink-on-dark-2);
+  padding-bottom: var(--space-2);
+  border-bottom: 0.5px solid var(--ink-4);
+  margin-bottom: var(--space-3);
+}
+
+.runtimeFrame {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  overflow-y: auto;
+  font-size: 16px;
+  transform: scale(1.1);
+  transform-origin: top left;
+}
+
+.codeArea {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-5) var(--space-5) var(--space-5) 0;
+}
+
+.codePanel {
+  width: 100%;
+  max-width: 600px;
+  border: 0.5px solid var(--ink-4);
+  border-radius: 6px;
+  padding: var(--space-4);
+  background: var(--paper-deep);
+  overflow-x: auto;
+}
+
+.codePanel pre {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 17px;
+  line-height: 1.75;
+}

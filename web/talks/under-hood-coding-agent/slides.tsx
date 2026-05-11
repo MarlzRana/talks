@@ -2,6 +2,8 @@ import type { SlideModule } from '@/types'
 import * as TitleSlide from './slides/title'
 import * as HistorySlide from './slides/history'
 import * as WhatIsAModelSlide from './slides/what-is-a-model'
+import * as ReactLoopSlide from './slides/react-loop'
+import * as ReactLoopExampleSlide from './slides/react-loop-example'
 import * as ContextLimitSlide from './slides/context-limit'
 import * as ContextRotCompactionSlide from './slides/context-rot-compaction'
 import * as JitContextSlide from './slides/jit-context'
@@ -19,6 +21,8 @@ export const slides: SlideModule[] = [
   TitleSlide,
   HistorySlide,
   WhatIsAModelSlide,
+  ReactLoopSlide,
+  ReactLoopExampleSlide,
   ContextLimitSlide,
   ContextRotCompactionSlide,
   JitContextSlide,
