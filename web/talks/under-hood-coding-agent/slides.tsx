@@ -7,6 +7,7 @@ import * as ReactLoopExampleSlide from './slides/react-loop-example'
 import * as ContextLimitSlide from './slides/context-limit'
 import * as ContextRotCompactionSlide from './slides/context-rot-compaction'
 import * as JitContextSlide from './slides/jit-context'
+import * as SkillsUnderHoodSlide from './slides/skills-under-hood'
 import * as WithoutPtcSlide from './slides/without-ptc'
 import * as WithPtcSlide from './slides/with-ptc'
 import * as InterfaceHistorySlide from './slides/interface-history'
@@ -26,6 +27,7 @@ export const slides: SlideModule[] = [
   ContextLimitSlide,
   ContextRotCompactionSlide,
   JitContextSlide,
+  SkillsUnderHoodSlide,
   WithoutPtcSlide,
   WithPtcSlide,
   InterfaceHistorySlide,

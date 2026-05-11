@@ -1,0 +1,192 @@
+.container {
+  --slide-accent: var(--accent-cyan);
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  background-color: var(--paper-black);
+  background-image:
+    radial-gradient(circle, rgba(241, 237, 227, 0.18) 0.6px, transparent 0.7px),
+    radial-gradient(circle, rgba(241, 237, 227, 0.08) 0.5px, transparent 0.6px);
+  background-size: 80px 80px, 16px 16px;
+  overflow: hidden;
+}
+
+.finderArea {
+  flex: 0 0 32%;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-4);
+}
+
+.runtimeArea {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-4) var(--space-5);
+  overflow-y: auto;
+}
+
+.runtimeHeader {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--ink-on-dark-2);
+  padding-bottom: var(--space-2);
+  border-bottom: 0.5px solid var(--ink-4);
+  margin-bottom: var(--space-3);
+}
+
+.runtimeBlocks {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  font-size: 14px;
+}
+
+/* Finder window (always visible, no icon trigger) */
+.finderWindow {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border: 0.5px solid var(--ink-4);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--paper-deep);
+}
+
+.finderTitleBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-bottom: 0.5px solid var(--ink-4);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.finderDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.finderDotRed { background: #ff5f57; }
+.finderDotYellow { background: #febc2e; }
+.finderDotGreen { background: #28c840; }
+
+.finderPath {
+  margin-left: 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-on-dark-2);
+}
+
+.finderBody {
+  flex: 1;
+  padding: var(--space-3);
+  overflow-y: auto;
+}
+
+.finderItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-on-dark-1);
+  transition: background 0.15s;
+}
+
+.finderItem:hover {
+  background: color-mix(in srgb, var(--slide-accent) 12%, transparent);
+}
+
+.finderFolder {
+  color: var(--ink-on-dark-2);
+  font-size: 11px;
+  padding-left: 10px;
+  margin-top: 6px;
+  margin-bottom: 2px;
+  cursor: default;
+}
+
+.finderFolder:hover {
+  background: none;
+}
+
+.finderIcon {
+  font-size: 14px;
+  opacity: 0.6;
+}
+
+/* File overlay (when a file is clicked) */
+.fileOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+}
+
+.fileViewer {
+  width: 80%;
+  max-width: 700px;
+  max-height: 70vh;
+  border: 0.5px solid var(--slide-accent);
+  border-radius: 8px;
+  background: var(--paper-deep);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.fileViewerTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-bottom: 0.5px solid var(--ink-4);
+}
+
+.fileViewerClose {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #ff5f57;
+  border: none;
+  cursor: pointer;
+}
+
+.fileViewerName {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-on-dark-2);
+}
+
+.fileViewerContent {
+  flex: 1;
+  padding: var(--space-4);
+  overflow-y: auto;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--ink-on-dark-1);
+}
+
+.fileViewerContent :global(pre) {
+  margin: 0;
+  background: transparent !important;
+}
+
+.fileViewerContent :global(code) {
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
