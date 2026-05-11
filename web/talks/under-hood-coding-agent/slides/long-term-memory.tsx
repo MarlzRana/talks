@@ -15,7 +15,6 @@ Always use \`uv pip install\` instead of \`pip install\`.`,
   'MEMORY.md': `- [Package manager](project_package_manager.md) — This project uses uv, not pip`,
 }
 
-
 export const fullbleed = true
 export const substeps = 12
 
