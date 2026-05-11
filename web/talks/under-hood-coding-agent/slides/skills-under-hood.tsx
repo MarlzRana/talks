@@ -104,6 +104,12 @@ export default function SkillsUnderHoodSlide({ activeSubstep = 0 }: { activeSubs
 
   return (
     <div className={styles.container}>
+      {/* Title */}
+      <div className={styles.titleBar}>
+        <span className={styles.eyebrow}>Progressive Disclosure</span>
+        <h1 className={styles.slideTitle}>Skills</h1>
+      </div>
+
       {/* Left: Finder window */}
       <div className={styles.finderArea}>
         <div className={styles.finderWindow}>

@@ -117,6 +117,12 @@ export default function RulesUnderHoodSlide({ activeSubstep = 0 }: { activeSubst
 
   return (
     <div className={styles.container}>
+      {/* Title */}
+      <div className={styles.titleBar}>
+        <span className={styles.eyebrow}>Progressive Disclosure</span>
+        <h1 className={styles.slideTitle}>Rules</h1>
+      </div>
+
       {/* Left: Finder window showing rules */}
       <div className={styles.finderArea}>
         <div className={styles.finderWindow}>
