@@ -1,0 +1,91 @@
+/* ── XmlBlock: expandable XML-tagged content block ── */
+
+.xmlBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: var(--space-2) var(--space-3);
+  border: 0.5px solid var(--ink-4);
+  background: color-mix(in srgb, var(--ink-4) 5%, transparent);
+  border-radius: 2px;
+  transition: background 0.2s;
+}
+
+.xmlBlock:hover {
+  background: color-mix(in srgb, var(--ink-4) 10%, transparent);
+}
+
+/* ── Accent variants ── */
+.crimson {
+  border-color: color-mix(in srgb, var(--accent-crimson) 40%, var(--ink-4));
+  background: color-mix(in srgb, var(--accent-crimson) 5%, transparent);
+}
+.crimson:hover {
+  background: color-mix(in srgb, var(--accent-crimson) 10%, transparent);
+}
+.crimson .xmlTag {
+  color: var(--accent-crimson);
+}
+
+.forest {
+  border-color: color-mix(in srgb, var(--accent-forest) 40%, var(--ink-4));
+  background: color-mix(in srgb, var(--accent-forest) 5%, transparent);
+}
+.forest:hover {
+  background: color-mix(in srgb, var(--accent-forest) 10%, transparent);
+}
+.forest .xmlTag {
+  color: var(--accent-forest);
+}
+
+.violet {
+  border-color: color-mix(in srgb, var(--accent-violet) 40%, var(--ink-4));
+  background: color-mix(in srgb, var(--accent-violet) 5%, transparent);
+}
+.violet:hover {
+  background: color-mix(in srgb, var(--accent-violet) 10%, transparent);
+}
+.violet .xmlTag {
+  color: var(--accent-violet);
+}
+
+.cyan {
+  border-color: color-mix(in srgb, var(--accent-cyan) 40%, var(--ink-4));
+  background: color-mix(in srgb, var(--accent-cyan) 5%, transparent);
+}
+.cyan:hover {
+  background: color-mix(in srgb, var(--accent-cyan) 10%, transparent);
+}
+.cyan .xmlTag {
+  color: var(--accent-cyan);
+}
+
+/* ── Tag styling ── */
+.xmlTag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+/* ── Preview (collapsed) ── */
+.xmlPreview {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-on-dark-2);
+  line-height: 1.4;
+}
+
+/* ── Expanded content ── */
+.xmlExpandedContent {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--ink-on-dark-2);
+  line-height: 1.4;
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin: 0;
+  padding: 0;
+  max-height: 280px;
+  overflow-y: auto;
+}

@@ -7,6 +7,7 @@
 .wireframe[data-accent='ochre'] { border-color: color-mix(in srgb, var(--accent-ochre) 40%, transparent); }
 .wireframe[data-accent='forest'] { border-color: color-mix(in srgb, var(--accent-forest) 40%, transparent); }
 .wireframe[data-accent='ink-blue'] { border-color: color-mix(in srgb, var(--accent-ink-blue) 40%, transparent); }
+.wireframe[data-accent='cyan'] { border-color: color-mix(in srgb, var(--accent-cyan) 40%, transparent); }
 .wireframe[data-accent='crimson'] { border-color: color-mix(in srgb, var(--accent-crimson) 40%, transparent); }
 .wireframe[data-accent='rust'] { border-color: color-mix(in srgb, var(--accent-rust) 40%, transparent); }
 

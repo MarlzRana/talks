@@ -1,0 +1,228 @@
+/* ── Slide 07: Design for Agent Stories ── */
+
+.outer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: stretch;
+}
+
+.container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-6) var(--space-7);
+  gap: var(--space-4);
+  min-height: 0;
+}
+
+/* ── Title bar ── */
+.titleBar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  flex-shrink: 0;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-forest);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--ink-on-dark-1);
+  margin: 0;
+}
+
+.agentStory {
+  font-family: var(--font-text);
+  font-size: 15px;
+  font-style: italic;
+  color: var(--ink-on-dark-2);
+  margin: var(--space-1) 0 0;
+  line-height: 1.5;
+}
+
+.agentStory em {
+  font-style: normal;
+  font-weight: 600;
+  color: var(--accent-forest);
+}
+
+/* ── Columns ── */
+.columns {
+  display: flex;
+  flex: 1;
+  gap: var(--space-6);
+  min-height: 0;
+}
+
+.leftColumn {
+  flex: 0 0 38%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-height: 0;
+}
+
+.rightColumn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.columnHeader {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-on-dark-2);
+}
+
+/* ── Tool card ── */
+.toolCardWrapper {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.toolCard {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-4);
+  flex: 1;
+  min-height: 0;
+}
+
+.toolSchema {
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-y: auto;
+  min-height: 0;
+  flex: 1;
+}
+
+.toolSchema :global(pre) {
+  margin: 0;
+  padding: 0;
+  background: transparent !important;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.toolSchema :global(code) {
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+.toolSchemaFallback {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--ink-on-dark-1);
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin: 0;
+}
+
+/* ── Runtime panel ── */
+.runtimeWindow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  padding-bottom: calc(var(--space-4) + 60px);
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  position: relative;
+}
+
+
+/* ── Pulsing tool count ── */
+.toolCountPulse {
+  color: var(--accent-forest);
+  font-weight: 700;
+  animation: pulse 1.5s ease-in-out 2;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; transform: scale(1.1); }
+}
+
+/* ── Old tools struck through ── */
+.oldToolsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+  overflow: hidden;
+}
+
+.oldToolPill {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--accent-crimson);
+  padding: 6px 14px;
+  border: 1px solid color-mix(in srgb, var(--accent-crimson) 40%, transparent);
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--accent-crimson) 8%, transparent);
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+/* ── Context bar with comparison ── */
+.contextBarWrapper {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.contextBarLabel {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-on-dark-2);
+}
+
+.contextBarTrack {
+  position: relative;
+  height: 8px;
+  border-radius: 4px;
+}
+
+.contextBarOld {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  border: 1.5px solid var(--accent-crimson);
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--accent-crimson) 6%, transparent);
+}
+
+.contextBarFill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  border-radius: 4px;
+  z-index: 1;
+}
+

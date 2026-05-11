@@ -7,7 +7,7 @@ import {
   BashBlock,
   ContextBar,
 } from '../components/context-window'
-import styles from './04-context-rot-compaction.module.css'
+import styles from './context-rot-compaction.module.css'
 
 export const fullbleed = true
 export const substeps = 5

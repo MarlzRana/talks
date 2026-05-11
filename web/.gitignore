@@ -20,3 +20,6 @@ tsconfig.tsbuildinfo
 # Plan and prompt files
 *.plan.md
 *.prompt.md
+
+# Claude runtime
+.claude/scheduled_tasks.lock

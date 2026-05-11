@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from 'motion/react'
 import { Wireframe } from '@/components/paper'
-import styles from './05-jit-context.module.css'
+import styles from './jit-context.module.css'
 
 export const fullbleed = true
 export const substeps = 6

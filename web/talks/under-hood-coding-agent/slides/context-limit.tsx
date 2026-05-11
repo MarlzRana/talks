@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from 'motion/react'
 import { Wireframe } from '@/components/paper'
-import styles from './03-context-limit.module.css'
+import styles from './context-limit.module.css'
 
 export const fullbleed = true
 export const substeps = 7

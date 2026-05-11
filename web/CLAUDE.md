@@ -65,7 +65,7 @@ talks/
   demo/                             # Capability demo (13 slides)
     index.ts                        # TalkConfig
     slides.tsx                      # Barrel: namespace imports, ordered array
-    slides/01-title.tsx ... 13-substeps.tsx
+    slides/title.tsx, content.tsx, substeps.tsx, ...
     components/SampleChart.tsx, SampleDiagram.tsx, SampleScene3D.tsx
 ```
 
@@ -110,12 +110,12 @@ interface TalkConfig {
 ## Adding a New Talk
 
 1. Create `talks/my-talk/`
-2. Create `talks/my-talk/slides/01-title.tsx`, `02-...tsx`, etc.
+2. Create `talks/my-talk/slides/title.tsx`, `content.tsx`, etc. (no number prefixes — ordering is in `slides.tsx`)
 3. Create `talks/my-talk/slides.tsx`:
    ```tsx
    import type { SlideModule } from '@/types'
-   import * as TitleSlide from './slides/01-title'
-   import * as SecondSlide from './slides/02-content'
+   import * as TitleSlide from './slides/title'
+   import * as SecondSlide from './slides/content'
    export const slides: SlideModule[] = [TitleSlide, SecondSlide]
    ```
 4. Create `talks/my-talk/index.ts`:

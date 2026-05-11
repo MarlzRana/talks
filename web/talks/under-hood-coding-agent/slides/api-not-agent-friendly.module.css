@@ -1,0 +1,266 @@
+/* ── Slide 06: APIs Are Not Agent-Friendly ── */
+
+.outer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: stretch;
+}
+
+.container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-6) var(--space-7);
+  gap: var(--space-4);
+  min-height: 0;
+}
+
+/* ── Title bar ── */
+.titleBar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  flex-shrink: 0;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-crimson);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--ink-on-dark-1);
+  margin: 0;
+}
+
+/* ── Columns ── */
+.columns {
+  display: flex;
+  flex: 1;
+  gap: var(--space-6);
+  min-height: 0;
+  margin-top: var(--space-4);
+}
+
+.leftColumn {
+  flex: 0 0 42%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  position: relative;
+}
+
+.rightColumn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  position: relative;
+}
+
+/* ── Paired rows (Phase 1) ── */
+.pairedList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  flex: 1;
+}
+
+.pairedRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) 0;
+  gap: var(--space-6);
+}
+
+.endpointSide {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex: 0 0 auto;
+}
+
+.toolSide {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  justify-content: flex-end;
+}
+
+.endpointPath {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-on-dark-1);
+}
+
+.badgeGroup {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.badge {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 3px;
+  letter-spacing: 0.04em;
+}
+
+.badgeGET {
+  background: color-mix(in srgb, var(--accent-forest) 20%, transparent);
+  color: var(--accent-forest);
+  border: 1px solid color-mix(in srgb, var(--accent-forest) 40%, transparent);
+}
+
+.badgePOST {
+  background: color-mix(in srgb, var(--accent-cyan) 20%, transparent);
+  color: var(--accent-cyan);
+  border: 1px solid color-mix(in srgb, var(--accent-cyan) 40%, transparent);
+}
+
+.badgePUT {
+  background: color-mix(in srgb, #e5c07b 20%, transparent);
+  color: #e5c07b;
+  border: 1px solid color-mix(in srgb, #e5c07b 40%, transparent);
+}
+
+.badgeDEL {
+  background: color-mix(in srgb, var(--accent-crimson) 20%, transparent);
+  color: var(--accent-crimson);
+  border: 1px solid color-mix(in srgb, var(--accent-crimson) 40%, transparent);
+}
+
+.dottedSeparator {
+  border-bottom: 1.5px dashed color-mix(in srgb, var(--ink-4) 60%, transparent);
+  margin: var(--space-1) 0;
+}
+
+.moreLabel {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--ink-on-dark-2);
+  padding: var(--space-2) 0;
+}
+
+/* ── Tool cards with expandable schemas ── */
+.toolCardGrid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  overflow-y: auto;
+  flex: 1;
+}
+
+.toolCardWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.toolSchemaExpanded {
+  overflow: hidden;
+  border-left: 2px solid color-mix(in srgb, var(--accent-crimson) 40%, transparent);
+  margin-left: var(--space-2);
+  padding-left: var(--space-3);
+  margin-top: var(--space-1);
+}
+
+.schemaCode {
+  font-size: 12px;
+  line-height: 1.5;
+  overflow: hidden;
+}
+
+.schemaCode :global(pre) {
+  margin: 0;
+  padding: 0;
+  background: transparent !important;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.schemaCode :global(code) {
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.schemaCodeFallback {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-on-dark-2);
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin: 0;
+}
+
+
+.toolPill {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink-on-dark-1);
+  padding: 6px 14px;
+  border: 1px solid var(--ink-4);
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--ink-4) 8%, transparent);
+  white-space: nowrap;
+}
+
+/* ── Runtime panel (Phase 2 right) ── */
+.runtimePanel {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.runtimeWindow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  padding-bottom: calc(var(--space-4) + 60px);
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  position: relative;
+}
+
+.columnHeader {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-on-dark-2);
+  margin-bottom: var(--space-1);
+}
+
+
+.toolCountPulse {
+  color: var(--accent-crimson);
+  font-weight: 700;
+  animation: pulse 1.5s ease-in-out 2;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; transform: scale(1.1); }
+}
+
+

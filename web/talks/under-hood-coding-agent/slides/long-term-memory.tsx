@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { motion } from 'motion/react'
 import { Wireframe } from '@/components/paper'
 import { FinderOverlay, WriteBlock, UserBlock, BashBlock } from '../components'
-import styles from './08-long-term-memory.module.css'
+import styles from './long-term-memory.module.css'
 
 const FILE_CONTENTS: Record<string, string> = {
   'project_package_manager.md': `---
@@ -14,7 +14,6 @@ type: feedback
 Always use \`uv pip install\` instead of \`pip install\`.`,
   'MEMORY.md': `- [Package manager](project_package_manager.md) — This project uses uv, not pip`,
 }
-
 
 export const fullbleed = true
 export const substeps = 12

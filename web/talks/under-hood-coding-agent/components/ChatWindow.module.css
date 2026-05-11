@@ -1,0 +1,96 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background: var(--paper-deep);
+  border: 0.5px solid var(--ink-4);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  border-bottom: 0.5px solid var(--ink-4);
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ink-4);
+  opacity: 0.5;
+}
+
+.title {
+  margin-left: 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-on-dark-2);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.messages {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.userBubble {
+  position: relative;
+  align-self: flex-end;
+  max-width: 85%;
+  padding: 10px 14px;
+  background: var(--accent-teal);
+  background: rgba(42, 138, 138, 0.15);
+  border: 0.5px solid var(--accent-teal);
+  border-radius: 12px 12px 2px 12px;
+}
+
+.assistantBubble {
+  position: relative;
+  align-self: flex-start;
+  max-width: 85%;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 0.5px solid var(--ink-4);
+  border-radius: 12px 12px 12px 2px;
+}
+
+.roleLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-on-dark-2);
+  margin-bottom: 4px;
+  opacity: 0.7;
+}
+
+.annotation {
+  position: absolute;
+  top: 6px;
+  right: 10px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--accent-teal);
+  letter-spacing: 0.05em;
+}
+
+.text {
+  font-family: var(--font-text);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-on-dark-1);
+}
