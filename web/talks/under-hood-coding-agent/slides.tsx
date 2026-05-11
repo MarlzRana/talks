@@ -9,6 +9,7 @@ import * as ContextRotCompactionSlide from './slides/context-rot-compaction'
 import * as JitContextSlide from './slides/jit-context'
 import * as SkillsUnderHoodSlide from './slides/skills-under-hood'
 import * as RulesUnderHoodSlide from './slides/rules-under-hood'
+import * as AgentsMdLoadingSlide from './slides/agents-md-loading'
 import * as WithoutPtcSlide from './slides/without-ptc'
 import * as WithPtcSlide from './slides/with-ptc'
 import * as InterfaceHistorySlide from './slides/interface-history'
@@ -31,6 +32,7 @@ export const slides: SlideModule[] = [
   JitContextSlide,
   SkillsUnderHoodSlide,
   RulesUnderHoodSlide,
+  AgentsMdLoadingSlide,
   WithoutPtcSlide,
   WithPtcSlide,
   InterfaceHistorySlide,
