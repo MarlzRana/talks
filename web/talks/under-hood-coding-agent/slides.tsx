@@ -20,6 +20,7 @@ import * as DesignForAgentStoriesSlide from './slides/design-for-agent-stories'
 import * as McpCapabilitiesSlide from './slides/mcp-capabilities'
 import * as LongTermMemorySlide from './slides/long-term-memory'
 import * as MemoryConsolidationSlide from './slides/memory-consolidation'
+import * as RecapSlide from './slides/recap'
 import * as OutroSlide from './slides/outro'
 
 export const slides: SlideModule[] = [
@@ -44,5 +45,6 @@ export const slides: SlideModule[] = [
   McpCapabilitiesSlide,
   LongTermMemorySlide,
   MemoryConsolidationSlide,
+  RecapSlide,
   OutroSlide,
 ]
