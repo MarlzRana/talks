@@ -3,12 +3,19 @@ import { motion, AnimatePresence } from 'motion/react'
 import { codeToHtml } from 'shiki'
 import styles from './read-block.module.css'
 
+interface SystemReminderInfo {
+  label: string  // e.g. "java-test.md injected (glob match: **/*Test.java)"
+  content: string // full content shown on expand
+}
+
 interface ReadBlockProps {
   filename: string
   content?: string
   language?: string
   visible?: boolean
   explainer?: string
+  systemReminder?: SystemReminderInfo
+  showSystemReminder?: boolean
 }
 
 function HighlightedCode({ code, language = 'markdown' }: { code: string; language?: string }) {
@@ -25,7 +32,9 @@ function HighlightedCode({ code, language = 'markdown' }: { code: string; langua
   return <div className={styles.highlightedContent} dangerouslySetInnerHTML={{ __html: html }} />
 }
 
-export function ReadBlock({ filename, content, language = 'markdown', visible = true, explainer }: ReadBlockProps) {
+export function ReadBlock({ filename, content, language = 'markdown', visible = true, explainer, systemReminder, showSystemReminder = false }: ReadBlockProps) {
+  const [reminderExpanded, setReminderExpanded] = useState(false)
+
   return (
     <AnimatePresence>
       {visible && (
@@ -50,6 +59,43 @@ export function ReadBlock({ filename, content, language = 'markdown', visible = 
               </motion.div>
             </AnimatePresence>
           )}
+
+          {/* System reminder injected as secondary result */}
+          <AnimatePresence>
+            {systemReminder && showSystemReminder && (
+              <motion.div
+                className={styles.systemReminder}
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.4, ease: 'easeOut' }}
+              >
+                <div className={styles.reminderDivider} />
+                <div
+                  className={styles.reminderHeader}
+                  onClick={() => setReminderExpanded(!reminderExpanded)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setReminderExpanded(!reminderExpanded) } }}
+                >
+                  <span className={styles.reminderTag}>&lt;system-reminder&gt;</span>
+                  <span className={styles.reminderLabel}>{systemReminder.label}</span>
+                  <span className={styles.reminderToggle}>{reminderExpanded ? '▼' : '▶'}</span>
+                </div>
+                {reminderExpanded && (
+                  <motion.pre
+                    className={styles.reminderContent}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    {systemReminder.content}
+                  </motion.pre>
+                )}
+                <span className={styles.reminderTag}>&lt;/system-reminder&gt;</span>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </motion.div>
       )}
     </AnimatePresence>

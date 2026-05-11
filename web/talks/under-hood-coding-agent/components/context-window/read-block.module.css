@@ -63,3 +63,58 @@
   font-family: var(--font-mono);
   font-size: inherit;
 }
+
+/* System reminder (injected as secondary result) */
+.systemReminder {
+  overflow: hidden;
+}
+
+.reminderDivider {
+  height: 0;
+  border-top: 0.5px solid var(--ink-4);
+  margin: var(--space-2) 0;
+}
+
+.reminderHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  cursor: pointer;
+  padding: var(--space-1) 0;
+}
+
+.reminderHeader:hover .reminderLabel {
+  color: var(--ink-on-dark-1);
+}
+
+.reminderTag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--accent-cyan);
+  font-weight: 600;
+}
+
+.reminderLabel {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-on-dark-2);
+  transition: color 0.15s;
+}
+
+.reminderToggle {
+  font-size: 8px;
+  color: var(--ink-on-dark-2);
+  margin-left: auto;
+}
+
+.reminderContent {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.5;
+  color: var(--ink-on-dark-2);
+  white-space: pre-wrap;
+  margin: var(--space-1) 0;
+  padding: var(--space-2);
+  background: color-mix(in srgb, var(--accent-cyan) 5%, transparent);
+  border-radius: 2px;
+}
