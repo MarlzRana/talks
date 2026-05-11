@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { motion } from 'motion/react'
 import { Wireframe } from '@/components/paper'
 import { FinderOverlay, WriteBlock, UserBlock, BashBlock } from '../components'
-import styles from './05-long-term-memory.module.css'
+import styles from './08-long-term-memory.module.css'
 
 const FILE_CONTENTS: Record<string, string> = {
   'project_package_manager.md': `---

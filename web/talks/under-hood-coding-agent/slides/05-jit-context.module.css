@@ -1,0 +1,179 @@
+.outer {
+  width: 100%;
+  height: 100%;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-7) var(--space-8);
+  --slide-accent: var(--accent-forest);
+}
+
+.titleBar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-bottom: var(--space-5);
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--slide-accent);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--ink-on-dark-1);
+}
+
+.lede {
+  margin-top: var(--space-2);
+  font-family: var(--font-text);
+  font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+  line-height: 1.5;
+  color: var(--ink-on-dark-2);
+  max-width: 80ch;
+}
+
+.body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  min-height: 0;
+}
+
+/* Bad / Better pattern columns */
+.patternRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-5);
+}
+
+.patternBox {
+  padding: var(--space-4) var(--space-5);
+  border: 0.5px solid var(--ink-line);
+  background: rgba(255, 255, 255, 0.02);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.patternBad {
+  border-color: rgba(154, 51, 51, 0.5);
+}
+
+.patternGood {
+  border-color: rgba(62, 107, 74, 0.5);
+}
+
+.patternLabel {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.patternBadLabel {
+  color: var(--accent-crimson);
+}
+
+.patternGoodLabel {
+  color: var(--accent-forest);
+}
+
+.patternTitle {
+  font-family: var(--font-text);
+  font-size: 0.95rem;
+  color: var(--ink-on-dark-1);
+  line-height: 1.4;
+}
+
+.patternList {
+  margin: 0;
+  padding-left: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  font-family: var(--font-text);
+  font-size: 0.9rem;
+  color: var(--ink-on-dark-2);
+}
+
+/* Tools grid */
+.toolsHeader {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.toolsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-4);
+}
+
+.toolCard {
+  padding: var(--space-4);
+  border: 0.5px solid var(--ink-line);
+  background: rgba(255, 255, 255, 0.02);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.toolName {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--slide-accent);
+}
+
+.toolDesc {
+  font-family: var(--font-text);
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: var(--ink-on-dark-2);
+}
+
+.toolExample {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--ink-on-dark-1);
+  background: rgba(255, 255, 255, 0.04);
+  padding: var(--space-2);
+  border-radius: 2px;
+  white-space: pre;
+  overflow-x: auto;
+}
+
+/* Takeaway */
+.takeaway {
+  margin-top: auto;
+  padding: var(--space-4) var(--space-5);
+  border: 0.5px dashed var(--slide-accent);
+  background: rgba(62, 107, 74, 0.10);
+  font-family: var(--font-text);
+  font-size: clamp(1rem, 1.4vw, 1.2rem);
+  line-height: 1.5;
+  color: var(--ink-on-dark-1);
+}
+
+.takeaway strong {
+  color: var(--slide-accent);
+  font-weight: 600;
+}

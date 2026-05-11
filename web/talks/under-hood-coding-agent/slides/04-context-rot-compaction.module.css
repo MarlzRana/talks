@@ -1,0 +1,122 @@
+.outer {
+  width: 100%;
+  height: 100%;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-7) var(--space-8);
+  --slide-accent: var(--accent-rust);
+}
+
+.titleBar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-bottom: var(--space-5);
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--slide-accent);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--ink-on-dark-1);
+}
+
+.columns {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-7);
+  min-height: 0;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-height: 0;
+}
+
+.columnHeader {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-on-dark-2);
+  border-bottom: 0.5px solid var(--ink-4);
+  padding-bottom: var(--space-2);
+}
+
+.contextWindow {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  overflow: hidden;
+}
+
+.summaryBlock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border: 0.5px dashed var(--accent-forest);
+  background: rgba(62, 107, 74, 0.10);
+  border-radius: 2px;
+}
+
+.summaryLabel {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-forest);
+}
+
+.summaryText {
+  font-family: var(--font-text);
+  font-size: 0.9rem;
+  color: var(--ink-on-dark-2);
+  line-height: 1.5;
+}
+
+.callout {
+  margin-top: auto;
+  padding: var(--space-4);
+  border: 0.5px dashed var(--slide-accent);
+  background: rgba(176, 90, 60, 0.10);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--ink-on-dark-1);
+  line-height: 1.6;
+}
+
+.calloutGood {
+  border-color: var(--accent-forest);
+  background: rgba(62, 107, 74, 0.10);
+}
+
+.takeaway {
+  font-family: var(--font-text);
+  font-size: 0.95rem;
+  color: var(--ink-on-dark-2);
+  margin-top: var(--space-3);
+  line-height: 1.6;
+}
