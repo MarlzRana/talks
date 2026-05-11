@@ -1,5 +1,6 @@
 import type { SlideModule } from '@/types'
 import * as TitleSlide from './slides/title'
+import * as IntroSlide from './slides/intro'
 import * as HistorySlide from './slides/history'
 import * as WhatIsAModelSlide from './slides/what-is-a-model'
 import * as ReactLoopSlide from './slides/react-loop'
@@ -23,6 +24,7 @@ import * as OutroSlide from './slides/outro'
 
 export const slides: SlideModule[] = [
   TitleSlide,
+  IntroSlide,
   HistorySlide,
   WhatIsAModelSlide,
   ReactLoopSlide,
