@@ -2,9 +2,20 @@ import type { TargetAndTransition, Easing } from 'motion/react'
 
 export type Theme = 'light' | 'dark'
 
-export type PaperVariant = 'paper' | 'paper-dark' | 'paper-blueprint'
+export type PaperVariant = 'paper' | 'paper-dark' | 'paper-blueprint' | 'brand'
 
-export type AccentColor = 'violet' | 'ochre' | 'forest' | 'ink-blue' | 'cyan' | 'crimson' | 'rust'
+export type AccentColor = 'violet' | 'ochre' | 'forest' | 'ink-blue' | 'cyan' | 'crimson' | 'rust' | 'brand'
+
+export interface TalkPalette {
+  /** Slide background color (used when paper is 'brand') */
+  paper?: string
+  /** Primary text color */
+  ink?: string
+  /** Secondary / muted text color */
+  inkMuted?: string
+  /** Primary accent color (wireframe borders, highlights) */
+  accent?: string
+}
 
 export type SlideComponent = React.ComponentType<{ activeSubstep?: number }>
 
@@ -33,6 +44,7 @@ export interface TalkConfig {
   tags?: string[]
   theme?: Theme
   paper?: PaperVariant | string
+  palette?: TalkPalette
   slides: SlideModule[]
   coverImage?: string
 }

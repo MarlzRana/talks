@@ -1,18 +1,20 @@
 import { Wireframe } from '@/components/paper'
+import type { AccentColor } from '@/types'
 import styles from './TitleSlide.module.css'
 
 interface TitleSlideProps {
   title: string
   subtitle?: string
   author?: string | string[]
+  accent?: AccentColor
 }
 
-export default function TitleSlide({ title, subtitle, author }: TitleSlideProps) {
+export default function TitleSlide({ title, subtitle, author, accent }: TitleSlideProps) {
   const authors = Array.isArray(author) ? author : author ? [author] : []
 
   return (
     <div className={styles.slide}>
-      <Wireframe className={styles.titleZone}>
+      <Wireframe className={styles.titleZone} accent={accent}>
         <div className={styles.titleContent}>
           <h1 className={styles.title}>{title}</h1>
           {subtitle && <p className={styles.subtitle}>{subtitle}</p>}

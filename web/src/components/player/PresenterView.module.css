@@ -75,6 +75,15 @@
   background-size: 80px 80px, 16px 16px;
 }
 
+.nextPreviewDirect[data-paper='brand'] {
+  background-color: var(--talk-paper, var(--paper-black));
+  color: var(--talk-ink, var(--ink-on-dark-1));
+  background-image:
+    radial-gradient(circle, color-mix(in srgb, var(--talk-accent, var(--ink-on-dark-1)) 18%, transparent) 0.6px, transparent 0.7px),
+    radial-gradient(circle, color-mix(in srgb, var(--talk-accent, var(--ink-on-dark-1)) 8%, transparent) 0.5px, transparent 0.6px);
+  background-size: 80px 80px, 16px 16px;
+}
+
 /* ── Scaled preview: renders at 100vw×100vh then zoomed down ── */
 .nextPreviewInner {
   position: absolute;
@@ -113,6 +122,15 @@
   background-size: 80px 80px, 16px 16px;
 }
 
+.nextPreviewInner[data-paper='brand'] {
+  background-color: var(--talk-paper, var(--paper-black));
+  color: var(--talk-ink, var(--ink-on-dark-1));
+  background-image:
+    radial-gradient(circle, color-mix(in srgb, var(--talk-accent, var(--ink-on-dark-1)) 18%, transparent) 0.6px, transparent 0.7px),
+    radial-gradient(circle, color-mix(in srgb, var(--talk-accent, var(--ink-on-dark-1)) 8%, transparent) 0.5px, transparent 0.6px);
+  background-size: 80px 80px, 16px 16px;
+}
+
 .previewFrame {
   position: relative;
   width: calc(100% - 160px);
@@ -124,6 +142,10 @@
 
 .previewFrameWireframe {
   border: 0.5px solid var(--ink-4);
+}
+
+.nextPreviewInner[data-paper='brand'] .previewFrameWireframe {
+  border-color: color-mix(in srgb, var(--talk-accent, var(--accent-violet)) 70%, transparent);
 }
 
 .notes {

@@ -30,3 +30,12 @@
     radial-gradient(circle, rgba(241, 237, 227, 0.10) 0.5px, transparent 0.6px);
   background-size: 80px 80px, 16px 16px;
 }
+
+.paper[data-paper='brand'] {
+  background-color: var(--talk-paper, var(--paper-black));
+  color: var(--talk-ink, var(--ink-on-dark-1));
+  background-image:
+    radial-gradient(circle, color-mix(in srgb, var(--talk-accent, var(--ink-on-dark-1)) 18%, transparent) 0.6px, transparent 0.7px),
+    radial-gradient(circle, color-mix(in srgb, var(--talk-accent, var(--ink-on-dark-1)) 8%, transparent) 0.5px, transparent 0.6px);
+  background-size: 80px 80px, 16px 16px;
+}

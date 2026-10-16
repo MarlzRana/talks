@@ -1,15 +1,17 @@
 .wireframe {
   position: relative;
-  border: 0.5px solid var(--ink-4);
+  --wire-accent: var(--ink-4);
+  border: 0.5px solid var(--wire-accent);
 }
 
-.wireframe[data-accent='violet'] { border-color: color-mix(in srgb, var(--accent-violet) 40%, transparent); }
-.wireframe[data-accent='ochre'] { border-color: color-mix(in srgb, var(--accent-ochre) 40%, transparent); }
-.wireframe[data-accent='forest'] { border-color: color-mix(in srgb, var(--accent-forest) 40%, transparent); }
-.wireframe[data-accent='ink-blue'] { border-color: color-mix(in srgb, var(--accent-ink-blue) 40%, transparent); }
-.wireframe[data-accent='cyan'] { border-color: color-mix(in srgb, var(--accent-cyan) 40%, transparent); }
-.wireframe[data-accent='crimson'] { border-color: color-mix(in srgb, var(--accent-crimson) 40%, transparent); }
-.wireframe[data-accent='rust'] { border-color: color-mix(in srgb, var(--accent-rust) 40%, transparent); }
+.wireframe[data-accent='violet'] { --wire-accent: color-mix(in srgb, var(--accent-violet) 40%, transparent); }
+.wireframe[data-accent='ochre'] { --wire-accent: color-mix(in srgb, var(--accent-ochre) 40%, transparent); }
+.wireframe[data-accent='forest'] { --wire-accent: color-mix(in srgb, var(--accent-forest) 40%, transparent); }
+.wireframe[data-accent='ink-blue'] { --wire-accent: color-mix(in srgb, var(--accent-ink-blue) 40%, transparent); }
+.wireframe[data-accent='cyan'] { --wire-accent: color-mix(in srgb, var(--accent-cyan) 40%, transparent); }
+.wireframe[data-accent='crimson'] { --wire-accent: color-mix(in srgb, var(--accent-crimson) 40%, transparent); }
+.wireframe[data-accent='rust'] { --wire-accent: color-mix(in srgb, var(--accent-rust) 40%, transparent); }
+.wireframe[data-accent='brand'] { --wire-accent: color-mix(in srgb, var(--talk-accent, var(--accent-violet)) 70%, transparent); }
 
 /* ── Corner plus marks ── */
 .mark {
@@ -32,7 +34,7 @@
   top: 0;
   width: 0;
   height: 100%;
-  border-left: 0.5px solid var(--ink-4);
+  border-left: 0.5px solid var(--wire-accent, var(--ink-4));
   transform: translateX(-50%);
 }
 
@@ -42,7 +44,7 @@
   left: 0;
   width: 100%;
   height: 0;
-  border-top: 0.5px solid var(--ink-4);
+  border-top: 0.5px solid var(--wire-accent, var(--ink-4));
   transform: translateY(-50%);
 }
 

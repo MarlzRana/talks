@@ -51,6 +51,14 @@ export default function DeckPlayer({ slides, currentIndex, direction, activeSubs
             <SlideComponent activeSubstep={activeSubstep} />
           ) : (
             <div className={`${styles.frame} ${(slide.paper ?? defaultPaper) ? styles.frameWireframe : ''}`}>
+              {(slide.paper ?? defaultPaper) && (
+                <>
+                  <span className={styles.frameMark} data-pos="tl" />
+                  <span className={styles.frameMark} data-pos="tr" />
+                  <span className={styles.frameMark} data-pos="bl" />
+                  <span className={styles.frameMark} data-pos="br" />
+                </>
+              )}
               <SlideComponent activeSubstep={activeSubstep} />
             </div>
           )}
